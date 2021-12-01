@@ -97,7 +97,7 @@ def contacts(request):
 
 
 class ProductsView(TemplateView):
-    template_name = "good.html"
+    template_name = "goods.html"
 
     def get_context_data(self, **kwargs):
 
@@ -129,8 +129,8 @@ def aboutUs(request):
     timetable = Timetable.objects.all().order_by("position")
     return render(request, "aboutUs.html", {
         "contacts": timetable,
-        # "texts": text.get(id=3),
-        # "text": text.get(id=2)
+        "texts": text.get(id=3),
+        "text": text.get(id=2)
     })
 
 
@@ -206,13 +206,14 @@ def basket(request):
     user = request.user
     form = BasketForm(request.POST)
     if request.user.is_authenticated:
+        sum_product = 0
+        count = 0
+        purchases = Purchase.objects.filter(user=request.user)
+        for purchase in purchases:
+            sum_product = sum_product + int(purchase.product.coast)
+            count = count + int(purchase.count)
 
         if request.method == "POST":
-            sum_product = 0
-            purchases = Purchase.objects.filter(user=request.user)
-            for purchase in purchases:
-                sum_product = +purchase.product.coast
-
             if form.is_valid():
                 request.user.profile.username = form.cleaned_data["username"]
                 request.user.profile.phone = form.cleaned_data["phone"]
@@ -220,7 +221,7 @@ def basket(request):
                 request.user.profile.address = form.cleaned_data["address"]
                 request.user.profile.comment = form.cleaned_data["comment"]
                 request.user.profile.save()
-                return redirect('/basket_G0')
+                return redirect('/')
             # if request.method == "post":
             # request.user.profile.address = form.cleaned_data[""]
             # request.user.profile.save()
@@ -230,6 +231,7 @@ def basket(request):
             # user = request.User.seller
             # orders = request.User.seller
             # # purchase = ...
+            # result = purchases.objects.aggregate(purchases=Sum("count"))
             return render(
                 request,
                 "basket.html",
@@ -237,17 +239,31 @@ def basket(request):
                     "name": user.username,
                     "phone": Profile.phone,
                     "delivery": Profile.delivery,
-                    "address": Profile.address,
+                    "address": Profile.adrs,
                     "comment": Profile.comment,
                     "purhcase": Purchase,
                     "form": form,
                     "sum": sum_product,
+                    "result": count,
                 }
 
             )
-    else:
-        form = RegistrationForm()
-        return redirect('/register', {"form": form})
+        return render(
+            request,
+            "basket.html",
+            {
+                "name": user.username,
+                "phone": Profile.phone,
+                "delivery": Profile.delivery,
+                "address": Profile.adrs,
+                "comment": Profile.comment,
+                "purhcase": Purchase,
+                "form": form,
+                "sum": sum_product,
+            }
+        )
+        # form = RegistrationForm()
+        # return redirect('/register', {"form": form})
 
 
 def page_not_found_view(request, exception):
