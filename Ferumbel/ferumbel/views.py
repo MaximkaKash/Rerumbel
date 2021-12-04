@@ -14,6 +14,10 @@ from django.db.models import F, Sum
 logger = logging.getLogger(__name__)
 
 
+def page_not_found_view(request, exception):
+    return render(request, 'mistake.html', status=404)
+
+
 def register_view(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -96,34 +100,6 @@ def contacts(request):
     })
 
 
-class ProductsView(TemplateView):
-    template_name = "goods.html"
-
-    def get_context_data(self, **kwargs):
-
-        products = Product.objects.all()
-        filters_form = ProductFiltersForm(self.request.GET)
-
-        if filters_form.is_valid():
-            if filters_form.cleaned_data["section"]:
-                products = products.filter(type=filters_form.cleaned_data["section"])
-            if filters_form.cleaned_data["price__gt"]:
-                products = products.filter(price__gt=filters_form.cleaned_data["price__gt"])
-            if filters_form.cleaned_data["price__lt"]:
-                products = products.filter(price__lt=filters_form.cleaned_data["price__lt"])
-
-            if filters_form.cleaned_data["order_by"]:
-                order_by = filters_form.cleaned_data["order_by"]
-                if order_by == "popular":
-                    products = products.order_by("-popular")
-                if order_by == "price_asc":
-                    products = products.order_by("coast")
-                if order_by == "price_desc":
-                    products = products.order_by("-coast")
-
-        return {"filters_form": filters_form, "products": products}
-
-
 def aboutUs(request):
     text = Text.objects.all()
     timetable = Timetable.objects.all().order_by("position")
@@ -138,20 +114,14 @@ def product_details_view(request, *args, **kwargs):
     product = Product.objects.get(id=kwargs["product_id"])
 
     if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
+        if request.user.is_authenticated:
             Purchase.objects.create(
-                product=product, user=request.user, count=form.cleaned_data["count"]
+                product=product, user=request.user, count=int(request.POST["count"])
             )
-    else:
-        form = RegistrationForm()
-
-    # Add to favorites if this is POST request
-    if request.user.is_authenticated and request.method == "POST":
-        Purchase.objects.create(
-            product=product, user=request.user, count=int(request.POST["count"])
-        )
-        redirect("product_details_view", product_id=product.id)
+            redirect("product_details_view", product_id=product.id)
+        else:
+            form = RegistrationForm()
+            return redirect('/register', {"form": form})
 
     return render(
         request,
@@ -162,70 +132,45 @@ def product_details_view(request, *args, **kwargs):
     )
 
 
-class products_view(TemplateView):
-    template_name = "goods.html"
-
-    def get_context_data(self, **kwargs):
-        products = Product.objects.all()
-        filters_form = ProductFiltersForm(self.request.GET)
-        if filters_form.is_valid():
-            if filters_form.cleaned_data["section"]:
-                products = products.filter(type=filters_form.cleaned_data["section"])
-            if filters_form.cleaned_data["price__gt"]:
-                products = products.filter(price__gt=filters_form.cleaned_data["price__gt"])
-            if filters_form.cleaned_data["price__lt"]:
-                products = products.filter(price__lt=filters_form.cleaned_data["price__lt"])
-
-            if filters_form.cleaned_data["order_by"]:
-                order_by = filters_form.cleaned_data["order_by"]
-                if order_by == "popular":
-                    products = products.order_by("-popular")
-                if order_by == "price_asc":
-                    products = products.order_by("coast")
-                if order_by == "price_desc":
-                    products = products.order_by("-coast")
-
-        return render("products",
-                      {"filters_form": filters_form,
-                       "products": products},
-                      )
-
-
 class PurchaseView(TemplateView):
     template_name = "basket.html"
 
     def get_context_data(self, **kwargs):
         if not self.request.user.is_authenticated:
-            raise Http404
+            form = RegistrationForm()
+            return redirect('/register', {"form": form})
 
         purchases = Purchase.objects.filter(user=self.request.user)
         return {"purchases": purchases}
 
 
 def basket(request):
-    user = request.user
-    form = BasketForm(request.POST)
-    if request.user.is_authenticated:
+    if not request.user.is_authenticated:
+        form = RegistrationForm()
+        return redirect('/register', {"form": form})
+
+    if request.method == "POST":
+        user = request.user
+        form = BasketForm(request.POST)
+
         sum_product = 0
         count = 0
         purchases = Purchase.objects.filter(user=request.user)
         for purchase in purchases:
             sum_product = sum_product + int(purchase.product.coast)
             count = count + int(purchase.count)
-
         if request.method == "POST":
             if form.is_valid():
-                request.user.profile.username = form.cleaned_data["username"]
-                request.user.profile.phone = form.cleaned_data["phone"]
-                request.user.profile.delivery = form.cleaned_data["delivery"]
-                request.user.profile.address = form.cleaned_data["address"]
-                request.user.profile.comment = form.cleaned_data["comment"]
-                request.user.profile.save()
+                request.user.Profile.user.username = form.cleaned_data["username"]
+                request.user.Profile.phone = form.cleaned_data["phone"]
+                request.user.Profile.delivery = form.cleaned_data["delivery"]
+                request.user.Profile.address = form.cleaned_data["address"]
+                request.user.Profile.comment = form.cleaned_data["comment"]
+                request.user.Profile.save()
                 return redirect('/')
             # if request.method == "post":
             # request.user.profile.address = form.cleaned_data[""]
             # request.user.profile.save()
-
             # request.user.save()
             # if Purchase.user.is_relation:
             # user = request.User.seller
@@ -246,7 +191,6 @@ def basket(request):
                     "sum": sum_product,
                     "result": count,
                 }
-
             )
         return render(
             request,
@@ -262,9 +206,9 @@ def basket(request):
                 "sum": sum_product,
             }
         )
-        # form = RegistrationForm()
-        # return redirect('/register', {"form": form})
+    else:
+        form = RegistrationForm()
+        return redirect('/register', {"form": form})
 
 
-def page_not_found_view(request, exception):
-    return render(request, 'mistake.html', status=404)
+

@@ -1,12 +1,17 @@
 from django.contrib import admin
 
-from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase
+from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "coast", "description", "popular")
     search_fields = ("name", "coast")
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ("user", "phone", "comment")
 
 
 @admin.register(Photos)
