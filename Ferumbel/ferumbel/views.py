@@ -29,6 +29,8 @@ def register_view(request):
             request.user = User.objects.create(email=form.cleaned_data.get('email'),
                                                username=form.cleaned_data.get('username'),
                                                password=form.cleaned_data.get('email'))
+            Profile.objects.create(email=form.cleaned_data.get('email'), user=request.user)
+            Profile.save(self=request.user)
             user = authenticate(request, username=form.cleaned_data.get('username'),
                                 password=form.cleaned_data.get('email'))
             login(request, user)
@@ -132,41 +134,27 @@ def product_details_view(request, *args, **kwargs):
     )
 
 
-class PurchaseView(TemplateView):
-    template_name = "basket.html"
-
-    def get_context_data(self, **kwargs):
-        if not self.request.user.is_authenticated:
-            form = RegistrationForm()
-            return redirect('/register', {"form": form})
-
-        purchases = Purchase.objects.filter(user=self.request.user)
-        return {"purchases": purchases}
-
-
 def basket(request):
-    if not request.user.is_authenticated:
-        form = RegistrationForm()
-        return redirect('/register', {"form": form})
-
-    if request.method == "POST":
+    if request.user.is_authenticated:
+        purchases = Purchase.objects.filter(user=request.user)
+        profile = Profile(user=request.user)
         user = request.user
         form = BasketForm(request.POST)
-
         sum_product = 0
         count = 0
-        purchases = Purchase.objects.filter(user=request.user)
         for purchase in purchases:
             sum_product = sum_product + int(purchase.product.coast)
             count = count + int(purchase.count)
         if request.method == "POST":
             if form.is_valid():
-                request.user.Profile.user.username = form.cleaned_data["username"]
-                request.user.Profile.phone = form.cleaned_data["phone"]
-                request.user.Profile.delivery = form.cleaned_data["delivery"]
-                request.user.Profile.address = form.cleaned_data["address"]
-                request.user.Profile.comment = form.cleaned_data["comment"]
-                request.user.Profile.save()
+                request.user.username = form.cleaned_data["username"]
+                request.user.save()
+
+                profile.phone = form.cleaned_data["phone"]
+                # profile.delivery = form.cleaned_data["delivery"]
+                profile.address = form.cleaned_data["address"]
+                profile.comment = form.cleaned_data["comment"]
+                profile.save()
                 return redirect('/')
             # if request.method == "post":
             # request.user.profile.address = form.cleaned_data[""]
@@ -177,38 +165,23 @@ def basket(request):
             # orders = request.User.seller
             # # purchase = ...
             # result = purchases.objects.aggregate(purchases=Sum("count"))
-            return render(
-                request,
-                "basket.html",
-                {
-                    "name": user.username,
-                    "phone": Profile.phone,
-                    "delivery": Profile.delivery,
-                    "address": Profile.adrs,
-                    "comment": Profile.comment,
-                    "purhcase": Purchase,
-                    "form": form,
-                    "sum": sum_product,
-                    "result": count,
-                }
-            )
+            else:
+                form = BasketForm()
         return render(
             request,
             "basket.html",
             {
-                "name": user.username,
-                "phone": Profile.phone,
-                "delivery": Profile.delivery,
-                "address": Profile.adrs,
-                "comment": Profile.comment,
+                "name": request.user.username,
+                "phone": profile.phone,
+                # "delivery": profile.delivery,
+                "address": profile.adress,
+                "comment": profile.comment,
                 "purhcase": Purchase,
                 "form": form,
                 "sum": sum_product,
+                "result": count,
             }
         )
     else:
         form = RegistrationForm()
         return redirect('/register', {"form": form})
-
-
-

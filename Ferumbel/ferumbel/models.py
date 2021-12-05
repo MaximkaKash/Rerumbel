@@ -2,9 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.base_user import BaseUserManager
-
+from django.contrib.auth.models import User
 
 
 ORDER_BY_CHOICES = (
@@ -142,7 +140,7 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone = models.CharField(max_length=30, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    adrs = models.TextField(blank=True, null=True)
+    adress = models.TextField(blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
     seller = models.IntegerField(blank=True, null=True)
     delivery = models.BooleanField(blank=True, null=True)
@@ -153,3 +151,12 @@ class Customer(models.Model):
     phone = models.CharField(max_length=15)
     delivery = models.BooleanField(default=True, null=True, blank=True)
     Text = models.TextField(blank=True)
+
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=30, blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
+    delivery = models.BooleanField(blank=True, null=True)
+    adress = models.TextField(blank=True, null=True)

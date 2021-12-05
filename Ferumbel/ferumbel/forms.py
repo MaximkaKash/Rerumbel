@@ -10,11 +10,11 @@ class RegistrationForm(forms.Form):
 
 
 class BasketForm(forms.Form):
-    username = forms.TextInput()
+    username = forms.CharField()
     phone = forms.CharField()
-    delivery = forms.BooleanField()
-    address = forms.TextInput()
-    comment = forms.TextInput()
+    # delivery = forms.BooleanField()
+    address = forms.CharField()
+    comment = forms.CharField()
 
 
 class ProductFiltersForm(forms.Form):
