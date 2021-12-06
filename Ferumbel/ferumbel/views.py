@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 import logging
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
-from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile
+from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order
 from ferumbel.forms import ProductFiltersForm
 from django.views.generic import TemplateView
 from ferumbel.services import filter_products
@@ -29,7 +29,8 @@ def register_view(request):
             request.user = User.objects.create(email=form.cleaned_data.get('email'),
                                                username=form.cleaned_data.get('username'),
                                                password=form.cleaned_data.get('email'))
-            Profile.objects.create(email=form.cleaned_data.get('email'), user=request.user)
+            Profile.objects.create(email=form.cleaned_data.get('email'),
+                                   user=request.user)
             Profile.save(self=request.user)
             user = authenticate(request, username=form.cleaned_data.get('username'),
                                 password=form.cleaned_data.get('email'))
@@ -137,26 +138,36 @@ def product_details_view(request, *args, **kwargs):
 def basket(request):
     if request.user.is_authenticated:
         purchases = Purchase.objects.filter(user=request.user)
-        profile = Profile(user=request.user)
-        user = request.user
+        # user = User.objects.filter(user=profile.user)
+        profile = Profile.objects.filter(user=request.user)
         form = BasketForm(request.POST)
         sum_product = 0
         count = 0
+
         for purchase in purchases:
             sum_product = sum_product + int(purchase.product.coast)
             count = count + int(purchase.count)
+
         if request.method == "POST":
             if form.is_valid():
                 request.user.username = form.cleaned_data["username"]
                 request.user.save()
 
-                profile.phone = form.cleaned_data["phone"]
+                request.user.profile.phone = form.cleaned_data["phone"]
                 # profile.delivery = form.cleaned_data["delivery"]
-                profile.address = form.cleaned_data["address"]
-                profile.comment = form.cleaned_data["comment"]
-                profile.save()
+                request.user.profile.adress = form.cleaned_data["address"]
+                request.user.profile.comment = form.cleaned_data["comment"]
+                request.user.profile.save()
+
+                Order.objects.create(user=request.user.profile,
+                                     purchase=purchase,
+                                     phone=form.cleaned_data["phone"],
+                                     comment=form.cleaned_data["comment"],
+                                     delivery=True,
+                                     adress=form.cleaned_data["address"], )
+                Order.save(self=request.user)
                 return redirect('/')
-            # if request.method == "post":
+
             # request.user.profile.address = form.cleaned_data[""]
             # request.user.profile.save()
             # request.user.save()
@@ -165,6 +176,7 @@ def basket(request):
             # orders = request.User.seller
             # # purchase = ...
             # result = purchases.objects.aggregate(purchases=Sum("count"))
+
             else:
                 form = BasketForm()
         return render(
@@ -172,11 +184,11 @@ def basket(request):
             "basket.html",
             {
                 "name": request.user.username,
-                "phone": profile.phone,
+                "phone": request.user.profile.phone,
                 # "delivery": profile.delivery,
-                "address": profile.adress,
-                "comment": profile.comment,
-                "purhcase": Purchase,
+                "address": request.user.profile.adress,
+                "comment": request.user.profile.comment,
+                "purhcase": purchases,
                 "form": form,
                 "sum": sum_product,
                 "result": count,

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-27 17:52+0000\n"
+"POT-Creation-Date: 2021-12-06 22:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,22 +20,90 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: ferumbel/models.py:111
+#: Ferumbel/settings.py:118
+msgid "Russian"
+msgstr "Русский"
+
+#: Ferumbel/settings.py:119
+msgid "English"
+msgstr "Английский"
+
+#: ferumbel/models.py:27
+msgid "Text"
+msgstr "Текст"
+
+#: ferumbel/models.py:28
+msgid "Texts"
+msgstr "Тексты"
+
+#: ferumbel/models.py:39
+msgid "Image"
+msgstr "Картинка"
+
+#: ferumbel/models.py:40
+msgid "Images"
+msgstr "Картинки"
+
+#: ferumbel/models.py:51
+msgid "Photo"
+msgstr "Фото"
+
+#: ferumbel/models.py:52
+msgid "Photos"
+msgstr "Фотографии"
+
+#: ferumbel/models.py:61
+msgid "Benefict"
+msgstr "Достижение"
+
+#: ferumbel/models.py:62
+msgid "Benefits"
+msgstr "Достижения"
+
+#: ferumbel/models.py:75
+msgid "Contact"
+msgstr "Контакт"
+
+#: ferumbel/models.py:76
+msgid "Contacts"
+msgstr "Контакты"
+
+#: ferumbel/models.py:89
+msgid "Timetable"
+msgstr "График работы"
+
+#: ferumbel/models.py:90
+msgid "Timetables"
+msgstr "Графики работы"
+
+#: ferumbel/models.py:103
+msgid "Category"
+msgstr "Категория"
+
+#: ferumbel/models.py:104
+msgid "Categories"
+msgstr "Категории"
+
+#: ferumbel/models.py:121
 msgid "Product"
 msgstr "Продукт"
 
-#: ferumbel/models.py:112
+#: ferumbel/models.py:122
 msgid "Products"
 msgstr "Продукты"
 
-#: templates/products/list.html:11
-msgid "Filters"
-msgstr "Фильтры"
+#: ferumbel/models.py:135
+msgid "Selection"
+msgstr "Секция"
 
-#: blog/settings.py:124
-msgid "Russian"
-msgstr ""
+#: ferumbel/models.py:136
+msgid "Selections"
+msgstr "Секции"
 
-#: blog/settings.py:125
-msgid "English"
-msgstr ""
+#: ferumbel/models.py:151
+msgid "Purchase"
+msgstr "Корзина"
+
+#: ferumbel/models.py:152
+msgid "Purchases"
+msgstr "Корзины"

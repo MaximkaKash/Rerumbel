@@ -1,17 +1,24 @@
 from django.contrib import admin
 
-from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile
+from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile, Sections, Order
+
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "coast", "description", "popular")
-    search_fields = ("name", "coast")
+    list_display = ("name", "coast", "description", "popular", "category")
+    search_fields = ("name", "coast", "category")
+
+
+@admin.register(Sections)
+class SectionsAdmin(admin.ModelAdmin):
+    list_display = ("name", "isMain", "products")
+    search_fields = ("name",)
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "phone", "comment")
+    list_display = ("user", "phone", "comment", "delivery")
 
 
 @admin.register(Photos)
@@ -27,7 +34,7 @@ class PurchaseAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    display = "Text"
+    list_display = ("Text", "Photo", "is_main")
 
 
 @admin.register(Text)
@@ -42,7 +49,7 @@ class BenefitsAdmin(admin.ModelAdmin):
 
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
-    list_display = ("pole", "value")
+    list_display = ("pole", "value", "adr")
 
 
 @admin.register(Image)
@@ -52,4 +59,9 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Timetable)
 class TimetableAdmin(admin.ModelAdmin):
-    display = ("text", "name", "value", "position")
+    list_display = ("name", "value", "position")
+
+
+@admin.register(Order)
+class OrderleAdmin(admin.ModelAdmin):
+    list_display = ("user", "phone")
