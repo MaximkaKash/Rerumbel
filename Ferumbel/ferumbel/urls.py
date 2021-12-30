@@ -1,5 +1,5 @@
 from django.urls import path
-from ferumbel.views import ProductsView, product_details_view, register_view, contacts, aboutUs, page_not_found_view, basket
+from ferumbel.views import ProductsView, product_details_view, register_view, contacts, aboutUs, page_not_found_view, basket, autorization
 from django.conf import settings
 
 from . import views
@@ -14,6 +14,7 @@ urlpatterns = [
         "product/<int:product_id>/", product_details_view, name="product_details_view"
     ),
     path("basket/", basket, name="basket"),
+    path("autorization/", autorization, name="autorization")
 ]
 
 handler404 = page_not_found_view

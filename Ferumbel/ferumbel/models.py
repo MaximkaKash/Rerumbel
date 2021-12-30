@@ -179,7 +179,7 @@ class Order(models.Model):
     comment = models.TextField(blank=True, null=True)
     delivery = models.BooleanField(blank=True, null=True)
     adress = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user}"

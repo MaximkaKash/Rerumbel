@@ -197,3 +197,8 @@ def basket(request):
     else:
         form = RegistrationForm()
         return redirect('/register', {"form": form})
+
+
+def autorization(request):
+    return render(request, "autorization.html")
+
