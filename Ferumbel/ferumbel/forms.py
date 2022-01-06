@@ -17,6 +17,11 @@ class BasketForm(forms.Form):
     comment = forms.CharField()
 
 
+class LoginForm(forms.Form):
+    login = forms.CharField(max_length=20)
+    password = forms.CharField(max_length=20)
+
+
 class ProductFiltersForm(forms.Form):
     order_by = forms.ChoiceField(
         choices=ORDER_BY_CHOICES,

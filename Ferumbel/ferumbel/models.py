@@ -182,4 +182,4 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user}"
+        return f"{self.id}"

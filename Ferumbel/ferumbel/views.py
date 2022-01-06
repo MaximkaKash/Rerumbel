@@ -7,8 +7,8 @@ from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable
 from ferumbel.forms import ProductFiltersForm
 from django.views.generic import TemplateView
 from ferumbel.services import filter_products
-from ferumbel.forms import RegistrationForm, BasketForm
-from django.contrib.auth import authenticate, login
+from ferumbel.forms import RegistrationForm, BasketForm, LoginForm
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import F, Sum
 
 logger = logging.getLogger(__name__)
@@ -200,5 +200,75 @@ def basket(request):
 
 
 def autorization(request):
-    return render(request, "autorization.html")
+    form = LoginForm()
+    if request.user.is_staff:
+        return render(request, "activeOrders.html")
+    else:
+        if request.method == "POST":
+            form = LoginForm(request.POST)
+            # data = form.cleaned_data['login']
+            # data = form.cleaned_data.get('login')
+            # print(data)
+            if form.is_valid():
+                #     user = User.objects.filter(username=form.cleaned_data.get('login'))
+                #     if User.objects.filter(username=form.cleaned_data.get('password')) == user.get("password"):
+                #         return render(request, "index.html")
+                # form = LoginForm()
+                user = authenticate(request, username=form.cleaned_data.get('login'),
+                                    password=form.cleaned_data.get('password'))
 
+                login(request, user)
+                return redirect('/activeOrders')
+            form = LoginForm()
+        return render(request, "autorization.html", {"form": form})
+
+
+def activeOrders(request):
+    if request.user.is_staff:
+        # if request.method == "Exit":
+        #     logout_user(request)
+        #     return redirect("/")
+        orders = Order.objects.all()
+        return render(request, "activeOrders.html",
+                      {"orders": orders})
+    else:
+        return redirect("/")
+
+
+def activeOrder_view(request, *args, **kwargs):
+    order = Order.objects.get(id=kwargs["order_id"])
+    # if request.method == "POST":
+    #     if request.user.is_authenticated:
+    #         Purchase.objects.create(
+    #             product=product, user=request.user, count=int(request.POST["count"])
+    #         )
+    #         redirect("product_details_view", product_id=product.id)
+    #     else:
+    #         form = RegistrationForm()
+    #         return redirect('/register', {"form": form})
+    return render(
+        request,
+        "activeOrder.html",
+        {
+            "orders": order,
+        },
+    )
+
+
+def confirmedOrders(request):
+    if request.user.is_staff:
+        return render(request, "confirmedOrders.html")
+    else:
+        return redirect("/")
+
+
+def deletedOrders(request):
+    if request.user.is_staff:
+        return render(request, "deletedOrders.html")
+    else:
+        return redirect("/")
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("/")

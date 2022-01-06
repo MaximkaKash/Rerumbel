@@ -64,4 +64,4 @@ class TimetableAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderleAdmin(admin.ModelAdmin):
-    list_display = ("user", "phone")
+    list_display = ("user", "phone", "created_at")
