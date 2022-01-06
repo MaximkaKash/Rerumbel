@@ -88,7 +88,8 @@ def index(request):
         "text": text.get(id=1),
         "photo": photo.get(id=1),
         "products": product,
-        "categorys": category
+        "categorys": category,
+        "Text": text.get(id=4),
     })
     # photos = Photos.objects.all()
     # return HttpResponse(photos)
@@ -139,7 +140,6 @@ def basket(request):
     if request.user.is_authenticated:
         purchases = Purchase.objects.filter(user=request.user)
         # user = User.objects.filter(user=profile.user)
-        profile = Profile.objects.filter(user=request.user)
         form = BasketForm(request.POST)
         sum_product = 0
         count = 0
@@ -147,25 +147,28 @@ def basket(request):
         for purchase in purchases:
             sum_product = sum_product + int(purchase.product.coast)
             count = count + int(purchase.count)
+            purchase.index = int(purchase.index) + 1
+            purchase.save()
 
         if request.method == "POST":
             if form.is_valid():
                 request.user.username = form.cleaned_data["username"]
                 request.user.save()
-
-                request.user.profile.phone = form.cleaned_data["phone"]
-                # profile.delivery = form.cleaned_data["delivery"]
-                request.user.profile.adress = form.cleaned_data["address"]
-                request.user.profile.comment = form.cleaned_data["comment"]
-                request.user.profile.save()
-
                 Order.objects.create(user=request.user.profile,
                                      purchase=purchase,
                                      phone=form.cleaned_data["phone"],
                                      comment=form.cleaned_data["comment"],
                                      delivery=True,
+                                     index=int(request.user.profile.index),
                                      adress=form.cleaned_data["address"], )
                 Order.save(self=request.user)
+
+                request.user.profile.phone = form.cleaned_data["phone"]
+                # profile.delivery = form.cleaned_data["delivery"]
+                request.user.profile.adress = form.cleaned_data["address"]
+                request.user.profile.comment = form.cleaned_data["comment"]
+                request.user.profile.index = int(request.user.profile.index) + 1
+                request.user.profile.save()
                 return redirect('/')
 
             # request.user.profile.address = form.cleaned_data[""]
@@ -174,7 +177,6 @@ def basket(request):
             # if Purchase.user.is_relation:
             # user = request.User.seller
             # orders = request.User.seller
-            # # purchase = ...
             # result = purchases.objects.aggregate(purchases=Sum("count"))
 
             else:

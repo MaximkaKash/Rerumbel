@@ -5,7 +5,6 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import User
 
-
 ORDER_BY_CHOICES = (
     ("price_asc", "Price Asc"),
     ("price_desc", "Price Desc"),
@@ -105,13 +104,13 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    coast = models.TextField(blank=True, null=True,verbose_name="Цена")
-    name = models.CharField(max_length=1000,verbose_name="Название")
-    description = models.TextField(blank=True, null=True,verbose_name="Описание")
-    popular = models.FloatField(default=0,verbose_name="Популярность")
-    Image = models.ImageField(null=True, blank=True,verbose_name="Фотография")
-    division = models.TextField(blank=True, null=True,verbose_name="Разделение")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True,verbose_name="Категория")
+    coast = models.TextField(blank=True, null=True, verbose_name="Цена")
+    name = models.CharField(max_length=1000, verbose_name="Название")
+    description = models.TextField(blank=True, null=True, verbose_name="Описание")
+    popular = models.FloatField(default=0, verbose_name="Популярность")
+    Image = models.ImageField(null=True, blank=True, verbose_name="Фотография")
+    division = models.TextField(blank=True, null=True, verbose_name="Разделение")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Категория")
 
     def __str__(self):
         return f"{self.name},{self.coast},{self.description},{self.popular}, {self.category}"
@@ -123,9 +122,9 @@ class Product(models.Model):
 
 
 class Sections(models.Model):
-    name = models.CharField(max_length=200,verbose_name="Название")
+    name = models.CharField(max_length=200, verbose_name="Название")
     isMain = models.BooleanField(verbose_name="Главная")
-    products = models.ForeignKey(Product, on_delete=models.CASCADE,verbose_name="Продукт")
+    products = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
 
     def __str__(self):
         return f"{self.name},{self.isMain},{self.products}"
@@ -142,6 +141,7 @@ class Purchase(models.Model):
         Product, related_name="purchases", on_delete=models.CASCADE
     )
     count = models.IntegerField()
+    index = models.IntegerField(blank=True, null=True, default=1)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
@@ -158,6 +158,7 @@ class Profile(models.Model):
     email = models.EmailField(blank=True, null=True)
     adress = models.TextField(blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
+    index = models.IntegerField(blank=True, null=True, default=1)
     seller = models.IntegerField(blank=True, null=True)
     delivery = models.BooleanField(blank=True, null=True, verbose_name="Доставка")
 
@@ -179,6 +180,7 @@ class Order(models.Model):
     comment = models.TextField(blank=True, null=True)
     delivery = models.BooleanField(blank=True, null=True)
     adress = models.TextField(blank=True, null=True)
+    index = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, blank=True, null=True)
 
     def __str__(self):
