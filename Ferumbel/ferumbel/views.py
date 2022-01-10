@@ -120,7 +120,8 @@ def product_details_view(request, *args, **kwargs):
     if request.method == "POST":
         if request.user.is_authenticated:
             Purchase.objects.create(
-                product=product, user=request.user, count=int(request.POST["count"])
+                product=product, user=request.user, count=int(request.POST["count"]),
+                index=int(request.user.profile.index)
             )
             redirect("product_details_view", product_id=product.id)
         else:
@@ -138,30 +139,31 @@ def product_details_view(request, *args, **kwargs):
 
 def basket(request):
     if request.user.is_authenticated:
-        purchases = Purchase.objects.filter(user=request.user)
+        purchases = Purchase.objects.filter(user=request.user).filter(index=request.user.profile.index)
         # user = User.objects.filter(user=profile.user)
         form = BasketForm(request.POST)
         sum_product = 0
         count = 0
 
         for purchase in purchases:
-            sum_product = sum_product + int(purchase.product.coast)
+            sum_product = sum_product + int(purchase.product.coast) * int(purchase.count)
             count = count + int(purchase.count)
-            purchase.index = int(purchase.index) + 1
+            # purchase.index = int(purchase.index) + 1
             purchase.save()
 
         if request.method == "POST":
             if form.is_valid():
                 request.user.username = form.cleaned_data["username"]
                 request.user.save()
-                Order.objects.create(user=request.user.profile,
-                                     purchase=purchase,
-                                     phone=form.cleaned_data["phone"],
-                                     comment=form.cleaned_data["comment"],
-                                     delivery=True,
-                                     index=int(request.user.profile.index),
-                                     adress=form.cleaned_data["address"], )
-                Order.save(self=request.user)
+                for purchase in purchases:
+                    Order.objects.create(user=request.user.profile,
+                                         purchase=purchase,
+                                         phone=form.cleaned_data["phone"],
+                                         comment=form.cleaned_data["comment"],
+                                         delivery=True,
+                                         index=int(request.user.profile.index),
+                                         adress=form.cleaned_data["address"], )
+                    Order.save(self=request.user)
 
                 request.user.profile.phone = form.cleaned_data["phone"]
                 # profile.delivery = form.cleaned_data["delivery"]
@@ -225,14 +227,30 @@ def autorization(request):
         return render(request, "autorization.html", {"form": form})
 
 
+from itertools import groupby
+
+
 def activeOrders(request):
     if request.user.is_staff:
         # if request.method == "Exit":
         #     logout_user(request)
         #     return redirect("/")
         orders = Order.objects.all()
+        # index = orders.objects.all().order_by("index")[0]
+        orde = list(range(0))
+        ord = list(range(0))
+
+        for order in orders:
+            orde.append(int(order.index))
+
+        orde = [el for el, _ in groupby(orde)]
+        for i in orde:
+            order = Order.objects.all().filter(index=i)
+            ord.append(order.order_by("id")[0])
+            print(order)
+        print(ord)
         return render(request, "activeOrders.html",
-                      {"orders": orders})
+                      {"orders": ord})
     else:
         return redirect("/")
 
