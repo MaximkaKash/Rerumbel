@@ -248,7 +248,12 @@ def activeOrders(request):
             order = Order.objects.all().filter(index=i)
             ord.append(order.order_by("id")[0])
             print(order)
-        print(ord)
+        for i in range(len(orders)):
+            if int(orders[i].index) == int(orders[i + 1].index):
+                order = Order.objects.exclude(index=orders[i].index)
+        print(orders)
+        print("  ")
+        print(order)
         return render(request, "activeOrders.html",
                       {"orders": ord})
     else:
