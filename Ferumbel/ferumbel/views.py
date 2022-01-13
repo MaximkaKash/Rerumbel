@@ -139,7 +139,8 @@ def product_details_view(request, *args, **kwargs):
 
 def basket(request):
     if request.user.is_authenticated:
-        purchases = Purchase.objects.filter(user=request.user).filter(index=request.user.profile.index)
+        user = User.objects.filter(user=request.user.username)
+        purchases = Purchase.objects.filter(user=request.user).filter(index=user.index)
         # user = User.objects.filter(user=profile.user)
         form = BasketForm(request.POST)
         sum_product = 0
@@ -157,7 +158,7 @@ def basket(request):
                 request.user.save()
                 for purchase in purchases:
                     Order.objects.create(user=request.user.profile,
-                                         purchase=purchase,
+                                         purchase=purchases,
                                          phone=form.cleaned_data["phone"],
                                          comment=form.cleaned_data["comment"],
                                          delivery=True,
@@ -236,24 +237,30 @@ def activeOrders(request):
         #     logout_user(request)
         #     return redirect("/")
         orders = Order.objects.all()
+        ord = orders
         # index = orders.objects.all().order_by("index")[0]
-        orde = list(range(0))
-        ord = list(range(0))
+        # orde = list(range(0))
+        # ord = list(range(0))
 
-        for order in orders:
-            orde.append(int(order.index))
-
-        orde = [el for el, _ in groupby(orde)]
-        for i in orde:
-            order = Order.objects.all().filter(index=i)
-            ord.append(order.order_by("id")[0])
-            print(order)
-        for i in range(len(orders)):
-            if int(orders[i].index) == int(orders[i + 1].index):
-                order = Order.objects.exclude(index=orders[i].index)
+        # for order in orders:
+        #     orde.append(int(order.index))
+        #
+        # orde = [el for el, _ in groupby(orde)]
+        # for i in orde:
+        #     order = Order.objects.all().filter(index=i)
+        #     ord.append(order.order_by("id")[0])
+        #     print(order)
+        # order = list(dict.fromkeys(orders))
+        for order in Order.objects.values_list('index', flat=True).distinct():
+            ord.filter(pk__in=ord.filter(index=order).values_list('id', flat=True)[1:]).delete()
+            # else:
+            #     if int(orders[i].index) == int(orders[i + 1].index):
+            #         orders[i].delete()
+            # order = Order.objects.exclude(index=orders[i].index)
+        print("  ")
         print(orders)
         print("  ")
-        print(order)
+        # print(order)
         return render(request, "activeOrders.html",
                       {"orders": ord})
     else:
