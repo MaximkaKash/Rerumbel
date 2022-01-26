@@ -1,6 +1,6 @@
 from django.urls import path
 from ferumbel.views import ProductsView, product_details_view, register_view, contacts, aboutUs, page_not_found_view, \
-    logout_user, activeOrder_view, \
+    logout_user, activeOrder_view, confirmedOrder_view, deletedOrder_view, \
     basket, autorization, activeOrders, confirmedOrders, deletedOrders
 from django.conf import settings
 
@@ -24,7 +24,13 @@ urlpatterns = [
         "activeOrder/<int:order_id>/", activeOrder_view, name="activeOrder_view"
     ),
     path("confirmedOrders/", confirmedOrders, name="confirmedOrders"),
+    path(
+        "confirmedOrder/<int:order_id>/", confirmedOrder_view, name="confirmedOrder_view"
+    ),
     path("deletedOrders/", deletedOrders, name="deletedOrders"),
+    path(
+        "deletedOrder/<int:order_id>/", deletedOrder_view, name="deletedOrder_view"
+    ),
     path("logout/", logout_user, name='logout')
 ]
 

@@ -227,15 +227,12 @@ def autorization(request):
         return render(request, "autorization.html", {"form": form})
 
 
-from itertools import groupby
-
-
 def activeOrders(request):
     if request.user.is_staff:
         # if request.method == "Exit":
         #     logout_user(request)
         #     return redirect("/")
-        orders = Order.objects.all()
+        orders = Order.objects.filter(statuc=1)
         ord = orders
         ord = Order.objects.all()
         for order in orders:
@@ -254,7 +251,7 @@ def activeOrders(request):
         print("  ")
         # print(order)
         return render(request, "activeOrders.html",
-                      {"orders": ord})
+                      {"orders": orders})
     else:
         return redirect("/")
 
@@ -262,6 +259,8 @@ def activeOrders(request):
 def activeOrder_view(request, *args, **kwargs):
     order = Order.objects.get(id=kwargs["order_id"])
     orders = Order.objects.filter(index=order.index)
+    user = orders.user.phone
+    print(user)
     print(orders)
     form = BasketForm()
     if request.method == "POST":
@@ -275,6 +274,16 @@ def activeOrder_view(request, *args, **kwargs):
             else:
 
                 return redirect('/register', {"form": form})
+
+        if request.POST["action"] == "confirm":
+            for orde in orders:
+                orde.statuc = 2
+                orde.save()
+            return redirect("/activeOrders")
+        if request.POST["action"] == "delete":
+            for orde in orders:
+                orde.statuc = 3
+                orde.save()
     sum = 0
     count = 0
 
@@ -298,23 +307,113 @@ def activeOrder_view(request, *args, **kwargs):
 
 def confirmedOrders(request):
     if request.user.is_staff:
-        orders = Order.objects.all()
+        orders = Order.objects.filter(statuc=2)
         ord = orders
         ord = Order.objects.all()
         for order in orders:
             if orders.values_list('index', flat=True) is list:
                 print(orders)
-        return render(request, "activeOrders.html",
-                      {"orders": ord})
+        return render(request, "confirmedOrders.html",
+                      {"orders": orders})
     else:
         return redirect("/")
+
+
+def confirmedOrder_view(request, *args, **kwargs):
+    order = Order.objects.get(id=kwargs["order_id"])
+    orders = Order.objects.filter(index=order.index)
+    print(orders)
+    form = BasketForm()
+    if request.method == "POST":
+        if request.POST["action"] == "add":
+
+            if request.user.is_authenticated:
+                Purchase.objects.create(
+                    product=product, user=request.user, count=int(request.POST["count"])
+                )
+                redirect("product_details_view", product_id=product.id)
+            else:
+
+                return redirect('/register', {"form": form})
+    if request.method == "POST":
+        if request.POST["action"] == "confirm":
+            for orde in orders:
+                orde.statuc = 1
+                orde.save()
+            if request.POST["action"] == "delete":
+                for orde in orders:
+                    orde.statuc = 3
+                    orde.save()
+            return redirect("/confirmedOrders")
+    sum = 0
+    count = 0
+
+    for orde in orders:
+        coast = 0
+        coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
+        orde.coast = coast
+        count = count + int(order.purchase.count)
+        sum = sum + coast
+        orde.save()
+    return render(
+        request,
+        "confirmedOrder.html",
+        {
+            "orders": orders,
+            "sum": sum,
+            "count": count
+        },
+    )
 
 
 def deletedOrders(request):
     if request.user.is_staff:
-        return render(request, "deletedOrders.html")
+        orders = Order.objects.filter(statuc=3)
+        ord = orders
+        ord = Order.objects.all()
+        for order in orders:
+            if orders.values_list('index', flat=True) is list:
+                print(orders)
+        return render(request, "deletedOrders.html",
+                      {"orders": orders})
     else:
         return redirect("/")
+
+
+def deletedOrder_view(request, *args, **kwargs):
+    order = Order.objects.get(id=kwargs["order_id"])
+    orders = Order.objects.filter(index=order.index)
+    print(orders)
+    form = BasketForm()
+    if request.method == "POST":
+        if request.POST["action"] == "vosstan":
+            for orde in orders:
+                orde.statuc = 1
+                orde.save()
+            if request.POST["action"] == "delete":
+                for orde in orders:
+                    orde.statuc = 3
+                    orde.save()
+            return redirect("/deletedOrders")
+    sum = 0
+    count = 0
+
+    for orde in orders:
+        coast = 0
+        coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
+        orde.coast = coast
+        count = count + int(order.purchase.count)
+        sum = sum + coast
+        orde.save()
+    return render(
+        request,
+        "deletedOrder.html",
+        {
+            "orders": orders,
+            "sum": sum,
+            "count": count
+        },
+    )
 
 
 def logout_user(request):
