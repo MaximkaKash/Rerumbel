@@ -139,9 +139,8 @@ def product_details_view(request, *args, **kwargs):
 
 def basket(request):
     if request.user.is_authenticated:
-        user = User.objects.filter(user=request.user.username)
-        purchases = Purchase.objects.filter(user=request.user).filter(index=user.index)
-        # user = User.objects.filter(user=profile.user)
+        user = User.objects.get(username=request.user.username)
+        purchases = Purchase.objects.filter(user=request.user).filter(index=user.profile.index)
         form = BasketForm(request.POST)
         sum_product = 0
         count = 0
@@ -158,7 +157,7 @@ def basket(request):
                 request.user.save()
                 for purchase in purchases:
                     Order.objects.create(user=request.user.profile,
-                                         purchase=purchases,
+                                         purchase=purchase,
                                          phone=form.cleaned_data["phone"],
                                          comment=form.cleaned_data["comment"],
                                          delivery=True,
@@ -238,27 +237,20 @@ def activeOrders(request):
         #     return redirect("/")
         orders = Order.objects.all()
         ord = orders
-        # index = orders.objects.all().order_by("index")[0]
-        # orde = list(range(0))
-        # ord = list(range(0))
+        ord = Order.objects.all()
+        for order in orders:
+            if orders.values_list('index', flat=True) is list:
+                print(orders)
 
-        # for order in orders:
-        #     orde.append(int(order.index))
-        #
-        # orde = [el for el, _ in groupby(orde)]
-        # for i in orde:
-        #     order = Order.objects.all().filter(index=i)
-        #     ord.append(order.order_by("id")[0])
+        # for order in ord.values_list('index', flat=True).distinct():
+        #     ord.filter(pk__in=ord.filter(index=order).values_list('index', flat=True)[1:])
+        #     print(ord)
         #     print(order)
-        # order = list(dict.fromkeys(orders))
-        for order in Order.objects.values_list('index', flat=True).distinct():
-            ord.filter(pk__in=ord.filter(index=order).values_list('id', flat=True)[1:]).delete()
-            # else:
-            #     if int(orders[i].index) == int(orders[i + 1].index):
-            #         orders[i].delete()
-            # order = Order.objects.exclude(index=orders[i].index)
+
+        # order = Order.objects.filter(index=index).exclude(choice__isnull=True).order_by('-index')[:5]
+        # order = Order.objects.all().filter(index, flat=True)
         print("  ")
-        print(orders)
+        # print(order)
         print("  ")
         # print(order)
         return render(request, "activeOrders.html",
@@ -269,27 +261,51 @@ def activeOrders(request):
 
 def activeOrder_view(request, *args, **kwargs):
     order = Order.objects.get(id=kwargs["order_id"])
-    # if request.method == "POST":
-    #     if request.user.is_authenticated:
-    #         Purchase.objects.create(
-    #             product=product, user=request.user, count=int(request.POST["count"])
-    #         )
-    #         redirect("product_details_view", product_id=product.id)
-    #     else:
-    #         form = RegistrationForm()
-    #         return redirect('/register', {"form": form})
+    orders = Order.objects.filter(index=order.index)
+    print(orders)
+    form = BasketForm()
+    if request.method == "POST":
+        if request.POST["action"] == "add":
+
+            if request.user.is_authenticated:
+                Purchase.objects.create(
+                    product=product, user=request.user, count=int(request.POST["count"])
+                )
+                redirect("product_details_view", product_id=product.id)
+            else:
+
+                return redirect('/register', {"form": form})
+    sum = 0
+    count = 0
+
+    for orde in orders:
+        coast = 0
+        coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
+        orde.coast = coast
+        count = count + int(order.purchase.count)
+        sum = sum + coast
+        orde.save()
     return render(
         request,
         "activeOrder.html",
         {
-            "orders": order,
+            "orders": orders,
+            "sum": sum,
+            "count": count
         },
     )
 
 
 def confirmedOrders(request):
     if request.user.is_staff:
-        return render(request, "confirmedOrders.html")
+        orders = Order.objects.all()
+        ord = orders
+        ord = Order.objects.all()
+        for order in orders:
+            if orders.values_list('index', flat=True) is list:
+                print(orders)
+        return render(request, "activeOrders.html",
+                      {"orders": ord})
     else:
         return redirect("/")
 

@@ -175,13 +175,15 @@ class Customer(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE, blank=True, null=True)
+    purchase = models.OneToOneField(Purchase, on_delete=models.CASCADE, blank=True, null=True)
+    coast = models.IntegerField(blank=True, null=True, default=1)
     phone = models.CharField(max_length=30, blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
     delivery = models.BooleanField(blank=True, null=True)
     adress = models.TextField(blank=True, null=True)
     index = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, blank=True, null=True)
+    statuc = models.IntegerField(blank=True, null=True, default=1)
 
     def __str__(self):
         return f"{self.id}"
