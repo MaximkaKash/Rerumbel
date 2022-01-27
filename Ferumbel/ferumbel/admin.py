@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile, Sections, Order
+from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile, \
+    Sections, Order, Customer
 
 
 
@@ -63,5 +64,10 @@ class TimetableAdmin(admin.ModelAdmin):
 
 
 @admin.register(Order)
-class OrderleAdmin(admin.ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = ("user", "phone", "index", "created_at")
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ("user", "index")

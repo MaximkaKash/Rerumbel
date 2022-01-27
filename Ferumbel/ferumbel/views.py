@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 import logging
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
-from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order
+from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order, \
+    Customer
 from ferumbel.forms import ProductFiltersForm
 from django.views.generic import TemplateView
 from ferumbel.services import filter_products
@@ -119,6 +120,10 @@ def product_details_view(request, *args, **kwargs):
 
     if request.method == "POST":
         if request.user.is_authenticated:
+            if request.user.is_staff:
+                customer = Customer.objects.get(user=request.user)
+                activeOrder_view(request, order_index=customer.index)
+
             Purchase.objects.create(
                 product=product, user=request.user, count=int(request.POST["count"]),
                 index=int(request.user.profile.index)
@@ -221,9 +226,13 @@ def autorization(request):
                                     password=form.cleaned_data.get('password'))
 
                 login(request, user)
+                if Customer.objects.filter(user=user).exists():
+                    return redirect("/activeOrders")
+                else:
+                    request.user = Customer.objects.create(user=request.user)
                 return redirect("/activeOrders")
-        form = LoginForm()
-        return render(request, "autorization.html", {"form": form})
+    form = LoginForm()
+    return render(request, "autorization.html", {"form": form})
 
 
 def activeOrders(request):
@@ -254,9 +263,15 @@ def activeOrders(request):
 
 def activeOrder_view(request, *args, **kwargs):
     orders = Order.objects.filter(index=kwargs["order_index"])
-    index = int(orders.index[0])
+    index = int(Order.objects.filter(index=kwargs["order_index"])[0].index)
     if request.method == "POST":
-        if request.POST["action"] == "delete":
+        if request.POST["action"] == "add":
+            customer = Customer.objects.get(user=request.user)
+            customer.index = index
+            customer.save()
+            return redirect("/catalog/")
+
+        elif request.POST["action"] == "delete":
             for orde in orders:
                 orde.statuc = 3
                 orde.save()
@@ -307,6 +322,7 @@ def confirmedOrders(request):
 
 def confirmedOrder_view(request, *args, **kwargs):
     orders = Order.objects.filter(index=kwargs['order_index'])
+    index = int(Order.objects.filter(index=kwargs["order_index"])[0].index)
     print(orders)
     if request.method == "POST":
         if request.POST["action"] == "delete":
@@ -335,7 +351,8 @@ def confirmedOrder_view(request, *args, **kwargs):
         {
             "orders": orders,
             "sum": sum,
-            "count": count
+            "count": count,
+            "index": index,
         },
     )
 
@@ -356,12 +373,13 @@ def deletedOrders(request):
 
 def deletedOrder_view(request, *args, **kwargs):
     orders = Order.objects.filter(index=kwargs["order_index"])
-    print(orders)
-    if request.method == "POST" and request.POST["action"] == "vosstan":
-        for orde in orders:
-            orde.statuc = 2
-            orde.save()
-        return redirect("/deletedOrders")
+    index = int(Order.objects.filter(index=kwargs["order_index"])[0].index)
+    if request.method == "POST":
+        if request.POST["action"] == "vosstan":
+            for orde in orders:
+                orde.statuc = 2
+                orde.save()
+            return redirect("/deletedOrders")
     sum = 0
     count = 0
     for orde in orders:
@@ -377,7 +395,8 @@ def deletedOrder_view(request, *args, **kwargs):
         {
             "orders": orders,
             "sum": sum,
-            "count": count
+            "count": count,
+            "index": index,
         },
     )
 

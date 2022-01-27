@@ -168,9 +168,9 @@ class Profile(models.Model):
 
 class Customer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15)
+    index = models.IntegerField(blank=True, null=True)
     delivery = models.BooleanField(default=True, null=True, blank=True)
-    Text = models.TextField(blank=True)
+    Text = models.TextField(blank=True, null=True)
 
 
 class Order(models.Model):
@@ -184,6 +184,7 @@ class Order(models.Model):
     index = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, blank=True, null=True)
     statuc = models.IntegerField(blank=True, null=True, default=1)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.id}"
