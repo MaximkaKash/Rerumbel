@@ -21,15 +21,15 @@ urlpatterns = [
     path("autorization/", autorization, name="autorization"),
     path("activeOrders/", activeOrders, name="activeOrders"),
     path(
-        "activeOrder/<int:order_id>/", activeOrder_view, name="activeOrder_view"
+        "activeOrder/<int:order_index>/", activeOrder_view, name="activeOrder_view"
     ),
     path("confirmedOrders/", confirmedOrders, name="confirmedOrders"),
     path(
-        "confirmedOrder/<int:order_id>/", confirmedOrder_view, name="confirmedOrder_view"
+        "confirmedOrder/<int:order_index>/", confirmedOrder_view, name="confirmedOrder_view"
     ),
     path("deletedOrders/", deletedOrders, name="deletedOrders"),
     path(
-        "deletedOrder/<int:order_id>/", deletedOrder_view, name="deletedOrder_view"
+        "deletedOrder/<int:order_index>/", deletedOrder_view, name="deletedOrder_view"
     ),
     path("logout/", logout_user, name='logout')
 ]

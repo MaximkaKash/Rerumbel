@@ -204,9 +204,8 @@ def basket(request):
 
 
 def autorization(request):
-    form = LoginForm()
     if request.user.is_staff:
-        return render(request, "activeOrders.html")
+        return redirect("/activeOrders")
     else:
         if request.method == "POST":
             form = LoginForm(request.POST)
@@ -222,16 +221,13 @@ def autorization(request):
                                     password=form.cleaned_data.get('password'))
 
                 login(request, user)
-                return redirect('/activeOrders')
-            form = LoginForm()
+                return redirect("/activeOrders")
+        form = LoginForm()
         return render(request, "autorization.html", {"form": form})
 
 
 def activeOrders(request):
     if request.user.is_staff:
-        # if request.method == "Exit":
-        #     logout_user(request)
-        #     return redirect("/")
         orders = Order.objects.filter(statuc=1)
         ord = orders
         ord = Order.objects.all()
@@ -257,41 +253,30 @@ def activeOrders(request):
 
 
 def activeOrder_view(request, *args, **kwargs):
-    order = Order.objects.get(id=kwargs["order_id"])
-    orders = Order.objects.filter(index=order.index)
-    user = orders.user.phone
-    print(user)
-    print(orders)
-    form = BasketForm()
+    orders = Order.objects.filter(index=kwargs["order_index"])
+    index = int(orders.index[0])
     if request.method == "POST":
-        if request.POST["action"] == "add":
-
-            if request.user.is_authenticated:
-                Purchase.objects.create(
-                    product=product, user=request.user, count=int(request.POST["count"])
-                )
-                redirect("product_details_view", product_id=product.id)
-            else:
-
-                return redirect('/register', {"form": form})
-
-        if request.POST["action"] == "confirm":
-            for orde in orders:
-                orde.statuc = 2
-                orde.save()
-            return redirect("/activeOrders")
         if request.POST["action"] == "delete":
             for orde in orders:
                 orde.statuc = 3
                 orde.save()
+            return redirect("/activeOrders")
+        elif request.POST["action"] == "confirm":
+            for orde in orders:
+                orde.statuc = 2
+                orde.save()
+            return redirect("/activeOrders/")
+        elif request.POST['delete']:
+            orde = Order.objects.get(id=int(request.POST['delete']))
+            orde.delete()
+            return redirect("/activeOrders")
     sum = 0
     count = 0
-
     for orde in orders:
         coast = 0
         coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
         orde.coast = coast
-        count = count + int(order.purchase.count)
+        count = count + int(orde.purchase.count)
         sum = sum + coast
         orde.save()
     return render(
@@ -300,7 +285,8 @@ def activeOrder_view(request, *args, **kwargs):
         {
             "orders": orders,
             "sum": sum,
-            "count": count
+            "count": count,
+            "index": index,
         },
     )
 
@@ -320,31 +306,19 @@ def confirmedOrders(request):
 
 
 def confirmedOrder_view(request, *args, **kwargs):
-    order = Order.objects.get(id=kwargs["order_id"])
-    orders = Order.objects.filter(index=order.index)
+    orders = Order.objects.filter(index=kwargs['order_index'])
     print(orders)
-    form = BasketForm()
     if request.method == "POST":
-        if request.POST["action"] == "add":
-
-            if request.user.is_authenticated:
-                Purchase.objects.create(
-                    product=product, user=request.user, count=int(request.POST["count"])
-                )
-                redirect("product_details_view", product_id=product.id)
-            else:
-
-                return redirect('/register', {"form": form})
-    if request.method == "POST":
-        if request.POST["action"] == "confirm":
+        if request.POST["action"] == "delete":
+            for orde in orders:
+                orde.statuc = 3
+                orde.save()
+            return redirect("/confirmedOrders/")
+        elif request.POST["action"] == "vosstan":
             for orde in orders:
                 orde.statuc = 1
                 orde.save()
-            if request.POST["action"] == "delete":
-                for orde in orders:
-                    orde.statuc = 3
-                    orde.save()
-            return redirect("/confirmedOrders")
+            return redirect("/confirmedOrders/")
     sum = 0
     count = 0
 
@@ -352,7 +326,7 @@ def confirmedOrder_view(request, *args, **kwargs):
         coast = 0
         coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
         orde.coast = coast
-        count = count + int(order.purchase.count)
+        count = count + int(orde.purchase.count)
         sum = sum + coast
         orde.save()
     return render(
@@ -381,28 +355,20 @@ def deletedOrders(request):
 
 
 def deletedOrder_view(request, *args, **kwargs):
-    order = Order.objects.get(id=kwargs["order_id"])
-    orders = Order.objects.filter(index=order.index)
+    orders = Order.objects.filter(index=kwargs["order_index"])
     print(orders)
-    form = BasketForm()
-    if request.method == "POST":
-        if request.POST["action"] == "vosstan":
-            for orde in orders:
-                orde.statuc = 1
-                orde.save()
-            if request.POST["action"] == "delete":
-                for orde in orders:
-                    orde.statuc = 3
-                    orde.save()
-            return redirect("/deletedOrders")
+    if request.method == "POST" and request.POST["action"] == "vosstan":
+        for orde in orders:
+            orde.statuc = 2
+            orde.save()
+        return redirect("/deletedOrders")
     sum = 0
     count = 0
-
     for orde in orders:
         coast = 0
         coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
         orde.coast = coast
-        count = count + int(order.purchase.count)
+        count = count + int(orde.purchase.count)
         sum = sum + coast
         orde.save()
     return render(
