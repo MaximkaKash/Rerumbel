@@ -121,16 +121,18 @@ def product_details_view(request, *args, **kwargs):
     if request.method == "POST":
         if request.user.is_authenticated:
             if request.user.is_staff:
+                print(-------------1111)
                 customer = Customer.objects.get(user=request.user)
+                print(customer.ID)
+                print(Profile.objects.get(user=customer.ID).user_id)
+
                 Purchase.objects.create(
                     product=product, user=request.user, count=int(request.POST["count"]),
-                    index=int(request.user.profile.index)
+                    index=int(customer.index)
                 )
+
                 purchases = Purchase.objects.filter(user=request.user)
-                print(customer.ID)
-                print(Profile.objects.get(id=customer.ID))
-                print(request.user)
-                Order.objects.create(user=User.objects.get(user=request.customer.ID).username,
+                Order.objects.create(user=User.objects.get(user=customer.ID),
                                      purchase=purchases,
                                      delivery=True,
                                      customer=request.user,
@@ -252,15 +254,6 @@ def autorization(request):
 def activeOrders(request):
     if request.user.is_staff:
         orders = Order.objects.filter(statuc=1).distinct("index", "user")
-        # for order in ord.values_list('index', flat=True).distinct():
-        #     ord.filter(pk__in=ord.filter(index=order).values_list('index', flat=True)[1:])
-        #     print(ord)
-        #     print(order)
-
-        # order = Order.objects.filter(index=index).exclude(choice__isnull=True).order_by('-index')[:5]
-        # order = Order.objects.all().filter(index, flat=True)
-        # print(order)
-        # print(order)
         return render(request, "activeOrders.html",
                       {"orders": orders})
     else:
@@ -300,7 +293,9 @@ def activeOrder_view(request, *args, **kwargs):
             elif request.POST["action"] == "add":
                 customer = Customer.objects.get(user=request.user)
                 customer.index = index
-                customer.ID = user
+                ID = Profile.objects.get(id=user).user_id
+                customer.ID =ID
+                print(customer.ID, user, ID)
                 customer.save()
                 return redirect("/catalog/")
             elif request.POST["action"] == "delete":
@@ -332,12 +327,8 @@ def activeOrder_view(request, *args, **kwargs):
 
 def confirmedOrders(request):
     if request.user.is_staff:
-        orders = Order.objects.filter(statuc=2)
-        ord = orders
-        ord = Order.objects.all()
-        for order in orders:
-            if orders.values_list('index', flat=True) is list:
-                print(orders)
+        # orders = Order.objects.filter(statuc=2)
+        orders = Order.objects.filter(statuc=2).distinct("index", "user")
         return render(request, "confirmedOrders.html",
                       {"orders": orders})
     else:
@@ -385,12 +376,8 @@ def confirmedOrder_view(request, *args, **kwargs):
 
 def deletedOrders(request):
     if request.user.is_staff:
-        orders = Order.objects.filter(statuc=3)
-        ord = orders
-        ord = Order.objects.all()
-        for order in orders:
-            if orders.values_list('index', flat=True) is list:
-                print(orders)
+        orders = Order.objects.filter(statuc=1).distinct("index", "user")
+        # orders = Order.objects.filter(statuc=3)
         return render(request, "deletedOrders.html",
                       {"orders": orders})
     else:
