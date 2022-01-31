@@ -130,7 +130,7 @@ def product_details_view(request, *args, **kwargs):
                 print(customer.ID)
                 print(Profile.objects.get(id=customer.ID))
                 print(request.user)
-                Order.objects.create(user=User.objects.get(usernmae=customer.ID).username,
+                Order.objects.create(user=User.objects.get(user=request.customer.ID).username,
                                      purchase=purchases,
                                      delivery=True,
                                      customer=request.user,
@@ -251,7 +251,7 @@ def autorization(request):
 
 def activeOrders(request):
     if request.user.is_staff:
-        orders = Order.objects.filter(statuc=1)
+        orders = Order.objects.filter(statuc=1).distinct("index", "user")
         # for order in ord.values_list('index', flat=True).distinct():
         #     ord.filter(pk__in=ord.filter(index=order).values_list('index', flat=True)[1:])
         #     print(ord)
@@ -347,7 +347,7 @@ def confirmedOrders(request):
 def confirmedOrder_view(request, *args, **kwargs):
     if request.user.is_staff:
         orders = Order.objects.filter(index=kwargs['order_index'])
-        index = int(Order.objects.filter(index=kwargs["order_index"])[0].index)
+        # index = int(Order.objects.filter(index=kwargs["order_index"])[0].index)
         print(orders)
         if request.method == "POST":
             if request.POST["action"] == "delete":
