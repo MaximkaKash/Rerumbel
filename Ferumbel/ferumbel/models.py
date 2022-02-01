@@ -174,7 +174,7 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     purchase = models.OneToOneField(Purchase, on_delete=models.CASCADE, blank=True, null=True)
     coast = models.IntegerField(blank=True, null=True, default=1)
     phone = models.CharField(max_length=30, blank=True, null=True)
