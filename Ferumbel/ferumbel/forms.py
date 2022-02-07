@@ -6,7 +6,7 @@ from django import forms
 
 class RegistrationForm(forms.Form):
     email = forms.EmailField()
-    username = forms.CharField(max_length=20)
+    username = forms.CharField(max_length=50)
 
 
 class BasketForm(forms.Form):

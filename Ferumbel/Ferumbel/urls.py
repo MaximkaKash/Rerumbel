@@ -21,6 +21,7 @@ from ferumbel.views import page_not_found_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('ferumbel.urls')),
+    path('em/', include('sendemail.urls')),
 ]
 
 handler404 = page_not_found_view

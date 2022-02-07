@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ferumbel',
     'bootstrap3',
+    'sendemail.apps.SendemailConfig',
+
 ]
+
+RECIPIENTS_EMAIL = ['kanashitsus@gmail.com']   # замените на свою почту
+DEFAULT_FROM_EMAIL = 'maksimoao@mail.ru'  # замените на свою почту
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
