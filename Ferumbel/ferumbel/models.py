@@ -152,6 +152,13 @@ class Purchase(models.Model):
         verbose_name_plural = _("Purchases")
 
 
+class Customer(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    index = models.IntegerField(blank=True, null=True)
+    delivery = models.BooleanField(default=True, null=True, blank=True)
+    ID = models.IntegerField(blank=True, null=True)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone = models.CharField(max_length=30, blank=True, null=True)
@@ -159,18 +166,12 @@ class Profile(models.Model):
     adress = models.TextField(blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
     index = models.IntegerField(blank=True, null=True, default=1)
-    seller = models.IntegerField(blank=True, null=True)
+    seller = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     delivery = models.BooleanField(blank=True, null=True, verbose_name="Доставка")
+    code = models.CharField(max_length=4, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user}"
-
-
-class Customer(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    index = models.IntegerField(blank=True, null=True)
-    delivery = models.BooleanField(default=True, null=True, blank=True)
-    ID = models.IntegerField(blank=True, null=True)
 
 
 class Order(models.Model):
