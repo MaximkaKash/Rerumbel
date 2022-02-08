@@ -52,6 +52,7 @@ class ProductsView(TemplateView):
     template_name = "goods.html"
 
     def get_context_data(self, **kwargs):
+        text = Text.objects.get(id=4)
         products = Product.objects.all()
         filters_form = ProductFiltersForm(self.request.GET)
 
@@ -72,7 +73,10 @@ class ProductsView(TemplateView):
                 if order_by == "price_desc":
                     products = products.order_by("-coast")
 
-        return {"filters_form": filters_form, "products": products}
+        return {"filters_form": filters_form,
+                "products": products,
+                "Text": text,
+                }
 
 
 def index(request):
@@ -99,8 +103,10 @@ def index(request):
 
 def contacts(request):
     contacts = Contacts.objects.all()
+    text = Text.objects.get(id=4)
     return render(request, "contacts.html", {
-        "contacts": contacts
+        "contacts": contacts,
+        "Text": text,
     })
 
 
@@ -110,12 +116,14 @@ def aboutUs(request):
     return render(request, "aboutUs.html", {
         "contacts": timetable,
         "texts": text.get(id=3),
-        "text": text.get(id=2)
+        "text": text.get(id=2),
+        "Text": text.get(id=4),
     })
 
 
 def product_details_view(request, *args, **kwargs):
     product = Product.objects.get(id=kwargs["product_id"])
+    text = Text.objects.get(id=4)
 
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -152,12 +160,14 @@ def product_details_view(request, *args, **kwargs):
         "good.html",
         {
             "product": product,
+            "Text": text,
         },
     )
 
 
 def basket(request):
     if request.user.is_authenticated:
+        text = Text.objects.get(id=4)
         user = User.objects.get(username=request.user.username)
         profile = Profile.objects.get(user=request.user)
         purchases = Purchase.objects.filter(user=request.user).filter(index=profile.index)
@@ -216,6 +226,7 @@ def basket(request):
                 "form": form,
                 "sum": sum_product,
                 "result": count,
+                "Text": text,
             }
         )
     else:
