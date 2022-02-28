@@ -23,9 +23,7 @@ SECRET_KEY = 'django-insecure-&s!@i3ivvjj-)___&w_(k%)hfjn58jdc2ma(8nzm+&9l_f#ftr
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = ["127.0.0.1"]
-
 
 # Application definition
 
@@ -42,7 +40,7 @@ INSTALLED_APPS = [
 
 ]
 
-RECIPIENTS_EMAIL = ['kanashitsus@gmail.com']   # замените на свою почту
+RECIPIENTS_EMAIL = ['kanashitsus@gmail.com']  # замените на свою почту
 DEFAULT_FROM_EMAIL = 'maksimoao@mail.ru'  # замените на свою почту
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -116,6 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ru"
 
+
 def _(x):
     return x
 
@@ -139,7 +138,11 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_DIRS = [BASE_DIR / "Front/../media/../Front/Main/", BASE_DIR / "Front/Personal"]
+import os
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main/"),
+                    os.path.join(BASE_DIR, "Front/Personal"),
+                    os.path.join(BASE_DIR, "Front/bootstrap-3.3.7-dist")]
 
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"

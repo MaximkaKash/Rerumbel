@@ -22,6 +22,13 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=20)
 
 
+class filter_form(forms.Form):
+    categorys = forms.CharField(max_length=30)
+    way = forms.CharField(max_length=30)
+    price_1 = forms.IntegerField()
+    price_2 = forms.IntegerField()
+
+
 class ProductFiltersForm(forms.Form):
     order_by = forms.ChoiceField(
         choices=ORDER_BY_CHOICES,

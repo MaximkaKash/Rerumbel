@@ -8,7 +8,7 @@ from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable
 from ferumbel.forms import ProductFiltersForm
 from django.views.generic import TemplateView
 from ferumbel.services import filter_products
-from ferumbel.forms import RegistrationForm, BasketForm, LoginForm
+from ferumbel.forms import RegistrationForm, BasketForm, LoginForm, filter_form
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import F, Sum
 
@@ -54,6 +54,7 @@ class ProductsView(TemplateView):
     def get_context_data(self, **kwargs):
         text = Text.objects.get(id=4)
         products = Product.objects.all()
+        filter_forms = filter_form(self.request.GET)
         filters_form = ProductFiltersForm(self.request.GET)
 
         if filters_form.is_valid():
@@ -73,9 +74,24 @@ class ProductsView(TemplateView):
                 if order_by == "price_desc":
                     products = products.order_by("-coast")
 
+            if filter_forms.is_valid():
+                if filter_forms.cleaned_data["categorys"]:
+                    products = products.filter(category=filter_forms.cleaned_data["categorys"])
+                if filter_forms.cleaned_data["way"] == "По популярности":
+                    products = products.order_by("-popular")
+                if filter_forms.cleaned_data["way"] == "По возростанию цены":
+                    products = products.order_by("coast")
+                if filter_forms.cleaned_data["way"] == "По убыванию цены":
+                    products = products.order_by("-coast")
+                if filter_forms.cleaned_data["price_1"]:
+                    products = products.filter(price__gt=filters_form.cleaned_data["price_1"])
+                if filter_forms.cleaned_data["price_1"]:
+                    products = products.filter(price__lt=filters_form.cleaned_data["price_2"])
+        categorys = Category.objects.all()
         return {"filters_form": filters_form,
                 "products": products,
                 "Text": text,
+                "categorys": categorys,
                 }
 
 
@@ -320,7 +336,6 @@ def activeOrder_view(request, *args, **kwargs):
                 orders = Order.objects.filter(user_id=user).filter(index=index)[0].id
                 return redirect("activeOrder_view", order_index=orders)
 
-
         return render(
             request,
             "activeOrder.html",
@@ -435,68 +450,3 @@ def deletedOrder_view(request, *args, **kwargs):
 def logout_user(request):
     logout(request)
     return redirect("/")
-
-
-# def activeOrder_view(request, *args, **kwargs):
-#     if request.user.is_staff:
-#         user = Order.objects.filter(index=kwargs["order_index"])[0].user
-#         orders = Order.objects.filter(user=user).filter(index=kwargs["order_index"])
-#         # index = int(Order.objects.filter(index=kwargs["order_index"])[0].index)
-#         sum = 0
-#         count = 0
-#         for orde in orders:
-#             coast = 0
-#             coast = coast + int(orde.purchase.count) * int(orde.purchase.product.coast)
-#             orde.coast = coast
-#             count = count + int(orde.purchase.count)
-#             sum = sum + coast
-#             orde.save()
-#         if request.method == "POST":
-#             if request.POST["action"] == "dop":
-#                 customer = Customer.objects.filter(user=request.user)
-#                 purchases = Purchase.objects.filter(user=request.user)
-#                 orders = Order.objects.filter(index=kwargs["order_index"])
-#                 return render(
-#                     request,
-#                     "activeOrder.html",
-#                     {
-#                         "orders": orders,
-#                         "sum": sum,
-#                         "count": count,
-#                         "index": index,
-#                     },
-#                 )
-#             elif request.POST["action"] == "add":
-#                 customer = Customer.objects.get(user=request.user)
-#                 customer.index = index
-#                 customer.save()
-#                 return redirect("/catalog/")
-#             elif request.POST["action"] == "delete":
-#                 for orde in orders:
-#                     orde.statuc = 3
-#                     orde.save()
-#                 return redirect("/activeOrders")
-#             elif request.POST["action"] == "confirm":
-#                 for orde in orders:
-#                     orde.statuc = 2
-#                     orde.save()
-#                 return redirect("/activeOrders/")
-#             # elif Order.objects.get(id=request.POST["delete"]).exist():
-#             #     print(1)
-#             # else:
-#             #     print(2)
-#             elif request.POST['delete']:
-#                 orde = Order.objects.get(id=int(request.POST['delete']))
-#                 orde.delete()
-#                 return redirect("/activeOrders")
-#         return render(
-#             request,
-#             "activeOrder.html",
-#             {
-#                 "orders": orders,
-#                 "sum": sum,
-#                 "count": count,
-#                 "index": index,
-#             },
-#         )
-#     return redirect("/")
