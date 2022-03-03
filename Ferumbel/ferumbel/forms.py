@@ -23,10 +23,10 @@ class LoginForm(forms.Form):
 
 
 class filter_form(forms.Form):
-    categorys = forms.CharField(max_length=30)
+    category = forms.CharField(max_length=30)
     way = forms.CharField(max_length=30)
-    price_1 = forms.IntegerField()
-    price_2 = forms.IntegerField()
+    min_price = forms.IntegerField()
+    max_price = forms.IntegerField()
 
 
 class ProductFiltersForm(forms.Form):

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ferumbel',
-    'bootstrap3',
+    'bootstrap4',
     'sendemail.apps.SendemailConfig',
 
 ]
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-CRISPY_TEMPLATE_PACK = "bootstrap3"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 WSGI_APPLICATION = 'Ferumbel.wsgi.application'
 

@@ -25,7 +25,7 @@ class Text(models.Model):
         ordering = ["id"]
         verbose_name = _("Text")
         verbose_name_plural = _("Texts")
-
+# 16 марта 180
 
 class Image(models.Model):
     Image = models.ImageField(verbose_name="Фото")
