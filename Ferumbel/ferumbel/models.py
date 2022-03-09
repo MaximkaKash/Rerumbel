@@ -109,7 +109,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
     popular = models.FloatField(default=0, verbose_name="Популярность")
     Image = models.ImageField(null=True, blank=True, verbose_name="Фотография")
-    division = models.TextField(blank=True, null=True, verbose_name="Разделение")
+    division = models.BooleanField(blank=True, null=True, verbose_name="Разделение", default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Категория")
 
     def __str__(self):
@@ -158,6 +158,10 @@ class Customer(models.Model):
     delivery = models.BooleanField(default=True, null=True, blank=True)
     ID = models.IntegerField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = _("Customer")
+        verbose_name_plural = _("Customers")
+
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -172,6 +176,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+
+    class Meta:
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
 
 
 class Order(models.Model):
@@ -189,3 +197,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+
+    class Meta:
+        verbose_name = _("Order")
+        verbose_name_plural = _("Orders")

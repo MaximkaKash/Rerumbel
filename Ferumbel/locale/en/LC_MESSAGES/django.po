@@ -105,3 +105,27 @@ msgstr "Корзина"
 #: ferumbel/models.py:152
 msgid "Purchases"
 msgstr "Корзины"
+
+#: ferumbel/models.py:162
+msgid "Customer"
+msgstr "Покупатель"
+
+#: ferumbel/models.py:163
+msgid "Customers"
+msgstr "Покупатели"
+
+#: ferumbel/models.py:202
+msgid "Order"
+msgstr "Заказ"
+
+#: ferumbel/models.py:203
+msgid "Orders"
+msgstr "Заказы"
+
+#: ferumbel/models.py:181
+msgid "Profile"
+msgstr "Юзер"
+
+#: ferumbel/models.py:182
+msgid "Profiles"
+msgstr "Юзеры"

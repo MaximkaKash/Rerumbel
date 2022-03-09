@@ -29,12 +29,12 @@ def register_view(request):
             #         return render(request, "register1.html", {"form": form})
             request.user = User.objects.create(email=form.cleaned_data.get('email'),
                                                username=form.cleaned_data.get('username'),
-                                               password=form.cleaned_data.get('email'))
+                                               password=form.cleaned_data.get('password'))
             Profile.objects.create(email=form.cleaned_data.get('email'),
                                    user=request.user)
             Profile.save(self=request.user)
             user = authenticate(request, username=form.cleaned_data.get('username'),
-                                password=form.cleaned_data.get('email'))
+                                password=form.cleaned_data.get('password'))
             login(request, user)
             # user.set_password(password)
             # send_email()
@@ -54,27 +54,13 @@ class ProductsView(TemplateView):
     def get_context_data(self, **kwargs):
         text = Text.objects.get(id=4)
         products = Product.objects.all()
+        products = products.filter(division=True)
         filter_forms = filter_form(self.request.GET)
         filters_form = ProductFiltersForm(self.request.GET)
         mx = products.order_by("-coast")[0].coast
         mn = products.order_by("coast")[0].coast
 
         if filters_form.is_valid():
-            if filters_form.cleaned_data["section"]:
-                products = products.filter(type=filters_form.cleaned_data["section"])
-            if filters_form.cleaned_data["price__gt"]:
-                products = products.filter(price__gt=filters_form.cleaned_data["price__gt"])
-            if filters_form.cleaned_data["price__lt"]:
-                products = products.filter(price__lt=filters_form.cleaned_data["price__lt"])
-
-            if filters_form.cleaned_data["order_by"]:
-                order_by = filters_form.cleaned_data["order_by"]
-                if order_by == "popular":
-                    products = products.order_by("-popular")
-                if order_by == "price_asc":
-                    products = products.order_by("coast")
-                if order_by == "price_desc":
-                    products = products.order_by("-coast")
             if filter_forms.is_valid():
                 if filter_forms.cleaned_data["category"]:
                     if filter_forms.cleaned_data["category"] == "Все":
@@ -455,6 +441,49 @@ def deletedOrder_view(request, *args, **kwargs):
             },
         )
     return redirect("/")
+
+
+class ProductsView1(TemplateView):
+    template_name = "goods1.html"
+
+    def get_context_data(self, **kwargs):
+        text = Text.objects.get(id=4)
+        products = Product.objects.all()
+        products = products.filter(division=False)
+        filter_forms = filter_form(self.request.GET)
+        filters_form = ProductFiltersForm(self.request.GET)
+        mx = products.order_by("-coast")[0].coast
+        mn = products.order_by("coast")[0].coast
+
+        if filters_form.is_valid():
+            if filter_forms.is_valid():
+                if filter_forms.cleaned_data["category"]:
+                    if filter_forms.cleaned_data["category"] == "Все":
+                        print()
+                    else:
+                        category = Category.objects.get(Text=filter_forms.cleaned_data["category"])
+                        products = products.filter(category=category.id)
+                if filter_forms.cleaned_data["way"] == "По популярности":
+                    products = products.order_by("-popular")
+                if filter_forms.cleaned_data["way"] == "По возростанию цены":
+                    products = products.order_by("coast")
+                if filter_forms.cleaned_data["way"] == "По убыванию цены":
+                    products = products.order_by("-coast")
+                # if filter_forms.cleaned_data["min_price"]:
+                #     products = products.filter(coast__gt=filters_form.cleaned_data["min_price"])
+                # if filter_forms.cleaned_data["max_price"]:
+                #     products = products.filter(coast__lt=filters_form.cleaned_data["max_price"])
+        # print(filter_form(self.request.GET))
+        if products == None:
+            print("11111111111111111111111111111111111111")
+        categorys = Category.objects.all()
+        return {"filters_form": filters_form,
+                "products": products,
+                "Text": text,
+                "categorys": categorys,
+                "max": mx,
+                "min": mn,
+                }
 
 
 def logout_user(request):
