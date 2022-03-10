@@ -113,6 +113,21 @@ def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
 
 
+def transport_index_to_topycs(request, *args, **kwargs):
+    product = Product.objects.get(id=kwargs["product_id"])
+    category = product.category
+    if category == True:
+        return render(
+            request,
+            "goods1.html",
+            {
+                "product": product,
+                "category": category,
+            },
+        )
+    pass
+
+
 def contacts(request):
     contacts = Contacts.objects.all()
     text = Text.objects.get(id=4)
