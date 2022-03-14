@@ -42,6 +42,14 @@ class CategoryAdmin(admin.ModelAdmin):
 class TextAdmin(admin.ModelAdmin):
     display = "value"
 
+    def get_actions(self, request):
+        actions = super(TextAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
+
+
+def has_delete_permission(request, obj=None):
+    return False
 
 @admin.register(Benefits)
 class BenefitsAdmin(admin.ModelAdmin):
@@ -71,3 +79,5 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ("user", "index")
+
+

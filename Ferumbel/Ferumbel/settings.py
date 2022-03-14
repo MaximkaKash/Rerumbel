@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&s!@i3ivvjj-)___&w_(k%)hfjn58jdc2ma(8nzm+&9l_f#ftr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Application definition
@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ferumbel',
-    'bootstrap4',
+    'bootstrap3',
     'sendemail.apps.SendemailConfig',
+
 
 ]
 
@@ -73,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 WSGI_APPLICATION = 'Ferumbel.wsgi.application'
 
@@ -140,9 +141,9 @@ STATICFILES_FINDERS = [
 
 import os
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main/"),
-                    os.path.join(BASE_DIR, "Front/Personal"),
-                    os.path.join(BASE_DIR, "Front/bootstrap-3.3.7-dist")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main"),
+                    os.path.join(BASE_DIR, "Front/Personal")]
+                    # os.path.join(BASE_DIR, "Front/bootstrap-3.3.7-dist")]
 
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"

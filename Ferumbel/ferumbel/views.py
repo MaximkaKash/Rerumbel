@@ -16,10 +16,12 @@ logger = logging.getLogger(__name__)
 
 
 def page_not_found_view(request, exception):
-    return render(request, 'mistake.html', status=404)
+    text = Text.objects.get(id=4)
+    return render(request, 'mistake.html', {"Text": text}, status=404)
 
 
 def register_view(request):
+    text = Text.objects.get(id=4)
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -42,10 +44,12 @@ def register_view(request):
             return redirect('/')
         else:
             form = RegistrationForm()
-        return render(request, "register.html", {"form": form})
+        return render(request, "registration_start.html", {"form": form,
+                                                           "Text": text, })
     else:
         form = RegistrationForm()
-    return render(request, "register.html", {"form": form})
+    return render(request, "registration_start.html", {"form": form,
+                                                       "Text": text, })
 
 
 class ProductsView(TemplateView):
@@ -285,13 +289,13 @@ def autorization(request):
                     request.user = Customer.objects.create(user=request.user)
                 return redirect("/activeOrders")
     form = LoginForm()
-    return render(request, "autorization.html", {"form": form})
+    return render(request, "autorization_admin.html", {"form": form})
 
 
 def activeOrders(request):
     if request.user.is_staff:
         orders = Order.objects.filter(statuc=1).distinct("index", "user")
-        return render(request, "activeOrders.html",
+        return render(request, "activeOrders_admin.html",
                       {"orders": orders})
     else:
         return redirect("/")
@@ -349,7 +353,7 @@ def activeOrder_view(request, *args, **kwargs):
 
         return render(
             request,
-            "activeOrder.html",
+            "activeOrder_admin.html",
             {
                 "orders": orders,
                 "sum": sum,
@@ -364,7 +368,7 @@ def activeOrder_view(request, *args, **kwargs):
 def confirmedOrders(request):
     if request.user.is_staff:
         orders = Order.objects.filter(statuc=2).distinct("index", "user")
-        return render(request, "confirmedOrders.html",
+        return render(request, "confirmedOrders_admin.html",
                       {"orders": orders})
     else:
         return redirect("/")
@@ -401,7 +405,7 @@ def confirmedOrder_view(request, *args, **kwargs):
             orde.save()
         return render(
             request,
-            "confirmedOrder.html",
+            "confirmedOrder_admin.html",
             {
                 "orders": orders,
                 "sum": sum,
@@ -416,7 +420,7 @@ def confirmedOrder_view(request, *args, **kwargs):
 def deletedOrders(request):
     if request.user.is_staff:
         orders = Order.objects.filter(statuc=3).distinct("index", "user")
-        return render(request, "deletedOrders.html",
+        return render(request, "deletedOrders_admin.html",
                       {"orders": orders})
     else:
         return redirect("/")
@@ -446,7 +450,7 @@ def deletedOrder_view(request, *args, **kwargs):
             orde.save()
         return render(
             request,
-            "deletedOrder.html",
+            "deletedOrder_admin.html",
             {
                 "orders": orders,
                 "sum": sum,

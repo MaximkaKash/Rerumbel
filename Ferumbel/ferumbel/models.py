@@ -105,7 +105,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     coast = models.TextField(blank=True, null=True, verbose_name="Цена")
-    name = models.CharField(max_length=1000, verbose_name="Название")
+    name = models.TextField(max_length=1000, verbose_name="Название")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
     popular = models.FloatField(default=0, verbose_name="Популярность")
     Image = models.ImageField(null=True, blank=True, verbose_name="Фотография")
