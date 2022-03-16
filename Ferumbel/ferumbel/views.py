@@ -23,19 +23,22 @@ def page_not_found_view(request, exception):
 def register_view(request):
     text = Text.objects.get(id=4)
     if request.method == "POST":
-        form = RegistrationForm(request.POST)
+        # form = RegistrationForm(request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
             # if User.objects.filter(username=form.cleaned_data.get('username')).exists():
             #     if User.objects.filter(username=form.cleaned_data.get('email')).exists():
             #         form = RegistrationForm()
             #         return render(request, "register1.html", {"form": form})
-            request.user = User.objects.create(email=form.cleaned_data.get('email'),
-                                               username=form.cleaned_data.get('username'),
-                                               password=form.cleaned_data.get('password'))
-            Profile.objects.create(email=form.cleaned_data.get('email'),
-                                   user=request.user)
-            Profile.save(self=request.user)
-            user = authenticate(request, username=form.cleaned_data.get('username'),
+
+            # request.user = User.objects.create(email=form.cleaned_data.get('email'),
+            #                                    username=form.cleaned_data.get('username'),
+            #                                    password=form.cleaned_data.get('password'))
+            # Profile.objects.create(email=form.cleaned_data.get('email'),
+            #                        user=request.user)
+            # Profile.save(self=request.user)
+
+            user = authenticate(request, username=form.cleaned_data.get('login'),
                                 password=form.cleaned_data.get('password'))
             login(request, user)
             # user.set_password(password)
@@ -43,11 +46,13 @@ def register_view(request):
 
             return redirect('/')
         else:
-            form = RegistrationForm()
+            form = LoginForm()
+            # form = RegistrationForm()
         return render(request, "registration_start.html", {"form": form,
                                                            "Text": text, })
     else:
-        form = RegistrationForm()
+        form = LoginForm()
+        # form = RegistrationForm()
     return render(request, "registration_start.html", {"form": form,
                                                        "Text": text, })
 
@@ -60,15 +65,14 @@ class ProductsView(TemplateView):
         products = Product.objects.all()
         products = products.filter(division=True)
         filter_forms = filter_form(self.request.GET)
-        filters_form = ProductFiltersForm(self.request.GET)
         mx = products.order_by("-coast")[0].coast
         mn = products.order_by("coast")[0].coast
 
-        if filters_form.is_valid():
+        if filter_forms.is_valid():
             if filter_forms.is_valid():
                 if filter_forms.cleaned_data["category"]:
                     if filter_forms.cleaned_data["category"] == "Все":
-                        print()
+                        pass
                     else:
                         category = Category.objects.get(Text=filter_forms.cleaned_data["category"])
                         products = products.filter(category=category.id)
@@ -78,15 +82,16 @@ class ProductsView(TemplateView):
                     products = products.order_by("coast")
                 if filter_forms.cleaned_data["way"] == "По убыванию цены":
                     products = products.order_by("-coast")
-                # if filter_forms.cleaned_data["min_price"]:
-                #     products = products.filter(coast__gt=filters_form.cleaned_data["min_price"])
-                # if filter_forms.cleaned_data["max_price"]:
-                #     products = products.filter(coast__lt=filters_form.cleaned_data["max_price"])
+                if filter_forms.cleaned_data["min_price"]:
+                    products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"]-1)
+                if filter_forms.cleaned_data["max_price"]:
+                    products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"]+1)
         # print(filter_form(self.request.GET))
         if products == None:
-            print("11111111111111111111111111111111111111")
+            pass
         categorys = Category.objects.all()
-        return {"filters_form": filters_form,
+        filter_forms = filter_form()
+        return {"filter_forms": filter_forms,
                 "products": products,
                 "Text": text,
                 "categorys": categorys,
@@ -158,7 +163,6 @@ def product_details_view(request, *args, **kwargs):
 
     if request.method == "POST":
         if request.user.is_authenticated:
-
             if request.user.is_staff:
                 customer = Customer.objects.get(user=request.user)
                 Purchase.objects.create(
@@ -167,24 +171,29 @@ def product_details_view(request, *args, **kwargs):
                 )
 
                 purchases = Purchase.objects.filter(user=request.user).order_by("-created_at")[0]
-                user = User.objects.get(id=(Order.objects.get(id=customer.ID).user_id))
-                Order.objects.create(user=user,
-                                     purchase=purchases,
-                                     delivery=True,
-                                     customer=customer,
-                                     index=int(customer.index),
-                                     )
-                Order.save(self=request.user)
-                return redirect("activeOrder_view", order_index=customer.ID)
-            profile = Profile.objects.get(user=request.user)
-            Purchase.objects.create(
-                product=product, user=request.user, count=int(request.POST["count"]),
-                index=int(profile.index)
-            )
-            redirect("product_details_view", product_id=product.id)
+                if customer.foruser:
+                    user = User.objects.get(id=(Order.objects.get(id=customer.foruser).user_id))
+                    Order.objects.create(user=user,
+                                         purchase=purchases,
+                                         delivery=True,
+                                         customer=customer,
+                                         index=int(customer.index),
+                                         )
+                    Order.save(self=request.user)
+                customer.foruser = None
+                customer.save()
+                return redirect("activeOrder_view", order_index=customer.foruser)
+            else:
+                profile = Profile.objects.get(user=request.user)
+                Purchase.objects.create(
+                    product=product, user=request.user, count=int(request.POST["count"]),
+                    index=int(profile.index)
+                )
+                redirect("product_details_view", product_id=product.id)
         else:
+            forma_log = LoginForm()
             form = RegistrationForm()
-            return redirect('/register', {"form": form})
+            return redirect('/register', {"form": forma_log})
 
     return render(
         request,
@@ -199,6 +208,12 @@ def product_details_view(request, *args, **kwargs):
 def basket(request):
     if request.user.is_authenticated:
         text = Text.objects.get(id=4)
+        if request.user.is_staff:
+            return render(
+                request,
+                "basket.html", {
+                    "Text": text, })
+
         user = User.objects.get(username=request.user.username)
         profile = Profile.objects.get(user=request.user)
         purchases = Purchase.objects.filter(user=request.user).filter(index=profile.index)
@@ -211,8 +226,11 @@ def basket(request):
             count = count + int(purchase.count)
             # purchase.index = int(purchase.index) + 1
             purchase.save()
-
         if request.method == "POST":
+            if request.POST.get('delete',):
+                purchas = purchases.get(id=int(request.POST['delete']))
+                purchas.delete()
+                purchases = Purchase.objects.filter(user=request.user).filter(index=profile.index)
             if form.is_valid():
                 request.user.username = form.cleaned_data["username"]
                 request.user.save()
@@ -323,9 +341,9 @@ def activeOrder_view(request, *args, **kwargs):
             if request.POST.get("action", "") == "add":
                 customer = Customer.objects.get(user=request.user)
                 customer.index = index
-                ID = Order.objects.get(id=kwargs["order_index"]).user_id
-                customer.ID = kwargs["order_index"]
-                print(customer.ID, user, ID)
+                foruser = Order.objects.get(id=kwargs["order_index"]).user_id
+                customer.foruser = kwargs["order_index"]
+                print(customer.foruser, user, foruser)
                 customer.save()
                 return redirect("/catalog/")
             elif request.POST.get("action", "") == "delete":
@@ -470,15 +488,14 @@ class ProductsView1(TemplateView):
         products = Product.objects.all()
         products = products.filter(division=False)
         filter_forms = filter_form(self.request.GET)
-        filters_form = ProductFiltersForm(self.request.GET)
         mx = products.order_by("-coast")[0].coast
         mn = products.order_by("coast")[0].coast
 
-        if filters_form.is_valid():
+        if filter_forms.is_valid():
             if filter_forms.is_valid():
                 if filter_forms.cleaned_data["category"]:
                     if filter_forms.cleaned_data["category"] == "Все":
-                        print()
+                        pass
                     else:
                         category = Category.objects.get(Text=filter_forms.cleaned_data["category"])
                         products = products.filter(category=category.id)
@@ -488,15 +505,16 @@ class ProductsView1(TemplateView):
                     products = products.order_by("coast")
                 if filter_forms.cleaned_data["way"] == "По убыванию цены":
                     products = products.order_by("-coast")
-                # if filter_forms.cleaned_data["min_price"]:
-                #     products = products.filter(coast__gt=filters_form.cleaned_data["min_price"])
-                # if filter_forms.cleaned_data["max_price"]:
-                #     products = products.filter(coast__lt=filters_form.cleaned_data["max_price"])
+                if filter_forms.cleaned_data["min_price"]:
+                    products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"]-1)
+                if filter_forms.cleaned_data["max_price"]:
+                    products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"]+1)
         # print(filter_form(self.request.GET))
         if products == None:
             print("11111111111111111111111111111111111111")
         categorys = Category.objects.all()
-        return {"filters_form": filters_form,
+        filter_forms = filter_form()
+        return {"form": filter_forms,
                 "products": products,
                 "Text": text,
                 "categorys": categorys,

@@ -156,7 +156,7 @@ class Customer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     index = models.IntegerField(blank=True, null=True)
     delivery = models.BooleanField(default=True, null=True, blank=True)
-    ID = models.IntegerField(blank=True, null=True)
+    foruser = models.IntegerField(blank=True, null=True, default=None)
 
     class Meta:
         verbose_name = _("Customer")
