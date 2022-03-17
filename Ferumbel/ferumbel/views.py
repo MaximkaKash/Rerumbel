@@ -83,9 +83,9 @@ class ProductsView(TemplateView):
                 if filter_forms.cleaned_data["way"] == "По убыванию цены":
                     products = products.order_by("-coast")
                 if filter_forms.cleaned_data["min_price"]:
-                    products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"]-1)
+                    products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"] - 1)
                 if filter_forms.cleaned_data["max_price"]:
-                    products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"]+1)
+                    products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"] + 1)
         # print(filter_form(self.request.GET))
         if products == None:
             pass
@@ -221,35 +221,51 @@ def basket(request):
         sum_product = 0
         count = 0
 
-        for purchase in purchases:
-            sum_product = sum_product + int(purchase.product.coast) * int(purchase.count)
-            count = count + int(purchase.count)
-            # purchase.index = int(purchase.index) + 1
-            purchase.save()
         if request.method == "POST":
-            if request.POST.get('delete',):
+            if request.POST.get('delete', ):
                 purchas = purchases.get(id=int(request.POST['delete']))
                 purchas.delete()
                 purchases = Purchase.objects.filter(user=request.user).filter(index=profile.index)
             if form.is_valid():
+                print(form.cleaned_data["ch"])
+                print(form)
                 request.user.username = form.cleaned_data["username"]
                 request.user.save()
-                for purchase in purchases:
-                    Order.objects.create(user=request.user,
-                                         purchase=purchase,
-                                         phone=form.cleaned_data["phone"],
-                                         comment=form.cleaned_data["comment"],
-                                         delivery=True,
-                                         index=int(request.user.profile.index),
-                                         adress=form.cleaned_data["address"], )
-                    Order.save(self=request.user)
+                if form.cleaned_data["ch"] == True:
+                    for purchase in purchases:
+                        Order.objects.create(user=request.user,
+                                             purchase=purchase,
+                                             phone=form.cleaned_data["phone"],
+                                             comment=form.cleaned_data["comment"],
+                                             delivery=form.cleaned_data["ch"],
+                                             index=int(request.user.profile.index),
+                                             adress=form.cleaned_data["address"], )
+                        Order.save(self=request.user)
 
-                request.user.profile.phone = form.cleaned_data["phone"]
-                # profile.delivery = form.cleaned_data["delivery"]
-                request.user.profile.adress = form.cleaned_data["address"]
-                request.user.profile.comment = form.cleaned_data["comment"]
-                request.user.profile.index = int(request.user.profile.index) + 1
-                request.user.profile.save()
+                    request.user.profile.phone = form.cleaned_data["phone"]
+                    # profile.delivery = form.cleaned_data["delivery"]
+                    request.user.profile.adress = form.cleaned_data["address"]
+                    request.user.profile.comment = form.cleaned_data["comment"]
+                    request.user.profile.index = int(request.user.profile.index) + 1
+                    request.user.profile.save()
+                else:
+                    for purchase in purchases:
+                        Order.objects.create(user=request.user,
+                                             purchase=purchase,
+                                             phone=form.cleaned_data["phone"],
+                                             comment=form.cleaned_data["comment"],
+                                             delivery=form.cleaned_data["ch"],
+                                             index=int(request.user.profile.index),
+                                             adress='', )
+                        Order.save(self=request.user)
+
+                    request.user.profile.phone = form.cleaned_data["phone"]
+                    profile.delivery = form.cleaned_data["ch"]
+                    request.user.profile.adress = ''
+                    request.user.profile.comment = form.cleaned_data["comment"]
+                    request.user.profile.index = int(request.user.profile.index) + 1
+                    request.user.profile.save()
+
                 return redirect('/')
 
             # request.user.profile.address = form.cleaned_data[""]
@@ -260,8 +276,12 @@ def basket(request):
             # orders = request.User.seller
             # result = purchases.objects.aggregate(purchases=Sum("count"))
 
-            else:
-                form = BasketForm()
+        for purchase in purchases:
+            sum_product = sum_product + int(purchase.product.coast) * int(purchase.count)
+            count = count + int(purchase.count)
+            # purchase.index = int(purchase.index) + 1
+            purchase.save()
+        form = BasketForm()
         return render(
             request,
             "basket.html",
@@ -321,7 +341,6 @@ def activeOrders(request):
 
 def activeOrder_view(request, *args, **kwargs):
     if request.user.is_staff:
-        form = BasketForm()
         user = Order.objects.get(id=kwargs["order_index"]).user_id
         index = Order.objects.get(id=kwargs["order_index"]).index
         orders = Order.objects.filter(user_id=user).filter(index=index)
@@ -338,6 +357,7 @@ def activeOrder_view(request, *args, **kwargs):
             sum = sum + coast
             orde.save()
         if request.method == "POST":
+            form = BasketForm(request.POST)
             if request.POST.get("action", "") == "add":
                 customer = Customer.objects.get(user=request.user)
                 customer.index = index
@@ -347,28 +367,35 @@ def activeOrder_view(request, *args, **kwargs):
                 customer.save()
                 return redirect("/catalog/")
             elif request.POST.get("action", "") == "delete":
+                customer = Customer.objects.get(user=request.user)
                 for orde in orders:
                     orde.statuc = 3
+                    orde.customer = customer
                     orde.save()
                 return redirect("/activeOrders")
             elif request.POST.get("action", "") == "confirm":
+                customer = Customer.objects.get(user=request.user)
                 for orde in orders:
+                    orde.customer = customer
                     orde.statuc = 2
                     orde.save()
-                profile = profile.objects.get(user_id=user)
-                profile.username = form.cleaned_data["username"]
-                profile.profile.phone = form.cleaned_data["phone"]
-                # profile.delivery = form.cleaned_data["delivery"]
-                profile.profile.adress = form.cleaned_data["address"]
-                profile.user.profile.comment = form.cleaned_data["comment"]
-                profile.save()
+                profile = Profile.objects.get(user_id=user)
+                # print(form.cleaned_data["username"])
+                print(form)
+                if form.is_valid():
+                    profile.username = form.cleaned_data["username"]
+                    profile.phone = form.cleaned_data["phone"]
+                    # profile.delivery = form.cleaned_data["delivery"]
+                    profile.adress = form.cleaned_data["address"]
+                    profile.comment = form.cleaned_data["comment"]
+                    profile.save()
                 return redirect("/activeOrders/")
             elif request.POST['delete']:
                 orde = Order.objects.get(id=int(request.POST['delete']))
                 orde.delete()
                 orders = Order.objects.filter(user_id=user).filter(index=index)[0].id
                 return redirect("activeOrder_view", order_index=orders)
-
+        form = BasketForm()
         return render(
             request,
             "activeOrder_admin.html",
@@ -402,12 +429,16 @@ def confirmedOrder_view(request, *args, **kwargs):
         print(orders)
         if request.method == "POST":
             if request.POST["action"] == "delete":
+                customer = Customer.objects.get(user=request.user)
                 for orde in orders:
+                    orde.customer = customer
                     orde.statuc = 3
                     orde.save()
                 return redirect("/confirmedOrders/")
             elif request.POST["action"] == "vosstan":
+                customer = Customer.objects.get(user=request.user)
                 for orde in orders:
+                    orde.customer = customer
                     orde.statuc = 1
                     orde.save()
                 return redirect("/confirmedOrders/")
@@ -453,7 +484,9 @@ def deletedOrder_view(request, *args, **kwargs):
         profile = Profile.objects.get(user=profile)
         if request.method == "POST":
             if request.POST["action"] == "vosstan":
+                customer = Customer.objects.get(user=request.user)
                 for orde in orders:
+                    orde.customer = customer
                     orde.statuc = 2
                     orde.save()
                 return redirect("/deletedOrders")
@@ -506,9 +539,9 @@ class ProductsView1(TemplateView):
                 if filter_forms.cleaned_data["way"] == "По убыванию цены":
                     products = products.order_by("-coast")
                 if filter_forms.cleaned_data["min_price"]:
-                    products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"]-1)
+                    products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"] - 1)
                 if filter_forms.cleaned_data["max_price"]:
-                    products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"]+1)
+                    products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"] + 1)
         # print(filter_form(self.request.GET))
         if products == None:
             print("11111111111111111111111111111111111111")

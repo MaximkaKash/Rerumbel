@@ -11,11 +11,11 @@ class RegistrationForm(forms.Form):
 
 
 class BasketForm(forms.Form):
-    username = forms.CharField()
-    phone = forms.CharField()
-    # delivery = forms.BooleanField()
-    address = forms.CharField()
-    comment = forms.CharField()
+    username = forms.CharField(required=True)
+    phone = forms.CharField(required=True)
+    ch = forms.BooleanField(required=False)
+    address = forms.CharField(required=True)
+    comment = forms.CharField(required=False)
 
 
 class LoginForm(forms.Form):
