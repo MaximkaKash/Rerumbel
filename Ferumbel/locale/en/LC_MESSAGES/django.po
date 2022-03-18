@@ -108,11 +108,11 @@ msgstr "Корзины"
 
 #: ferumbel/models.py:162
 msgid "Customer"
-msgstr "Покупатель"
+msgstr "Продавец"
 
 #: ferumbel/models.py:163
 msgid "Customers"
-msgstr "Покупатели"
+msgstr "Продавцы"
 
 #: ferumbel/models.py:202
 msgid "Order"

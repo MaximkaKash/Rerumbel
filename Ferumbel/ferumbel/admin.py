@@ -4,7 +4,6 @@ from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable
     Sections, Order, Customer
 
 
-
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "coast", "description", "popular", "category")
@@ -19,7 +18,8 @@ class SectionsAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "phone", "comment", "delivery")
+    list_display = ("user", "name", "phone", "email", "delivery")
+    search_fields = ("user", "name", "phone", "delivery")
 
 
 @admin.register(Photos)
@@ -29,8 +29,8 @@ class PhotoAdmin(admin.ModelAdmin):
 
 @admin.register(Purchase)
 class PurchaseAdmin(admin.ModelAdmin):
-    display_list = ("user", "product", "count", "created_at")
-    search_fields = ("user",)
+    list_display = ("user", "product", "count", "created_at")
+    search_fields = ("user", "created_at")
 
 
 @admin.register(Category)
@@ -51,6 +51,7 @@ class TextAdmin(admin.ModelAdmin):
 def has_delete_permission(request, obj=None):
     return False
 
+
 @admin.register(Benefits)
 class BenefitsAdmin(admin.ModelAdmin):
     list_display = ("value", "photo")
@@ -63,7 +64,7 @@ class ContactsAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    display = ("Image")
+    display = "Image"
 
 
 @admin.register(Timetable)
@@ -73,11 +74,10 @@ class TimetableAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("user", "phone", "index", "created_at")
+    list_display = ("user", "phone", "coast", "created_at", "statuc", "customer")
 
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ("user", "index")
-
-
+    list_display = ("user", "index", "delivery", "foruser")
+    search = "user"

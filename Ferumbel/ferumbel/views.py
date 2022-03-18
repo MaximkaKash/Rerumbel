@@ -5,12 +5,9 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order, \
     Customer
-from ferumbel.forms import ProductFiltersForm
 from django.views.generic import TemplateView
-from ferumbel.services import filter_products
 from ferumbel.forms import RegistrationForm, BasketForm, LoginForm, filter_form
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import F, Sum
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +34,19 @@ def register_view(request):
             # Profile.objects.create(email=form.cleaned_data.get('email'),
             #                        user=request.user)
             # Profile.save(self=request.user)
+            if User.objects.filter(username=form.cleaned_data.get('login')).exists():
+                user = authenticate(request, username=form.cleaned_data.get('login'),
+                                    password=form.cleaned_data.get('password'))
+                login(request, user)
+                # user.set_password(password)
+                # send_email()
+
+                return redirect('/')
+            else:
+                request.user = User.objects.create(username=form.cleaned_data.get('login'),
+                                                   password=form.cleaned_data.get('password'))
+                Profile.objects.create(user=request.user)
+                Profile.save(self=request.user)
 
             user = authenticate(request, username=form.cleaned_data.get('login'),
                                 password=form.cleaned_data.get('password'))
@@ -227,14 +237,15 @@ def basket(request):
                 purchas.delete()
                 purchases = Purchase.objects.filter(user=request.user).filter(index=profile.index)
             if form.is_valid():
-                print(form.cleaned_data["ch"])
-                print(form)
-                request.user.username = form.cleaned_data["username"]
-                request.user.save()
+                # print(form.cleaned_data["ch"])
+                # print(form)
+                # request.user.username = form.cleaned_data["username"]
+                # request.user.save()
                 if form.cleaned_data["ch"] == True:
                     for purchase in purchases:
                         Order.objects.create(user=request.user,
                                              purchase=purchase,
+                                             name=form.cleaned_data["username"],
                                              phone=form.cleaned_data["phone"],
                                              comment=form.cleaned_data["comment"],
                                              delivery=form.cleaned_data["ch"],
@@ -242,8 +253,9 @@ def basket(request):
                                              adress=form.cleaned_data["address"], )
                         Order.save(self=request.user)
 
+                    request.user.profile.name = form.cleaned_data["username"]
                     request.user.profile.phone = form.cleaned_data["phone"]
-                    # profile.delivery = form.cleaned_data["delivery"]
+                    profile.delivery = form.cleaned_data["ch"]
                     request.user.profile.adress = form.cleaned_data["address"]
                     request.user.profile.comment = form.cleaned_data["comment"]
                     request.user.profile.index = int(request.user.profile.index) + 1
@@ -252,6 +264,7 @@ def basket(request):
                     for purchase in purchases:
                         Order.objects.create(user=request.user,
                                              purchase=purchase,
+                                             name=form.cleaned_data["username"],
                                              phone=form.cleaned_data["phone"],
                                              comment=form.cleaned_data["comment"],
                                              delivery=form.cleaned_data["ch"],
@@ -259,6 +272,7 @@ def basket(request):
                                              adress='', )
                         Order.save(self=request.user)
 
+                    request.user.profile.name=form.cleaned_data["username"]
                     request.user.profile.phone = form.cleaned_data["phone"]
                     profile.delivery = form.cleaned_data["ch"]
                     request.user.profile.adress = ''
@@ -286,7 +300,7 @@ def basket(request):
             request,
             "basket.html",
             {
-                "name": request.user.username,
+                "name": request.user.profile.name,
                 "phone": request.user.profile.phone,
                 # "delivery": profile.delivery,
                 "address": request.user.profile.adress,
@@ -383,12 +397,20 @@ def activeOrder_view(request, *args, **kwargs):
                 # print(form.cleaned_data["username"])
                 print(form)
                 if form.is_valid():
-                    profile.username = form.cleaned_data["username"]
-                    profile.phone = form.cleaned_data["phone"]
-                    # profile.delivery = form.cleaned_data["delivery"]
-                    profile.adress = form.cleaned_data["address"]
-                    profile.comment = form.cleaned_data["comment"]
-                    profile.save()
+                    if form.cleaned_data["ch"] == True:
+                        profile.name = form.cleaned_data["username"]
+                        profile.phone = form.cleaned_data["phone"]
+                        profile.delivery = form.cleaned_data["ch"]
+                        profile.adress = form.cleaned_data["address"]
+                        profile.comment = form.cleaned_data["comment"]
+                        profile.save()
+                    else:
+                        profile.name = form.cleaned_data["username"]
+                        profile.phone = form.cleaned_data["phone"]
+                        profile.delivery = form.cleaned_data["ch"]
+                        profile.adress = ''
+                        profile.comment = form.cleaned_data["comment"]
+                        profile.save()
                 return redirect("/activeOrders/")
             elif request.POST['delete']:
                 orde = Order.objects.get(id=int(request.POST['delete']))
