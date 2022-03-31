@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+Bot/
+
 # Distribution / packaging
 .Python
 build/
@@ -127,3 +129,27 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# PyCharm files
+.idea/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Virtual environments
+.venv/
+venv/
+
+# Media files
+media/
+Front/
+static/
+.gitignore
+
+ferumbel/Test.py
+
+ferumbel/local_settungs.py
+ferumbel/prod_settings.py

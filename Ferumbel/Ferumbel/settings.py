@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +22,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&s!@i3ivvjj-)___&w_(k%)hfjn58jdc2ma(8nzm+&9l_f#ftr'
+# with open('../../venv/SECRET_KEY.txt', 'r') as f:
+#     SECRET_KEY = f.read().strip()
+
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = False
 DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1"]
+# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+
+ALLOWED_HOSTS = ["0.0.0.0", "ferumbel.by"]
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split('')
+# ALLOWED_HOSTS = ["93.125.99.129"]
 
 # Application definition
 
@@ -37,7 +48,6 @@ INSTALLED_APPS = [
     'ferumbel',
     'bootstrap3',
     'sendemail.apps.SendemailConfig',
-
 
 ]
 
@@ -84,14 +94,33 @@ WSGI_APPLICATION = 'Ferumbel.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "fer",
-        "USER": "fer",
-        "PASSWORD": "fer",
-        "HOST": "localhost",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "password",
+        "HOST": "db",
         "PORT": 5432,
     }
 }
-
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv("POSTGRES_NAME", "fer"),
+#         "USER": os.getenv("POSTGRES_USER", "fer"),
+#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "fer"),
+#         "HOST": os.getenv("POSTGRES_HOST", "127.0.0.1"),
+#         "PORT": os.getenv("POSTGRES_PORT", 5432),
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql'),
+#         'NAME': os.environ.get('SQL_NAME'),
+#         'USER': os.environ.get('SQL_USER'),
+#         'PASSWORD': os.environ.get('SQL_PASSWORD'),
+#         'HOST': os.environ.get('SQL_HOST'),
+#         'PORT': os.environ.get('SQL_PORT'),
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -139,13 +168,10 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-import os
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main"),
-                    os.path.join(BASE_DIR, "Front/Personal")]
-                    # os.path.join(BASE_DIR, "Front/bootstrap-3.3.7-dist")]
-
-STATIC_ROOT = BASE_DIR / "static"
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main"),
+#                     os.path.join(BASE_DIR, "Front/Personal")]
+#
+# STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "media"
@@ -156,4 +182,4 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'main/index'
+# LOGIN_REDIRECT_URL = 'main/index'
