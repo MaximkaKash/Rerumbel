@@ -1,0 +1,289 @@
+.string{
+
+    margin: 2em 0em !important;
+    font-size: 1.2em;
+    color:#170631;
+}
+
+.mainFilter{
+display:flex;
+
+}
+.mainFilter .name{
+    margin:0em 0.5em ;
+}
+
+.mainFilter .value{
+    padding: 0.1em 0em;
+   
+    display:flex;  
+    
+}
+
+.mainFilter .photo img{
+    width:20px;
+    margin: 0em 0.5em;
+}
+.mainFilter .filters{
+   
+    margin: 0em 0.5em;
+    width: 200px;
+}
+
+.mainFilter .value {
+    border:solid 1px #170631;
+    border-radius: 10px;
+}
+
+.mainFilter .value .other_filters{
+    position:relative;
+    display:none;
+}
+
+.input {
+position: relative;
+width: 100%;
+background: #FFFFFF;
+border:none;
+}
+
+.button{
+    text-align: center;
+color:#FFFFFF;
+background-color: #170631;
+border-radius: 10px;
+width: 50%;
+padding: 0.1em 0em;
+border:none;
+}
+
+
+
+
+
+
+
+.photo {
+   
+    position: relative;
+   width:100%;
+  
+    overflow: hidden;
+   
+    justify-content: center;
+   
+}
+
+.photo img{
+    position: relative;
+    height: auto;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+
+}
+
+
+
+
+.products{
+    flex-wrap:wrap;
+    margin: 5em 0em !important;
+    display: flex;
+}
+
+.product{
+    position: relative;
+    padding: 0em;
+    width:25%;
+
+    margin-bottom: 4em;
+}
+
+.min_product{
+    color: #170631 !important;
+    transform: translate3d(-50%,0,0);
+    margin-left: 50%;
+    width: 300px;
+    border:solid 2px #170631;
+    transition: 100ms ease-in-out;
+    border-radius: 20px;
+}
+
+.min_product:hover{
+    background-color: #170631;
+    color: #FFFFFF !important;
+    transform: translate3d(-50%,0,0);
+    margin-left: 50%;
+    width: 300px;
+    border:solid 2px #170631;
+    transition: 100ms ease-in-out;
+    border-radius: 20px;
+
+}
+
+.product .photo {
+    left:50%;
+    transform: translate3d(-50%,0,0);
+    margin: 0em !important;
+    width:250px;
+    height: 250px;
+}
+
+.product .photo img {
+    border-radius: 10px;
+}
+
+
+.product .coast{
+    margin: 10px 20px;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.product .name{
+    margin: 10px 20px;
+    font-size: 1.5em;
+}
+
+@media(max-width:1400px){
+    .product{
+        position: relative;
+        padding: 0em;
+        width:33%;
+    
+        margin-bottom: 4em;
+    }
+
+    .min_product{
+        color: #170631 !important;
+        transform: translate3d(-50%,0,0);
+        margin-left: 50%;
+        width: 250px;
+        border:solid 2px #170631;
+        transition: 100ms ease-in-out;
+        border-radius: 20px;
+    }
+
+    .min_product:hover{
+        background-color: #170631;
+        color: #FFFFFF !important;
+        transform: translate3d(-50%,0,0);
+        margin-left: 50%;
+        width: 250px;
+        border:solid 2px #170631;
+        transition: 100ms ease-in-out;
+        border-radius: 20px;
+    
+    }
+
+
+    .product .photo {
+        left:50%;
+        transform: translate3d(-50%,0,0);
+        margin: 0em !important;
+        width:200px;
+        height: 200px;
+    }
+
+    .product .photo img {
+        border-radius: 10px;
+    }
+    
+    
+    .product .coast{
+        margin: 10px 20px;
+        font-size: 1.2em;
+        font-weight: bolder;
+    }
+    
+    .product .name{
+        margin: 10px 20px;
+        font-size: 1.2em;
+    }
+}
+
+@media(max-width:900px){
+    .product{
+        position: relative;
+        padding: 0em;
+        width:50%;
+    
+        margin-bottom: 4em;
+    }
+
+   
+}
+
+@media(max-width:600px){
+    .product{
+        position: relative;
+        padding: 0em;
+        width:50%;
+        margin-bottom: 4em;
+    }
+
+    .min_product{
+        color: #170631 !important;
+        transform: translate3d(-50%,0,0);
+        margin-left: 50%;
+        width: 150px;
+        border:solid 2px #170631;
+        transition: 100ms ease-in-out;
+        border-radius: 10px;
+    }
+
+    .min_product:hover{
+        background-color: #170631;
+        color: #FFFFFF !important;
+        transform: translate3d(-50%,0,0);
+        margin-left: 50%;
+        width: 150px;
+        border:solid 2px #170631;
+        transition: 100ms ease-in-out;
+        border-radius: 20px;
+    
+    }
+
+
+    .product .photo {
+        left:50%;
+        transform: translate3d(-50%,0,0);
+        margin: 0em !important;
+        width:120px;
+        height: 120px;
+    }
+
+    .product .photo img {
+        border-radius: 5px;
+    }
+    
+    
+    .product .coast{
+        margin: 10px 20px;
+        font-size: 1.0em;
+        font-weight: bolder;
+    }
+    
+    .product .name{
+        margin: 10px 20px;
+        font-size: 1.0em;
+    }
+}
+
+.none{
+    text-align:center;
+    color: #170631;
+    font-size: 2em;
+    margin: 6em 0em;
+    }
+
+
+
+
+ 
+
+
+
+

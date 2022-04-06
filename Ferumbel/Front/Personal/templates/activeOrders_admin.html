@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OOO"ФерумБел"</title>
+
+    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../styles/Orders_admin.css">
+    <link rel="stylesheet" href="../styles/header_admin.css">
+</head>
+<body>
+   
+    <header class="header">
+
+        <section class="all">
+            <section class="main_name">
+                ООО"ФерумБел"
+            </section>
+            <section class="top" id="active">
+                Заказы
+            </section>
+        </section>
+        
+        <button class="exit">
+            Выход
+        </button>
+        
+        
+    </header>
+
+    <section class="pages">
+        <section class="page" id="active">
+            Активные
+        </section>
+        <section class="page">
+            <a href="../templates/confirmedOrders_admin.html">Подтверждённые</a>   
+        </section>
+        <section class="page">
+            <a href="../templates/deletedOrders_admin.html">Удалённые</a> 
+        </section>
+    </section>
+
+    <section class="filters row" >
+        <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
+            <section class="Name">
+                Телефон
+            </section>
+            <section class="input">
+                <input id="input_phone" type="text">
+            </section>
+        </section>
+        <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
+            <section class="Name">
+                Номер заказа
+            </section>
+            <section class="input">
+                <input id="input_number" type="text">
+            </section>
+        </section>
+        <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
+            <section class="Name">
+                Ф.И.О.
+            </section>
+            <section class="input">
+                <input id="input_name" type="text">
+            </section>
+
+            <section class="button col-lg-4 col-sm-6 col-md-6 col-4">
+                <button>
+                    Добавить
+                </button>
+            </section>
+    
+        </section>
+    </section>
+
+    <section class="orders">
+
+        <section  class="order">
+            <section class="border">
+                <section class="name">Иванов Андрей Иванович</section>
+                <section class="phone">+375(29)130-35-90</section>
+                <section class="level">
+                    <section class="code">№100000</section>
+                    <section class="date">13.01.2021</section>
+                </section>
+                <section class="button">
+                    <section class="conteiner">
+                        <a href="activeOrder_admin.html" class=but >Открыть</a>
+                    </section>
+                        
+                </section>
+            </section>
+        </section>
+
+    </section>
+
+
+    <ul id="results">
+  
+    </ul>
+<script src="../scripts/Orders_admin.js"></script>
+</body>
+</html>

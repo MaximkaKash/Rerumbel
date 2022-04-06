@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OOO"ФерумБел"</title>
+
+    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../styles/Order_admin.css">
+    <link rel="stylesheet" href="../styles/header_admin.css">
+</head>
+<body>
+   
+    <header class="header">
+
+        <section class="all">
+            <section class="main_name">
+                ООО"ФерумБел"
+            </section>
+            <section class="top" id="active">
+                Заказы
+            </section>
+        </section>
+        
+        <button class="exit">
+            Выход
+        </button>
+        
+        
+    </header>
+
+    <section class="pages">
+        <section class="page" >
+            <a href="../templates/activeOrders_admin.html">Активные</a>
+        </section>
+        <section class="page">
+            <a href="../templates/confirmedOrders_admin.html">Подтверждённые</a>   
+        </section>
+        <section class="page">
+            <a href="../templates/deletedOrders_admin.html">Удалённые</a> 
+        </section>
+    </section>
+
+    <section id="main_name">
+        #000013 Удалённый товар
+    </section>
+
+    <section class="but">
+        <a href="../templates/deletedOrders_admin.html" class="back">Назад</a>
+    </section>
+
+    <section class="data">
+
+
+        <section class="topic row">
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 name">Ф.И.О.</section>
+            <input readonly class="col-lg-2  col-sm-2 ol-md-2 col-2 value"></input>
+        </section>
+        <section class="topic row">
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 name">Телефон</section>
+            <input readonly class="col-lg-2  col-sm-2 ol-md-2 col-2 value"></input>
+        </section>
+        <section class="topic row">
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
+            <section class="col-lg-1  col-sm-1 ol-md-1 col-1 name">Способ доставки</section>
+            <section class="col-lg-3  col-sm-3 col-md-3 col-3 option">
+                <section class="task">
+                    <input readonly id="sam" name="ch" class="radiobut"  type="radio"></input>
+                    <input  readonly  value="Самовывоз" class="value"></input>
+                </section>
+                <section class="task">
+                    <input id="dos" name="ch" checked class="radiobut" type="radio"></input>
+                    <input readonly  readonly  value="Доставка"  class="value"></input>
+                </section>
+            </section>
+        </section>
+        <section id="adres" class="topic row">
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 name">Адрес</section>
+            <input readonly class="col-lg-2  col-sm-2 ol-md-2 col-2 value"></input>
+        </section>
+        <section class="topic row">
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
+            <section class="col-lg-1 col-sm-1 ol-md-1 col-1 name ">Комментарий  к заказу</section>
+            <textarea readonly class="col-lg-2  col-sm-2 ol-md-2 col-2 value comm"></textarea>
+        </section>
+    
+    </section>
+
+    <section class="topic row">
+        <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
+        <section id="name" class="col-lg-2  col-sm-2 ol-md-2 col-2 name ">Товары:</section>
+    </section>
+    
+    
+    
+    <section class="products">
+        <section class="param">
+            <section class="conteiner">
+                <section class="name"> </section>
+                <section class="name"></section>
+            </section>
+            <section class="quality">Количество</section>
+            <section class="quality">Цена</section>
+        </section>
+
+        <section class="product">
+            <section class="conteiner">
+                <section class="name"> Мангал</section>
+                <section class="name">Код товара: №000000 </section>
+            </section>
+            <section class="quality">2</section>
+            <section class="quality">260р.</section>
+            
+        </section>
+
+        <section class="product">
+            <section class="conteiner">
+                <section class="name"> Мангал</section>
+                <section class="name">Код товара: №000000 </section>
+            </section>
+            <section class="quality">2</section>
+            <section class="quality">260р.</section>
+            
+        </section>
+    </section>
+   
+    
+    <script src="../scripts/activeOrder_admin.js"></script>
+    
+    <section id="delete_result" class="result">
+        <section class="quantity">2 товар(а)</section>
+        <section class="money">Итог:  260 р.</section>
+        <button class="button">Восстановить</button>
+    </section>
+    
+    
+   
+    
+
+
+</body>
+</html>

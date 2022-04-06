@@ -1,0 +1,14 @@
+FROM nginx:latest
+
+#RUN rm /etc/nginx/conf.d/deafaul.conf
+COPY nginx/conf/nginx.d /etc/nginx/conf.d
+#ADD ngin.conf /etc/nginx/ngin.conf
+#RUN  apt-get python-certbot-nginx
+#    && install python-certbot-nginx bash \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && echo "PATH=$PATH" > /etc/cron.d/certbot-renew  \
+#    && echo "@monthly certbot renew --nginx >> /var/log/cron.log 2>&1" >>/etc/cron.d/certbot-renew \
+#    && crontab /etc/cron.d/certbot-renew
+
+#CMD [ "sh", "-c", "nginx -g 'daemon off;'" ]
+

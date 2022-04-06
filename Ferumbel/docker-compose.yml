@@ -1,0 +1,73 @@
+version: '3.3'
+
+services:
+
+  django:
+    build: .
+    tty: true
+    container_name: sport-web
+    restart: always
+    command: bash -c "ls -la && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: "Ferumbel.settings"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+#      - static:/Rerumbel/Ferumbel/static
+#      - static_volume:/django/static
+#      - media_volume:/django/media
+#      - static_data:/var/www/html/static
+      - .:/Ferumbel
+    expose:
+      - 8000
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - ferka
+
+  db:
+      image: postgres:12
+      container_name: sport-postgres
+      environment:
+        POSTGRES_HOST_AUTH_METHOD: "trust"
+        POSTGRES_PASSWORD: "password"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      ports:
+        - "5500:5432"
+      networks:
+        - ferka
+
+  nginx:
+    image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+      network: host
+    container_name: sport-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./static/:/django/static
+      - ./media/:/django/media
+      - ./nginx/conf:/etc/nginx/conf
+    #      - letsencrypt:/etc/letsencrypt
+    depends_on:
+      - django
+    networks:
+      - ferka
+
+volumes:
+#  letsencrypt:
+  postgres_data:
+
+networks:
+  ferka:
+    driver: bridge
+
