@@ -89,7 +89,9 @@ class ProductsView(TemplateView):
                 if filter_forms.cleaned_data["way"] == "По популярности":
                     products = products.order_by("-popular")
                 if filter_forms.cleaned_data["way"] == "По возростанию цены":
-                    products = products.order_by("coast")
+                    # products.coast.sorted()
+                    products = sorted(products, key=lambda product: product.coast)
+                    # products = products.order_by("coast")
                 if filter_forms.cleaned_data["way"] == "По убыванию цены":
                     products = products.order_by("-coast")
                 if filter_forms.cleaned_data["min_price"]:
@@ -105,8 +107,6 @@ class ProductsView(TemplateView):
                 "products": products,
                 "Text": text,
                 "categorys": categorys,
-                "max": mx,
-                "min": mn,
                 }
 
 
@@ -132,6 +132,29 @@ def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
 
 
+def category_view(request, *args, **kwargs):
+    categorys = Category.objects.all()
+    text = Text.objects.get(id=4)
+    category = Category.objects.get(id=kwargs["category_id"])
+    product = Product.objects.all().filter(category=category)
+    # print(product[0].division)
+    # tovar = product[0].division
+    if product[0].division:
+        return render(request, "goods.html",
+                      {
+                          "products": product,
+                          "Text": text,
+                          "categorys": categorys,
+                      })
+
+    return render(request, "goods1.html",
+                  {
+                      "products": product,
+                      "Text": text,
+                      "categorys": categorys,
+                  })
+
+
 def transport_index_to_topycs(request, *args, **kwargs):
     product = Product.objects.get(id=kwargs["product_id"])
     category = product.category
@@ -142,7 +165,7 @@ def transport_index_to_topycs(request, *args, **kwargs):
             {
                 "product": product,
                 "category": category,
-            },
+            }
         )
     pass
 
@@ -272,7 +295,7 @@ def basket(request):
                                              adress='', )
                         Order.save(self=request.user)
 
-                    request.user.profile.name=form.cleaned_data["username"]
+                    request.user.profile.name = form.cleaned_data["username"]
                     request.user.profile.phone = form.cleaned_data["phone"]
                     profile.delivery = form.cleaned_data["ch"]
                     request.user.profile.adress = ''
@@ -333,20 +356,16 @@ def autorization(request):
                 # form = LoginForm()
                 user = authenticate(request, username=form.cleaned_data.get('login'),
                                     password=form.cleaned_data.get('password'))
-
-                login(request, user)
-                if Customer.objects.filter(user=user).exists():
-                    return redirect("/activeOrders")
-                else:
-                    request.user = Customer.objects.create(user=request.user)
-                return redirect("/activeOrders")
+                if user:
+                    login(request, user)
     form = LoginForm()
     return render(request, "autorization_admin.html", {"form": form})
 
 
 def activeOrders(request):
     if request.user.is_staff:
-        orders = Order.objects.filter(statuc=1).distinct("index", "user")
+        orders = Order.objects.filter(statuc=1)
+        # orders = Order.objects.filter(statuc=1).distinct("index", "user")
         return render(request, "activeOrders_admin.html",
                       {"orders": orders})
     else:
@@ -543,8 +562,6 @@ class ProductsView1(TemplateView):
         products = Product.objects.all()
         products = products.filter(division=False)
         filter_forms = filter_form(self.request.GET)
-        mx = products.order_by("-coast")[0].coast
-        mn = products.order_by("coast")[0].coast
 
         if filter_forms.is_valid():
             if filter_forms.is_valid():
@@ -573,8 +590,6 @@ class ProductsView1(TemplateView):
                 "products": products,
                 "Text": text,
                 "categorys": categorys,
-                "max": mx,
-                "min": mn,
                 }
 
 

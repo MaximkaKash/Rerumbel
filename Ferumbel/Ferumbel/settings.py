@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-&s!@i3ivvjj-)___&w_(k%)hfjn58jdc2ma(8nzm+&9l_f#ftr
 DEBUG = True
 # DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ["0.0.0.0", "ferumbel.by"]
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "ferumbel.by"]
 # ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split('')
 # ALLOWED_HOSTS = ["93.125.99.129"]
 
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'ferumbel',
     'bootstrap3',
     'sendemail.apps.SendemailConfig',
+    # 'ferumbel.apps.FerumbelConfig'
+    # 'ferumbel_extras',
 
 ]
 
@@ -70,7 +72,7 @@ ROOT_URLCONF = 'Ferumbel.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "static/templates"],
+        'DIRS': [BASE_DIR / "static/templates/"],
         # 'DIRS': [BASE_DIR / "Front/Main/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,26 +93,26 @@ WSGI_APPLICATION = 'Ferumbel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "password",
-        "HOST": "db",
-        "PORT": 5432,
-    }
-}
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_NAME", "fer"),
-#         "USER": os.getenv("POSTGRES_USER", "fer"),
-#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "fer"),
-#         "HOST": os.getenv("POSTGRES_HOST", "127.0.0.1"),
-#         "PORT": os.getenv("POSTGRES_PORT", 5432),
+#         "NAME": "postgres",
+#         "USER": "postgres",
+#         "PASSWORD": "password",
+#         "HOST": "db",
+#         "PORT": 5432,
 #     }
 # }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "fer",
+        "USER": "fer",
+        "PASSWORD": "fer",
+        "HOST": "127.0.0.1",
+        "PORT": os.getenv("POSTGRES_PORT", 5432),
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql'),
@@ -168,13 +170,12 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main"),
-#                     os.path.join(BASE_DIR, "Front/Personal")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "Front/Main"),
+                    os.path.join(BASE_DIR, "Front/Personal")]
 #
-# STATIC_ROOT = BASE_DIR / "static"
+# STATIC_ROOT = BASE_DIR / "/static/"
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = []
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
@@ -184,4 +185,4 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# LOGIN_REDIRECT_URL = 'main/index'
+LOGIN_REDIRECT_URL = 'main/index'

@@ -10,7 +10,9 @@
     <script src="{% bootstrap_jquery_url %}"></script>
     {% bootstrap_javascript %}
     {% bootstrap_css %}
-    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+    {#
+    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
+    #}
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/index.css">
 </head>
@@ -121,12 +123,13 @@
 
         <section class="products">
             {% for product in products %}
-                <section class=" product">
+            <section class=" product">
+                <a href="/product/{{ product.id }}/">
                     <section class="min_product">
                         <section class="photo">
-                            <a href="/product/{{ product.id }}/">
-                                <img src="{{ product.Image.url }}" alt="">
-                            </a>
+
+                            <img src="{{ product.Image.url }}" alt="">
+
                         </section>
                         <section class="coast">
                             {{ product.coast }}
@@ -135,7 +138,8 @@
                             {{ product.name }}
                         </section>
                     </section>
-                </section>
+                </a>
+            </section>
             {% endfor %}
 
         </section>
@@ -149,14 +153,14 @@
         <section class="benefits">
 
             {% for benefit in benefits %}
-                <section class="benefit">
-                    <section class="photo">
-                        <img src="{{ benefit.photo.url }}" alt="">
-                    </section>
-                    <section class="name">
-                        {{ benefit.value }}
-                    </section>
+            <section class="benefit">
+                <section class="photo">
+                    <img src="{{ benefit.photo.url }}" alt="">
                 </section>
+                <section class="name">
+                    {{ benefit.value }}
+                </section>
+            </section>
             {% endfor %}
         </section>
 
@@ -169,7 +173,8 @@
         <section class="row products">
             {% for category in categorys %}
 
-                <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
+            <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
+                <a href="/category/{{ category.id}}/">
                     <section class="min_product">
                         <section class="photo">
                             <img src="{{ category.Photo.url }}" alt="">
@@ -178,7 +183,9 @@
                             {{ category.Text }}
                         </section>
                     </section>
-                </section>
+                </a>
+            </section>
+
             {% endfor %}
         </section>
 

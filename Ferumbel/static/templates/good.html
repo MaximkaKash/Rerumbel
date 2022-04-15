@@ -135,10 +135,9 @@
             </section>
         </a>
     </section>
-
     <section class="second_level">
         <section class="discription">
-            {{ product.description }}
+            <p>{{ product.description|linebreaks }} </p>
         </section>
     </section>
     <form method="POST">
