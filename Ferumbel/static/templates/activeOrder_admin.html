@@ -74,14 +74,25 @@
             <section class="col-lg-1 col-sm-1 ol-md-1 col-1 "></section>
             <section class="col-lg-1  col-sm-1 ol-md-1 col-1 name">Способ доставки</section>
             <section class="col-lg-3  col-sm-3 col-md-3 col-3 option">
+                {% if punt %}
                 <section class="task">
                     <input id="sam" name="ch" value="{{ False }}" class="radiobut" type="radio"></input>
-                    <input readonly value="Самовывоз" value="{{ False }}" class="value"></input>
+                    <input readonly value="Самовывоз" class="value"></input>
                 </section>
                 <section class="task">
                     <input id="dos" name="ch" checked class="radiobut" value="{{ True }}" type="radio"></input>
-                    <input readonly value="Доставка" value="{{ True }}" class="value"></input>
+                    <input readonly value="Доставка" class="value"></input>
                 </section>
+                {% else %}
+                <section class="task">
+                    <input id="sam" name="ch" value="{{ False }}" checked  class="radiobut" type="radio"></input>
+                    <input readonly value="Самовывоз" class="value"></input>
+                </section>
+                <section class="task">
+                    <input id="dos" name="ch" class="radiobut" value="{{ True }}" type="radio"></input>
+                    <input readonly value="Доставка" class="value"></input>
+                </section>
+                {% endif %}
             </section>
         </section>
         <section id="adres" class="topic row">

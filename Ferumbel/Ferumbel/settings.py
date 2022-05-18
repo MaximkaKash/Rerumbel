@@ -22,19 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&s!@i3ivvjj-)___&w_(k%)hfjn58jdc2ma(8nzm+&9l_f#ftr'
-# with open('../../venv/SECRET_KEY.txt', 'r') as f:
-#     SECRET_KEY = f.read().strip()
 
 # SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = True
-# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+
+CART_SESSION_ID = 'cart'
 
 ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "ferumbel.by"]
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split('')
-# ALLOWED_HOSTS = ["93.125.99.129"]
 
 # Application definition
 

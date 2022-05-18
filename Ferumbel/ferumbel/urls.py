@@ -1,17 +1,15 @@
 from django.urls import path
-from ferumbel.views import ProductsView, product_details_view, register_view, contacts, aboutUs, page_not_found_view, \
+from ferumbel.views import ProductsView, product_details_view, register_view, Contact, AboutUs, page_not_found_view, \
     logout_user, activeOrder_view, confirmedOrder_view, deletedOrder_view, \
-    basket, autorization, activeOrders, confirmedOrders, deletedOrders, ProductsView1, transport_index_to_topycs,\
-    category_view
+    basket, autorization, activeOrders, confirmedOrders, deletedOrders, ProductsView1,\
+    category_view, Index
 from django.conf import settings
 
-from . import views
-
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('contacts/', contacts, name='contacts'),
+    path('', Index.as_view(), name='index'),
+    path('contacts/', Contact.as_view(), name='contacts'),
     path("register/", register_view, name="register_view"),
-    path('aboutUs/', aboutUs, name='aboutUs'),
+    path('aboutUs/', AboutUs.as_view(), name='aboutUs'),
     path("catalog/", ProductsView.as_view(), name="products_view"),
     path("catalog1/", ProductsView1.as_view(), name="products_view1"),
     path(
@@ -19,9 +17,6 @@ urlpatterns = [
     ),
     path("category/<int:category_id>/", category_view, name="category_view"),
     path("basket/", basket, name="basket"),
-    path(
-         "catalog2/<int:product_id>/", transport_index_to_topycs, name="transport_index_to_topycs"
-         ),
 
     path("autorization/", autorization, name="autorization"),
     path("activeOrders/", activeOrders, name="activeOrders"),

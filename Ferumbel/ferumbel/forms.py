@@ -1,6 +1,6 @@
-
 from django.contrib.auth.models import User
 
+from django import forms
 from django import forms
 
 
@@ -24,7 +24,15 @@ class LoginForm(forms.Form):
 
 
 class filter_form(forms.Form):
-    category = forms.CharField(max_length=30)
-    way = forms.CharField(max_length=30)
+    category = forms.CharField(max_length=30, required=False)
+    way = forms.CharField(max_length=30, required=False)
     min_price = forms.IntegerField(required=False)
     max_price = forms.IntegerField(required=False)
+
+
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 101)]
+
+
+class CartAddProductForm(forms.Form):
+    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
+    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)

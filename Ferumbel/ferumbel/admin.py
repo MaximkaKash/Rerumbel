@@ -6,7 +6,7 @@ from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "coast", "description", "popular", "category")
+    list_display = ("name", "coast", "id", "description", "popular", "category")
     search_fields = ("name", "coast", "category")
 
 
