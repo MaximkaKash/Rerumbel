@@ -577,8 +577,8 @@ def activeOrder_view(request, *args, **kwargs):
             orde.coast = coast
             count = count + int(orde.purchase.count)
             sum = sum + coast
-            print(orde.delivery)
             orde.save()
+            print(orde.delivery)
         if request.method == "POST":
             form = BasketForm(request.POST)
             if request.POST.get("action", "") == "add":
@@ -606,28 +606,17 @@ def activeOrder_view(request, *args, **kwargs):
                 # print(form.cleaned_data["username"])
                 print(form)
                 if form.is_valid():
-                    if form.cleaned_data["ch"]:
-                        for orde in orders:
-                            print(form.cleaned_data["ch"])
-                            orde.name = form.cleaned_data["username"],
-                            orde.phone = form.cleaned_data["phone"],
-                            orde.comment = form.cleaned_data["comment"],
-                            orde.delivery = form.cleaned_data["ch"],
-                            orde.adress = form.cleaned_data["address"],
-                            orde.save()
-                    else:
-                        for orde in orders:
-                            orde.name = form.cleaned_data["username"],
-                            orde.phone = form.cleaned_data["phone"],
-                            orde.comment = form.cleaned_data["comment"],
-                            orde.adress = form.cleaned_data["address"],
-                            orde.save()
-                    profile.name = form.cleaned_data["username"]
-                    profile.phone = form.cleaned_data["phone"]
-                    profile.delivery = form.cleaned_data["ch"]
-                    profile.adress = form.cleaned_data["address"]
-                    profile.comment = form.cleaned_data["comment"]
-                    profile.save()
+                    for order in orders:
+                        orde.name = form.cleaned_data["username"]
+                        orde.phone = form.cleaned_data["phone"]
+                        if form.cleaned_data["ch"] == True:
+                            orde.delivery = form.cleaned_data["ch"]
+                            orde.adress = form.cleaned_data["address"]
+                        else:
+                            orde.delivery = False
+                            orde.adress = ''
+                        orde.comment = form.cleaned_data["comment"]
+                        orde.save()
                 return redirect("/activeOrders/")
             elif request.POST['delete']:
                 orde = Order.objects.get(id=int(request.POST['delete']))
@@ -635,18 +624,16 @@ def activeOrder_view(request, *args, **kwargs):
                 orders = Order.objects.filter(user_id=user).filter(index=index)[0].id
                 return redirect("activeOrder_view", order_index=orders)
         form = BasketForm()
-        punt = orders[0].delivery
         return render(
             request,
             "activeOrder_admin.html",
             {
-                "form": form,
+                "punt": orders[0].delivery,
                 "orders": orders,
                 "sum": sum,
                 "count": count,
                 "index": index,
-                "profile": profile,
-                "punt": punt,
+                "profile": orders[0]
             },
         )
     return redirect("/")
