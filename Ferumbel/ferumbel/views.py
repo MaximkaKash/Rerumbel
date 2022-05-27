@@ -454,10 +454,7 @@ def basket(request):
 
         user = User.objects.get(username=request.user.username)
         profile = Profile.objects.get(user=request.user)
-        print(user)
-        print(user.username)
-        print(user.password)
-        print(profile.name)
+        print(profile.delivery)
         purchases = Purchase.objects.filter(user=request.user).filter(index=profile.index)
         form = BasketForm(request.POST)
         sum_product = 0
@@ -489,7 +486,7 @@ def basket(request):
 
                 request.user.profile.name = form.cleaned_data["username"]
                 request.user.profile.phone = form.cleaned_data["phone"]
-                profile.delivery = form.cleaned_data["ch"]
+                request.user.profile.delivery = form.cleaned_data["ch"]
                 request.user.profile.adress = form.cleaned_data["address"]
                 request.user.profile.comment = form.cleaned_data["comment"]
                 request.user.profile.index = int(request.user.profile.index) + 1
@@ -503,7 +500,7 @@ def basket(request):
                         "a": True,
                         "name": request.user.profile.name,
                         "phone": request.user.profile.phone,
-                        "delivery": profile.delivery,
+                        "delivery": request.user.profile.delivery,
                         "address": request.user.profile.adress,
                         "comment": request.user.profile.comment,
                         "purhcase": purchases,
