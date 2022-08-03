@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="/static/favicon.ico">
+
     {% if category %}
     <title>{{ category }}</title>
     {% else %}
@@ -14,17 +14,30 @@
     <script src="{% bootstrap_jquery_url %}"></script>
     {% bootstrap_javascript %}
     {% bootstrap_css %}
-    {#
-    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
-    #}
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
+    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/goods.css">
 
 </head>
 <body>
 
-
 <script src="/static/scripts/header.js"></script>
+
+<img src="/media/1625592856_12_kartinkin_com_p_chertezhnii_fon_krasivie_foni_13.jpg" style="
+                overflow: hidden;
+                z-index: -5;
+                position:fixed;
+                width:100%;
+                height: auto; 
+                opacity: 0.50; 
+                left:50%;
+                top:60%;
+                transform: translate3d(-50%,-50%,0);
+                ">
+
+
+
 
 <section class="content">
 
@@ -37,13 +50,13 @@
 
 
     <form method="GET">
-        <section class="row string">
+        <section class="filters">
 
-            <section class="col-lg-3  col-sm-3 col-md-3 col-3 mainFilter">
+            <section class="mainFilter mb-2">
                 <section class="name">
                     Разделы :
                 </section>
-                <select class="mb-3" name="category" aria-label="Default select example">
+                <select class="filter_area" name="category" aria-label="Default select example">
                     {% if category %}
                     <option selected name="category" value="{{ category }}">{{ category }}</option>
                     {% if catetory != 'Все'%}
@@ -61,59 +74,105 @@
                     {% endfor %}
                     {% endif %}
                 </select>
+                {#                <section class="value">#}
+                {#                    <section class="filters">#}
+                {#                        <section class="active_filter">#}
+                {#                            Все#}
+                {#                        </section>#}
+                {#                        <section class="other_filters">#}
+                {#                            {% for catetory in categorys %}#}
+                {#                                <section class="filter" name="category">#}
+                {##}
+                {#                                    {{ catetory.Text }}#}
+                {##}
+                {#                                </section>#}
+                {#                            {% endfor %}#}
+                {#                        </section>#}
+                {#                    </section>#}
+                {#                    <section class="photo">#}
+                {#                        <img src="/static/photos/arrow.png" alt="">#}
+                {#                    </section>#}
+                {#                </section>#}
             </section>
 
-            <section class="col-lg-2  col-sm-2 col-md-2 col-2 mainFilter">
-                <select class="mb-3" name="way" aria-label="Default select example">
-                    {% if way %}
+            <section id="populate"  class="mainFilter ml-2 mb-2">
+                <select class=" filter_area" name="way" aria-label="Default select example">
                     {% if way == "По популярности" %}
-                    <option selected value="По популярности" name="way">По популярности</option>
-                    <option value="По возростанию цены" name="way">По возростанию цены</option>
-                    <option value="По убыванию цены" name="way">По убыванию цены</option>
-                    {% endif %}
-                    {% if way == "По возростанию цены" %}
-                    <option selected value="По возростанию цены" name="way">По возростанию цены</option>
-                    <option value="По популярности" name="way">По популярности</option>
-                    <option value="По убыванию цены" name="way">По убыванию цены</option>
-                    {% endif %}
-                    {% if way == "По убыванию цены" %}
-                    <option selected value="По убыванию цены" name="way">По убыванию цены</option>
-                    <option value="По популярности" name="way">По популярности</option>
-                    <option value="По возростанию цены" name="way">По возростанию цены</option>
-                    {% endif %}
+                    <option selected value="По популярности">По популярности</option>
+                    <option value="По возростанию цены">По возрастанию цены</option>
+                    <option value="По убыванию цены">По убыванию цены</option>
+                    {% elif way == "По возрастанию цены" %}
+                    <option value="По популярности">По популярности</option>
+                    <option selected value="По возростанию цены">По возрастанию цены</option>
+                    <option value="По убыванию цены">По убыванию цены</option>
+                    {% elif way == "По убыванию цены" %}
+                    <option value="По популярности">По популярности</option>
+                    <option value="По возростанию цены">По возрастанию цены</option>
+                    <option selected value="По убыванию цены">По убыванию цены</option>
                     {% else %}
-                    <option selected value="По популярности" name="way" value="По популярности">По популярности</option>
-                    <option value="По возростанию цены" name="way" value="По возростанию цены">По возростанию цены</option>
-                    <option value="По убыванию цены" name="way" value="По убыванию цены">По убыванию цены</option>
+                    <option selected value="По популярности">По популярности</option>
+                    <option value="По возростанию цены">По возрастанию цены</option>
+                    <option value="По убыванию цены">По убыванию цены</option>
                     {% endif %}
                 </select>
+                </select>
+                {#                <section class="value">#}
+                {#                    <section class="filters">#}
+                {#                        <section id="active_filter" name="way" class="active_filter">#}
+                {#                            По популярности#}
+                {#                        </section>#}
+                {##}
+                {#                        <section id="other_filters" class="other_filters">#}
+                {#                            <section id="filter_1" class="filter">#}
+                {#                                По возростанию цены#}
+                {#                            </section>#}
+                {#                            <section id="filter_2" class="filter">#}
+                {#                                По убыванию цены#}
+                {#                            </section>#}
+                {#                        </section>#}
+                {#                    </section>#}
+                {#                    <section id="arr2" class="photo">#}
+                {#                        <img id="photo2" src="/static/photos/arrow.png" alt="">#}
+                {#                    </section>#}
+                {#                </section>#}
             </section>
-            <section class="col-lg-5  col-sm-5 col-md-5 col-5 mainFilter">
+            <section class="mainFilter2">
                 <section class="name">
                     Цена : от
                 </section>
                 {#                <section class="value">#}
                 <section>
-                    <div class="mb-3">
-                            {% if min_price %}
-                            <input name="min_price" value= "{{ min_price }}" class="form-control" id="exampleFormControlInput1">
+                    <div class="">
+                        {% if min_price %}
+                            <input name="min_price" value= "{{ min_price }}" class="form-control input" id="exampleFormControlInput1">
                             {% else %}
-                            <input name="min_price" value="" class="form-control" id="exampleFormControlInput1">
+                            <input name="min_price" value="" class="form-control input" id="exampleFormControlInput1">
                             {% endif %}
                     </div>
                 </section>
+                {#                    <section class="filters">#}
+                {##}
+                {#                        <input name="price_min" type="number" class="input">#}
+                {##}
+                {#                    </section>#}
+                {#                </section>#}
                 <section class="name">
                     р. до
                 </section>
                 <section>
-                    <div class="mb-3">
+                    <div class="">
                         {% if max_price %}
-                            <input name="max_price" value= "{{ max_price }}" class="form-control" id="exampleFormControlInput1">
+                            <input name="max_price" value= "{{ max_price }}" class="form-control input" id="exampleFormControlInput1">
                             {% else %}
-                            <input name="max_price" value="" class="form-control" id="exampleFormControlInput1">
+                            <input name="max_price" value="" class="form-control input" id="exampleFormControlInput1">
                             {% endif %}
                     </div>
                 </section>
+                {#                <section class="value">#}
+                {#                    <section class="filters">#}
+                {#                        <input name="price_max" type="number" class="input">#}
+                {#                    </section>#}
+                {#                </section>#}
                 <section class="name">
                     р.
                 </section>
@@ -121,7 +180,7 @@
             </section>
 
 
-            <section class="col-lg-2  col-sm-2 col-md-2 col-2">
+            <section class="but">
                 <button class="button">
                     Применить
                 </button>
@@ -159,7 +218,6 @@
     {% endif %}
 
 </section>
-
 
 </body>
 {% endblock %}

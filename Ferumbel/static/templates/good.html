@@ -4,30 +4,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="/static/favicon.ico">
-    <title>Товар</title>
+
+    <title>{{ products.name }}</title>
     {% load bootstrap3 %}
     <script src="{% bootstrap_jquery_url %}"></script>
     {% bootstrap_javascript %}
     {% bootstrap_css %}
-    {#
-    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
-    #}
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
+    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/good.css">
 
 </head>
 <body>
 
-
 <script src="/static/scripts/header.js"></script>
 
 <section class="content">
-
+            {% if a %}
+            <div class="alert alert-success">
+                Заказ добавлен в корзину
+            </div>
+            {% endif %}
 
     <section class="mainName">
         <section class="name">
-            {{ product.name }}
+            {{ products.name }}
         </section>
     </section>
 
@@ -39,10 +41,35 @@
                 <section class="arr">
 
                 </section>
-
-                <section class="photo">
-                    <img src="{{ product.Image.url }}" alt="">
+                
+                <section class="photo" id="section"  >
+                    <section id="blocks">
+                        <section class="block"></section>
+                        <section class="block"></section>
+                        <section class="block"></section>
+                        <section class="block"></section>
+                    </section>
                 </section>
+                <section style="display: none;">
+                    {% for photo in photos %}
+                        <img class="image" src="{{ photo.photo.url }}" alt="">
+                    {% endfor %}
+                </section>
+
+    <script>
+
+        let section = document.getElementById("section")
+        section.style.backgroundImage=`url("{{ products.Image.url }}")`
+        let blocks=document.getElementsByClassName("block")
+        let image=document.getElementsByClassName("image")
+        for (let i=0;i<blocks.length;i++){
+            blocks[i].onmouseover=()=>{
+                section.style.backgroundImage=`url(${image[i].src})`
+            }
+
+        }
+    </script>
+                
 
                 <section class="arr">
 
@@ -52,11 +79,11 @@
             <section class="information">
 
                 <section class="code">
-                    Код товара: №{{ product.id }}
+                    Код товара: №{{ products.id }}
                 </section>
 
                 <section class="price">
-                    {{ product.coast }} руб.
+                    {{ products.coast }} руб.
                 </section>
 
             </section>
@@ -69,33 +96,17 @@
             </section>
         </a>
     </section>
-    <link rel="stylesheet" href="/static/styles/aboutUs.css">
-    <section class="table">
-        <section class="timetable_value">
-            <section class="str">
-                <section class="stab"></section>
-                <section class="column">
-                    <section class=" cell">Габариты</section>
-                    <section class="cell">300*600*900</section>
-                </section>
-                <section class="column">
-                    <section class=" cell">Вес</section>
-                    <section class="cell">120 кг</section>
-                </section>
-                <section class="stab"></section>
-            </section>
-        </section>
-    </section>
+            <form method="POST">
+                    {% csrf_token %}
     <section class="second_level">
         <section class="discription">
-
-            <p>{{ product.description|linebreaks }} </p>
+            {{ products.description|linebreaks }}
         </section>
     </section>
-    <form method="POST">
+
         <section class=" third_level">
 
-            {% csrf_token %}
+
             <section class=" text">
                 Количество:
             </section>
@@ -107,13 +118,14 @@
 
 
             <button class=" push" name="action" value="dop">
-                Добавить в карзину
+                Добавить в корзину
             </button>
 
         </section>
-    </form>
 
+</form>
 </section>
+            
 
 
 </body>

@@ -1,19 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-{% load static %}
-<link rel="stylesheet" href="/static/styles/goods.css">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     {% if category %}
     <title>{{ category }}</title>
     {% else %}
     <title>Услуги</title>
     {% endif %}
+    {% load bootstrap3 %}
+    <script src="{% bootstrap_jquery_url %}"></script>
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
+    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+    <link rel="stylesheet" href="/static/styles/header.css">
+    <link rel="stylesheet" href="/static/styles/goods.css">
+
 </head>
 <body>
 
 
 <script src="/static/scripts/header.js"></script>
-
+<img src="/media/1625592856_12_kartinkin_com_p_chertezhnii_fon_krasivie_foni_13.jpg" style="
+                overflow: hidden;
+                z-index: -5;
+                position:fixed;
+                width:100%;
+                height: auto; 
+                opacity: 0.50; 
+                left:50%;
+                top:60%;
+                transform: translate3d(-50%,-50%,0);
+                ">
 <section class="content">
 
 
@@ -25,17 +46,29 @@
 
 
     <form method="GET">
-        <section class="row string">
+        <section class="filters">
 
-            <section class="col-lg-3  col-sm-3 col-md-3 col-3 mainFilter">
+            <section class="mainFilter">
                 <section class="name">
                     Разделы :
                 </section>
-                <select class="mb-3" name="category" aria-label="Default select example">
+                <select class="filter_area" name="category" aria-label="Default select example">
+                    {% if category %}
+                    <option selected name="category" value="{{ category }}">{{ category }}</option>
+                    {% if catetory != 'Все'%}
+                    <option name="category" value="Все">Все</option>
+                    {% endif %}
+                    {% for categor in categorys %}
+                    {% if categor.Text != category %}
+                    <option name="category" value="{{ categor.Text }}">{{ categor.Text }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
                     <option selected>Все</option>
                     {% for category in categorys %}
                         <option name="category" value="{{ category.Text }}">{{ category.Text }}</option>
                     {% endfor %}
+                    {% endif %}
                 </select>
                 {#                <section class="value">#}
                 {#                    <section class="filters">#}
@@ -58,11 +91,29 @@
                 {#                </section>#}
             </section>
 
-            <section class="col-lg-2  col-sm-2 col-md-2 col-2 mainFilter">
-                <select class="mb-3" name="way" aria-label="Default select example">
+            <section class="mainFilter">
+                <select class=" filter_area" name="way" aria-label="Default select example">
+                    {% if way %}
+                    {% if way == "По популярности" %}
                     <option selected value="По популярности">По популярности</option>
-                    <option value="По возростанию цены">По возростанию цены</option>
+                    <option value="По возростанию цены">По возрастанию цены</option>
                     <option value="По убыванию цены">По убыванию цены</option>
+                    {% endif %}
+                    {% if way == "По возрастанию цены" %}
+                    <option value="По популярности">По популярности</option>
+                    <option selected value="По возростанию цены">По возрастанию цены</option>
+                    <option value="По убыванию цены">По убыванию цены</option>
+                    {% endif %}
+                    {% if way == "По убыванию цены" %}
+                    <option value="По популярности">По популярности</option>
+                    <option value="По возростанию цены">По возрастанию цены</option>
+                    <option selected value="По убыванию цены">По убыванию цены</option>
+                    {% endif %}
+                    {% else %}
+                    <option selected value="По популярности">По популярности</option>
+                    <option value="По возростанию цены">По возрастанию цены</option>
+                    <option value="По убыванию цены">По убыванию цены</option>
+                    {% endif %}
                 </select>
                 {#                <section class="value">#}
                 {#                    <section class="filters">#}
@@ -84,14 +135,18 @@
                 {#                    </section>#}
                 {#                </section>#}
             </section>
-            <section class="col-lg-5  col-sm-5 col-md-5 col-5 mainFilter">
+            <section class="mainFilter2">
                 <section class="name">
                     Цена : от
                 </section>
                 {#                <section class="value">#}
                 <section>
-                    <div class="mb-3">
-                        <input name="min_price" value="{{ min }}" class="form-control" id="exampleFormControlInput1">
+                    <div class="">
+                        {% if min_price %}
+                            <input name="min_price" value= "{{ min_price }}" class="form-control" id="exampleFormControlInput1">
+                            {% else %}
+                            <input name="min_price" value="" class="form-control" id="exampleFormControlInput1">
+                            {% endif %}
                     </div>
                 </section>
                 {#                    <section class="filters">#}
@@ -104,8 +159,12 @@
                     р. до
                 </section>
                 <section>
-                    <div class="mb-3">
-                        <input name="max_price" value="{{ max }}" class="form-control" id="exampleFormControlInput1">
+                    <div class="">
+                        {% if max_price %}
+                            <input name="max_price" value= "{{ max_price }}" class="form-control" id="exampleFormControlInput1">
+                            {% else %}
+                            <input name="max_price" value="" class="form-control" id="exampleFormControlInput1">
+                            {% endif %}
                     </div>
                 </section>
                 {#                <section class="value">#}
@@ -120,7 +179,7 @@
             </section>
 
 
-            <section class="col-lg-2  col-sm-2 col-md-2 col-2">
+            <section class="but">
                 <button class="button">
                     Применить
                 </button>
@@ -149,16 +208,15 @@
 
         </section>
     {% else %}
-        <section class="mainName">
-            <section class="name">
-                Данных товаров нет в наличии
-            </section>
+        <section class="none" style="text-align: center; color: #170631; font-size: 3em; margin: 2em 0em;">
+            По данному запросу товары не заданы
+        </section>
+        <section class="none" style="text-align: center; color: #170631; font-size: 2em; margin: 2em 0em 5em 0em;">
+            Измените параметры поиска
         </section>
     {% endif %}
 
 </section>
-
-
 
 </body>
 {% endblock %}

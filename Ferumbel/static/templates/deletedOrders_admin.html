@@ -10,6 +10,7 @@
     <script src="{% bootstrap_jquery_url %}"></script>
     {% bootstrap_javascript %}
     {% bootstrap_css %}
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
     {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
     <link rel="stylesheet" href="/static/styles/Orders_admin.css">
     <link rel="stylesheet" href="/static/styles/header_admin.css">
@@ -81,7 +82,7 @@
 {% for order in orders %}
     <section class="order">
         <section class="border">
-            <section class="name">{{ order.purchase.product.name}}</section>
+            <section class="name">{{ order.name}}</section>
             <section class="phone">{{ order.phone }}</section>
             <section class="level">
                 <section class="code">№{{ order.id }}</section>

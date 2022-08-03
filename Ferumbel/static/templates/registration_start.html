@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8"/>
@@ -10,81 +10,13 @@
     <script src="{% bootstrap_jquery_url %}"></script>
     {% bootstrap_javascript %}
     {% bootstrap_css %}
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
     {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/registration.css">
 
 </head>
 <body>
-
-<header id="header">
-    <div class="row">
-
-        <div class="col-lg-3 col-sm-3 col-md-3 col-5 logo2">
-
-            <a href="/" class="logo"><img src="/media/photos/logo.png"/></a>
-            <a href="/" class="name">Ferum Bel</a>
-
-        </div>
-
-        <div class="col-lg-1 col-sm-1 col-md-0 col-1 ">
-
-        </div>
-        <div class="col-lg-2 col-sm-2  col-md-2 col-4 menu" id="products">
-            <section class="menu_header" id="header_club">Товары и услуги</section>
-            <section class="menu_item" id="menu_item">
-                <section class="menu_link"><a href="/catalog/" id="menu_link_1">Товары</a></section>
-                <section class="menu_link"><a href="/catalog1/" id="menu_link_2">Услуги</a></section>
-
-            </section>
-        </div>
-        <div class="col-lg-2 col-sm-2  col-md-2 col-4 menu" id="team">
-            <a href="/contacts/" class="menu_header" id="header_team">Контакты</a>
-
-        </div>
-        <div class="col-lg-2 col-sm-2  col-md-2 col-4 menu" id="multimedia">
-            <a href="/aboutUs/" class="menu_header" id="header_multi">О нас</a>
-
-        </div>
-        <div class="col-lg-2  col-sm-2 col-md-2 col-4 basket"><a href="/basket/"><img alt=""
-                                                                                      src="/media/photos/basket.png"/></a>
-        </div>
-
-    </div>
-
-</header>
-
-<header id="min_header">
-
-    <div class=" logo2">
-        <a class="logo" target="_blank"><img src="../photos/logo.png"/></a>
-        <section class="name">Ferum Bel</section>
-    </div>
-
-
-    <div class=" logo3">
-        <a id="burger" class="logo" target="_blank"><img src="../photos/burger.png"/></a>
-        <section id="min_menu" class="min_menu">
-            <section class="min_item">
-                Товары
-            </section>
-            <section class="min_item">
-                Услуги
-            </section>
-            <section class="min_item">
-                Контакты
-            </section>
-            <section class="min_item">
-                О нас
-            </section>
-            <section class="min_item">
-                Корзина
-            </section>
-        </section>
-    </div>
-
-</header>
-
 
 <script src="/static/scripts/header.js"></script>
 
@@ -100,15 +32,15 @@
 
     <section id="big_box" class="big_box">
 
-        <section id="button" class="button">
+        <section id="button" onclick="location.reload()" class="button">
             Войти
         </section>
 
-        <a target="_blank" href="https://t.me/ferumbel_bot/?start=start">
-            <section class="button">
-                Зарегистрироваться
-            </section>
-        </a>
+        <!--<a target="_blank" href="https://t.me/ferumbel_bot/?start=start">-->
+        <!--    <section class="button">-->
+        <!--        Зарегистрироваться-->
+        <!--    </section>-->
+        <!--</a>-->
     </section>
 
     <section id="autorization" class="autorization">
@@ -137,20 +69,5 @@
 
     <script src="/static/scripts/registration.js"></script>
 
-
-    <footer class="footer">
-
-
-        <section class=" phone">
-            {{ Text }}
-        </section>
-
-        <section class=" instagram">
-            <img src="/media/photos/instagram.png" alt="">
-        </section>
-
-    </footer>
-
-
 </body>
-</html>
+{% endblock %}
