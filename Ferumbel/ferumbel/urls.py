@@ -2,7 +2,7 @@ from django.urls import path
 from ferumbel.views import ProductsView, product_details_view, register_view, Contact, AboutUs, page_not_found_view, \
     logout_user, activeOrder_view, confirmedOrder_view, deletedOrder_view, \
     basket, autorization, activeOrders, confirmedOrders, deletedOrders, ProductsView1,\
-    category_view, Index
+    category_view, Index, get_file, CategorysView, CategorysView1
 from django.conf import settings
 
 urlpatterns = [
@@ -10,7 +10,9 @@ urlpatterns = [
     path('contacts/', Contact.as_view(), name='contacts'),
     path("register/", register_view, name="register_view"),
     path('aboutUs/', AboutUs.as_view(), name='aboutUs'),
-    path("catalog/", ProductsView.as_view(), name="products_view"),
+    path("catalog/", ProductsView.as_view(), name="productsView"),
+    path("products/", CategorysView.as_view(), name="categorysView"),
+    path("services/", CategorysView1.as_view(), name="categorysView1"),
     path("catalog1/", ProductsView1.as_view(), name="products_view1"),
     path(
         "product/<int:product_id>/", product_details_view, name="product_details_view"
@@ -31,7 +33,8 @@ urlpatterns = [
     path(
         "deletedOrder/<int:order_index>/", deletedOrder_view, name="deletedOrder_view"
     ),
-    path("logout/", logout_user, name='logout')
+    path("logout/", logout_user, name='logout'),
+    path("file/", get_file, name='get_file'),
 ]
 
 handler404 = page_not_found_view

@@ -30,18 +30,6 @@ class Image(models.Model):
         verbose_name_plural = _("Images")
 
 
-class Photos(models.Model):
-    photo = models.ImageField(null=True, blank=True, verbose_name="Фото")
-
-    def __str__(self):
-        return f"{self.photo}"
-
-    class Meta:
-        ordering = ["id"]
-        verbose_name = _("Photo")
-        verbose_name_plural = _("Photos")
-
-
 class Benefits(models.Model):
     photo = models.ImageField(verbose_name="Фото")
     value = models.TextField(verbose_name="Значение")
@@ -58,7 +46,7 @@ class Benefits(models.Model):
 class Contacts(models.Model):
     pole = models.TextField(null=True, verbose_name="Поле")
     value = models.CharField(max_length=40, null=True, verbose_name="Значение")
-    adr = models.URLField(null=True, verbose_name="Ссылка")
+    adr = models.URLField(blank=True, null=True, verbose_name="Ссылка")
 
     def __str__(self):
         return f"{self.pole}"
@@ -87,6 +75,7 @@ class Category(models.Model):
     Text = models.TextField(blank=True, verbose_name="Название")
     Photo = models.ImageField(blank=True, verbose_name="Фотография")
     is_main = models.BooleanField(default=True, verbose_name="Главная")
+    division = models.BooleanField(default=True, verbose_name="Разделение")
 
     def __str__(self):
         return f"{self.Text}"
@@ -98,21 +87,34 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    coast = models.FloatField(blank=True, null=True, verbose_name="Цена")
+    coast = models.FloatField(default=0, verbose_name="Цена")
     name = models.TextField(max_length=1000, verbose_name="Название")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
     popular = models.FloatField(default=0, verbose_name="Популярность")
-    Image = models.ImageField(null=True, blank=True, verbose_name="Фотография")
+    Image = models.ImageField(verbose_name="Фотография")
     division = models.BooleanField(blank=True, null=True, verbose_name="Разделение", default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Категория")
 
     def __str__(self):
-        return f"{self.name},{self.coast},{self.description},{self.popular}, {self.category}"
+        return f"{self.name}"
 
     class Meta:
         ordering = ["id"]
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+
+
+class Photos(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продукт")
+    photo = models.ImageField(null=True, blank=True, verbose_name="Фото")
+
+    def __str__(self):
+        return f"{self.photo}"
+
+    class Meta:
+        ordering = ["id"]
+        verbose_name = _("Photo")
+        verbose_name_plural = _("Photos")
 
 
 class Sections(models.Model):
@@ -184,8 +186,9 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
                              verbose_name='Пользователь')
     name = models.TextField(blank=True, null=True, verbose_name='Имя пользователя')
-    # purchase = models.OneToOneField(Purchase, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Корзина')
-    purchase = models.OneToOneField(Purchase, blank=True, null=True, verbose_name='Корзина', on_delete=models.CASCADE)
+    purchase = models.ForeignKey(
+        Purchase, on_delete=models.CASCADE, blank=True, null=True, verbose_name=' Корзина'
+    )
     coast = models.IntegerField(blank=True, null=True, default=1, verbose_name='Цена')
     phone = models.CharField(max_length=30, blank=True, null=True, verbose_name='Номер телефона')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
@@ -202,3 +205,16 @@ class Order(models.Model):
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
+
+
+class Characteristic(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продукт")
+    pole = models.TextField(blank=True, null=True, verbose_name="Поле")
+    value = models.TextField(blank=True, null=True, verbose_name="Значение")
+
+    def __str__(self):
+        return f"{self.product}"
+
+    class Meta:
+        verbose_name = _("Characteristic")
+        verbose_name_plural = _("Characteristics")

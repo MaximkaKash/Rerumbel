@@ -1,13 +1,24 @@
 from django.contrib import admin
 
 from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile, \
-    Sections, Order, Customer
+    Sections, Order, Customer, Characteristic
+
+
+# class CategoryInline(admin.TabularInline):
+#     model = Product
+
+@admin.register(Characteristic)
+class CharacteristicAdmin(admin.ModelAdmin):
+    list_display = ("product", "pole", "value")
+    search_fields = ("product",)
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "coast", "id", "description", "popular", "category")
-    search_fields = ("name", "coast", "category")
+    list_display = ("name", "id", "coast", "popular", "category", "division")
+    search_fields = ("name", "coast")
+    # readonly_fields = ("name", ) атрибуты нельзя переименовать
+    # list_filter = ("coast", "name")
 
 
 @admin.register(Sections)
@@ -24,18 +35,22 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Photos)
 class PhotoAdmin(admin.ModelAdmin):
-    display = "photo"
+    list_display = ("photo", "product")
+    search_fields = ("photo",)
 
 
 @admin.register(Purchase)
 class PurchaseAdmin(admin.ModelAdmin):
     list_display = ("user", "product", "count", "created_at")
-    search_fields = ("user", "created_at")
+    search_fields = ("created_at",)
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("Text", "Photo", "is_main")
+    list_display = ("Text", "Photo", "is_main", "division")
+    search_fields = ("Text",)
+    ordering = ('Text',)
+    # inlines = [CategoryInline]
 
 
 @admin.register(Text)
@@ -75,9 +90,9 @@ class TimetableAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("user", "phone", "coast", "created_at", "statuc", "customer")
+    search_fields = ("created_at",)
 
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ("user", "index", "delivery", "foruser")
-    search = "user"

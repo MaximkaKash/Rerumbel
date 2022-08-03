@@ -16,6 +16,20 @@ import random
 logger = logging.getLogger(__name__)
 
 
+def page_not_found_view(request, exception):
+    text = Text.objects.get(id=4)
+    return render(request, 'mistake.html', {"Text": text}, status=404)
+
+
+def get_file(request):
+    filename = "Login_and_password.txt"
+    content = "Добрый день, компания Ферумбел заботится, чтобы Вы не потеряли логин и пороль для последующего входа." + "\n" + "Логин: " + str(
+        request.user) + "\n" + "Пароль: " + str(request.user.password)
+    response = HttpResponse(str(content), content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    return response
+
+
 # error 404
 # from django.http import Http404
 # from django.views.generic.detail import DetailView
@@ -33,11 +47,6 @@ logger = logging.getLogger(__name__)
 #
 #     # continue with the rest of the method populating the context
 #     return context
-
-def page_not_found_view(request, exception):
-    text = Text.objects.get(id=4)
-    return render(request, 'mistake.html', {"Text": text}, status=404)
-
 
 def register_view(request):
     text = Text.objects.get(id=4)
@@ -92,6 +101,125 @@ def register_view(request):
     return render(request, "registration_start.html", {"form": form,
                                                        "Text": text, })
 
+
+class CategorysView(TemplateView):
+    template_name = "categorys.html"
+
+    def get_context_data(self, **kwargs):
+        text = Text.objects.get(id=4)
+        category = Category.objects.all()
+        category = category.filter(division=True)
+        filter_forms = filter_form(self.request.GET)
+        products = Product.objects.all()
+
+        if filter_forms.is_valid():
+            if filter_forms.cleaned_data["category"]:
+                if filter_forms.cleaned_data["category"] == "Все" or filter_forms.cleaned_data["category"] == "":
+                    a = 'Все'
+                else:
+                    category = Category.objects.get(Text=filter_forms.cleaned_data["category"])
+                    a = filter_forms.cleaned_data["category"]
+                    products = products.filter(category=category.id)
+            if filter_forms.cleaned_data["way"] == "По популярности":
+                b = 'По популярности'
+                products = products.order_by("-popular")
+            if filter_forms.cleaned_data["way"] == "По возростанию цены":
+                b = "По возростанию цены"
+                products = products.order_by("coast")
+            if filter_forms.cleaned_data["way"] == "По убыванию цены":
+                b = "По убыванию цены"
+                products = products.order_by("-coast")
+            if filter_forms.cleaned_data["min_price"]:
+                c = filter_forms.cleaned_data["min_price"]
+                products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"] - 1)
+            if filter_forms.cleaned_data["max_price"]:
+                d = filter_forms.cleaned_data["max_price"]
+                products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"] + 1)
+            a = filter_forms.cleaned_data["category"]
+            b = filter_forms.cleaned_data["way"]
+            c = filter_forms.cleaned_data["min_price"]
+            d = filter_forms.cleaned_data["max_price"]
+        else:
+            a = 0
+            b = 0
+            c = 0
+            d = 0
+        print(a, b, c, d)
+        categorys = Category.objects.all()
+        filter_forms = filter_form()
+        categorys = categorys.order_by("Text")
+        z = category[0].division
+        print(z)
+        return {"filter_forms": filter_forms,
+                "products": category,
+                "Text": text,
+                "categorys": categorys,
+                "category": a,
+                "way": b,
+                "min_price": c,
+                "max_price": d,
+                "z": z,
+                }
+
+
+class CategorysView1(TemplateView):
+    template_name = "categorys.html"
+
+    def get_context_data(self, **kwargs):
+        text = Text.objects.get(id=4)
+        category = Category.objects.all()
+        category = category.filter(division=False)
+        filter_forms = filter_form(self.request.GET)
+        products = Product.objects.all()
+
+        if filter_forms.is_valid():
+            if filter_forms.cleaned_data["category"]:
+                if filter_forms.cleaned_data["category"] == "Все" or filter_forms.cleaned_data["category"] == "":
+                    a = 'Все'
+                else:
+                    category = Category.objects.get(Text=filter_forms.cleaned_data["category"])
+                    a = filter_forms.cleaned_data["category"]
+                    products = products.filter(category=category.id)
+            if filter_forms.cleaned_data["way"] == "По популярности":
+                b = 'По популярности'
+                products = products.order_by("-popular")
+            if filter_forms.cleaned_data["way"] == "По возростанию цены":
+                b = "По возростанию цены"
+                products = products.order_by("coast")
+            if filter_forms.cleaned_data["way"] == "По убыванию цены":
+                b = "По убыванию цены"
+                products = products.order_by("-coast")
+            if filter_forms.cleaned_data["min_price"]:
+                c = filter_forms.cleaned_data["min_price"]
+                products = products.filter(coast__gt=filter_forms.cleaned_data["min_price"] - 1)
+            if filter_forms.cleaned_data["max_price"]:
+                d = filter_forms.cleaned_data["max_price"]
+                products = products.filter(coast__lt=filter_forms.cleaned_data["max_price"] + 1)
+            a = filter_forms.cleaned_data["category"]
+            b = filter_forms.cleaned_data["way"]
+            c = filter_forms.cleaned_data["min_price"]
+            d = filter_forms.cleaned_data["max_price"]
+        else:
+            a = 0
+            b = 0
+            c = 0
+            d = 0
+        print(a, b, c, d)
+        categorys = Category.objects.all()
+        filter_forms = filter_form()
+        categorys = categorys.order_by("Text")
+        z = category[0].division
+        print(category)
+        return {"filter_forms": filter_forms,
+                "products": category,
+                "Text": text,
+                "categorys": categorys,
+                "category": a,
+                "way": b,
+                "min_price": c,
+                "max_price": d,
+                "z": z,
+                }
 
 class ProductsView(TemplateView):
     template_name = "goods.html"
@@ -160,6 +288,10 @@ class Index(TemplateView):
         # product = product.objects.order_by("popular")
         category = Category.objects.all().order_by("-is_main")[0:3]
         # category = category.filter(name="is_main").order_by("-is_main")
+        filename = "my-file.txt"
+        content = 'any string generated by django'
+        response = HttpResponse(content, content_type='text/plain')
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
         return {
             "benefits": benefits,
             "text": text.get(id=1),
@@ -333,9 +465,10 @@ def product_details_view(request, *args, **kwargs):
                     },
                 )
         else:
-            Login = random.randint(10000, 99999)
+            Login = random.randint(1000000, 99999999)
+            pasword = random.randint(100000, 9999999999)
             request.user = User.objects.create(username=Login,
-                                               password=1111)
+                                               password=pasword)
             Profile.objects.create(user=request.user)
             Profile.save(self=request.user)
 
@@ -361,7 +494,7 @@ def product_details_view(request, *args, **kwargs):
 
             # forma_log = LoginForm()
             # return redirect('/register', {"form": forma_log})
-            form = filter_form
+            form = filter_form()
             return redirect('/catalog/', {"form": form})
 
     return render(
@@ -492,7 +625,6 @@ def basket(request):
                 request.user.profile.index = int(request.user.profile.index) + 1
                 request.user.profile.save()
                 form = BasketForm()
-
                 return render(
                     request,
                     "basket.html",
