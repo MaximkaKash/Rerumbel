@@ -1,280 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
+    <meta name="google-site-verification" content="9UVYJC9QyeH-gubaDOpEwAVkhScj16YvZAPWsi7DEkw" />
+    <meta name="yandex-verification" content="337a3277831cd937" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>OOO"ФерумБел"</title>
+    {% load bootstrap3 %}
+    <script src="{% bootstrap_jquery_url %}"></script>
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
+     <link rel="icon" href="https://ferumbel.by/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../styles/header.css">
-    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
+    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+    <link rel="stylesheet" href="/static/styles/header.css">
+    <link rel="stylesheet" href="/static/styles/index.css">
 </head>
 <body>
-
-    <header id="header">
-        <div class="row">
-            
-            <div class="col-lg-3 col-sm-3 col-md-3 col-5 logo2" >
-                
-                <a class="logo" ><img alt="" src="../photos/logo.png" /></a>
-                <section class="name">Ferum Bel</section>
-                
-            </div>
-
-            <div class="col-lg-1 col-sm-1 col-md-0 col-1 ">
-                
-            </div>
-            <div class="col-lg-2 col-sm-2  col-md-2 col-4 menu" id="products">
-                <section class="menu_header" id="header_club">Товары и услуги</section>
-                <section class="menu_item" id="menu_item">
-                    <section class="menu_link"><a href="../templates/goods.html" id="menu_link_1" >Товары</a></section>
-                    <section class="menu_link"><a href="../templates/goods.html" id="menu_link_2" >Услуги</a></section>
-                    
-                </section>
-            </div>
-            <div class="col-lg-2 col-sm-2  col-md-2 col-4 menu" id="team">
-                <a href="../templates/contacts.html" class="menu_header" id="header_team">Контакты</a>
-                
-            </div>
-            <div class="col-lg-2 col-sm-2  col-md-2 col-4 menu" id="multimedia">
-                <a href="../templates/aboutUs.html" class="menu_header" id="header_multi">О нас</a>
-               
-            </div>
-            <div class="col-lg-2  col-sm-2 col-md-2 col-4 basket"><a  href="../templates/basket.html"><img alt="" src="../photos/basket.png" /></a></div>
-
-        </div>
-
-    </header>
-
-    <header id="min_header">
-        
-            <div class=" logo2">
-                <a class="logo" target="_blank"><img alt="" src="../photos/logo.png" /></a>
-                <section class="name">Ferum Bel</section>
-            </div>
-        
-
-            <div class=" logo3">
-                <a id="burger" class="logo" target="_blank"><img alt="" src="../photos/burger.png" /></a>
-               <section id="min_menu" class="min_menu">
-                <section class="min_item">
-                    Товары
-                </section>
-                <section class="min_item">
-                    Услуги
-                </section>
-                <section class="min_item">
-                    Контакты
-                </section>
-                <section class="min_item">
-                    О нас
-                </section>
-                <section class="min_item">
-                    Корзина
-                </section>
-               </section>
-            </div>
-        
-    </header>
-
-
-<script src="../scripts/header.js"></script>
 
 <section class="content">
 
 
-
-<section class="mainName">
-    <section class="name">
-        ООО "ФерумБел"
-    </section>
-</section>
-
-<section class="row">
-<section class="col-lg-12  col-sm-12 col-md-12 col-12 discription"> 
-    <section class="value">
-        Изготовление лучших металлических деталей на территории РБ Изгние лучших металлических деталей на территории РБ Изготовление лучших металлических деталей на территории РБ Изготовление лучших металлических деталей на территории РБ 
-    </section>
-</section>
-</section>
-
-<section>
-
-<section class="row">
-    <section class="col-lg-12  col-sm-12 col-md-12 col-12 photo">
-        <img src="../photos/mainphoto.png" alt="">
-    </section>
-</section>
-
-
-
-<section class="partition">
-    <section class="name">
-        Популярные товары
-    </section>
-</section>
-
-<section class="products">
-
-    <section class=" product">
-        <section class="min_product">
-            <section class="photo">
-                <img src="../photos/product.png" alt="">
-            </section>
-            <section class="coast">
-                130р.
-            </section>
-            <section class="name">
-                Мангал
-            </section>
-        </section>
-    </section>
-
-    <section class=" product">
-        <section class="min_product">
-            <section class="photo">
-                <img src="../photos/product.png" alt="">
-            </section>
-            <section class="coast">
-                130р.
-            </section>
-            <section class="name">
-                Мангал
-            </section>
-        </section>
-    </section>
-
-    <section class=" product">
-        <section class="min_product">
-            <section class="photo">
-                <img src="../photos/product.png" alt="">
-            </section>
-            <section class="coast">
-                130р.
-            </section>
-            <section class="name">
-                Мангал
-            </section>
-        </section>
-    </section>
-
-</section>
-
-
-<section class="benefits_name">
-    Наши преимущества
-</section>
-
-
-<section class="benefits">
-
-    <section class="benefit">
-        <section class="photo">
-            <img src="../photos/benefit_1.png" alt="">
-        </section>
+    <section class="mainName">
         <section class="name">
-            Конкурентные цены
+            ООО "ФерумБел"
         </section>
     </section>
 
-    <section class="benefit">
-        <section class="photo">
-            <img src="../photos/benefit_2.png" alt="">
-        </section>
-        <section class="name">
-            Бесперебойные поставки
-        </section>
-    </section>
-
-    <section class="benefit">
-        <section class="photo">
-            <img src="../photos/benefit_3.png" alt="">
-        </section>
-        <section class="name">
-            Компетентный персонал
-
+    <section class="row">
+        <section class="col-lg-12  col-sm-12 col-md-12 col-12 discription">
+            <section class="value">
+                {{ text.value }}
+            </section>
         </section>
     </section>
 
-    <section class="benefit">
-        <section class="photo">
-            <img src="../photos/benefit_4.png" alt="">
+    <section>
+
+        
+            <section class="row">
+                <section class="col-lg-12  col-sm-12 col-md-12 col-12 photo">
+                    <section style="display:block;" >{% for phot in photo %}<img class="photo_animate"  src="{{ phot.Image.url }}" alt="">{% endfor%}</section>
+                </section>
+            </section>
+        
+
+
+<script src="/static/scripts/header.js"></script>
+        <section class="benefits_name">
+           
+            Популярные товары
+            
         </section>
-        <section class="name">
-            Качественная продукция
+
+        <section class="products">
+            {% for product in products %}
+                <section class=" product">
+                    
+                    <section class="min_product">
+                        
+                        <section class="photo">
+                            <a href="/product/{{ product.id }}/">
+                                <img src="{{ product.Image.url }}" alt="">
+                                </a>
+                        </section>
+                        <section class="coast">
+                           
+                            {{ product.coast }}р.
+                            
+                        </section>
+                        <section class="name">
+                        
+                            {{ product.name }}
+                            
+                        </section>
+                        
+                    </section>
+                
+                </section>
+            {% endfor %}
 
         </section>
+
+
+        <section class="benefits_name_2">
+            Наши преимущества
+        </section>
+
+
+        <section class="benefits">
+
+            {% for benefit in benefits %}
+                <section class="benefit">
+                    <section class="photo">
+                        <img src="{{ benefit.photo.url }}" alt="">
+                    </section>
+                    <section class="name">
+                        {{ benefit.value }}
+                    </section>
+                </section>
+            {% endfor %}
+        </section>
+
+        <section class="benefits_name">
+            
+            Основные направления
+            
+        </section>
+
+        <section class="row products">
+            {% for category in categorys %}
+
+                <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
+                    
+                    <section class="min_product">
+                        <a href="/category/{{ category.id}}/">
+                        <section class="photo">
+                            <img src="{{ category.Photo.url }}" alt="">
+                        </section>
+                        </a>
+                        <section class="name add">
+                            {{ category.Text }}
+                        </section>
+                        
+                    </section>
+                    
+                </section>
+            {% endfor %}
+        </section>
+
     </section>
-
 </section>
-
-<section class="partition">
-    <section class="name">
-        Основные направления
-    </section>
-</section>
-
-<section class="row products">
-
-    <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
-        <section class="min_product">
-            <section class="photo">
-                <img src="../photos/product.png" alt="">
-            </section>
-            <section class="name add">
-                Мангал, барбекю, грили
-            </section>
-        </section>
-    </section>
-
-    <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
-        <section class="min_product">
-            <section class="photo">
-                <img src="../photos/product.png" alt="">
-            </section>
-            <section class="name add">
-                Мангал, барбекю, грили
-            </section>
-        </section>
-    </section>
-
-    <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
-        <section class="min_product">
-            <section class="photo">
-                <img src="../photos/product.png" alt="">
-            </section>
-            <section class="name add">
-                Мангал, барбекю, грили
-            </section>
-        </section>
-    </section>
-
-    
-
-</section>
-
-</section>
-
-
-
-<footer class="footer">
-   
-       
-
-        <section class=" phone">
-            Телефон горячей линии: 80(29)013-13-13
-        </section>
-
-        <section class=" instagram">
-            <img src="../photos/instagram.png" alt="">
-        </section>
-    
-</footer>
-
 
 
 </body>
-</html>
+{% endblock %}
 

@@ -34,7 +34,7 @@
     transition: 100ms ease-in-out;
     background-color: #FFFFFF;
     width: 180px;
-    text-align: left;
+    text-align: center;
     font-size:1em;
 }
 
@@ -48,14 +48,14 @@
     background-color: #170631;
     color:#FFFFFF!important;
     width: 180px;
-    text-align: left;
+    text-align: center;
     font-size:1em;
     font-weight:bold;
 }
 
 
 
-@media(max-width:600px){
+@media(max-width:900px){
     .contacts{
         margin: 1em 0em!important;
         color:#170631;
@@ -87,7 +87,7 @@
         transition: 100ms ease-in-out;
         background-color: #FFFFFF;
         width: 180px;
-        text-align: left;
+        text-align: center;
         font-size:1em;
        left:50%;
        transform: translate3d(-50%,0,0);
@@ -105,7 +105,7 @@
         background-color: #170631;
         color:#FFFFFF!important;
         width: 180px;
-        text-align: left;
+        text-align: center;
         font-size:1em;
         font-weight:bold;
         left:50%;

@@ -1,101 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>OOO"ФерумБел"</title>
-
-    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../styles/Orders_admin.css">
-    <link rel="stylesheet" href="../styles/header_admin.css">
+    {% load bootstrap3 %}
+    <script src="{% bootstrap_jquery_url %}"></script>
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
+    <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
+    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+    <link rel="stylesheet" href="/static/styles/Orders_admin.css">
+    <link rel="stylesheet" href="/static/styles/header_admin.css">
 </head>
 <body>
-   
-    <header class="header">
 
-        <section class="all">
-            <section class="main_name">
-                ООО"ФерумБел"
-            </section>
-            <section class="top" id="active">
-                Заказы
-            </section>
+<header class="header">
+
+    <section class="all">
+        <section class="main_name">
+            ООО"ФерумБел"
         </section>
-        
-        <button class="exit">
+        <section class="top" id="active">
+            Заказы
+        </section>
+    </section>
+
+    <button class="exit">
+        <a class="dropdown-item" href="{% url "logout" %}">
             Выход
-        </button>
-        
-        
-    </header>
+        </a>
+    </button>
 
-    <section class="pages">
-        <section class="page" >
-            <a href="../templates/activeOrders_admin.html">Активные</a>
+
+</header>
+
+<section class="pages">
+    <section class="page">
+        <a href="/activeOrders/">Активные</a>
+    </section>
+    <section class="page" id="active">
+        Подтверждённые
+    </section>
+    <section class="page">
+        <a href="/deletedOrders/">Удалённые</a>
+    </section>
+</section>
+
+<section class="filters row">
+    <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
+        <section class="Name">
+            Телефон
         </section>
-        <section class="page" id="active">
-            Подтверждённые
+        <section class="input">
+            <input id="input_phone" type="text">
         </section>
-        <section class="page">
-            <a href="../templates/deletedOrders_admin.html">Удалённые</a> 
+    </section>
+    <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
+        <section class="Name">
+            Номер заказа
+        </section>
+        <section class="input">
+            <input id="input_number" type="text">
+        </section>
+    </section>
+    <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
+        <section class="Name">
+            Ф.И.О.
+        </section>
+        <section class="input">
+            <input id="input_name" type="text">
         </section>
     </section>
 
-    <section class="filters row" >
-        <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
-            <section class="Name">
-                Телефон
-            </section>
-            <section class="input">
-                <input id="input_phone" type="text">
-            </section>
-        </section>
-        <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
-            <section class="Name">
-                Номер заказа
-            </section>
-            <section class="input">
-                <input id="input_number" type="text">
-            </section>
-        </section>
-        <section class="filter col-lg-4 col-sm-6 col-md-6 col-4">
-            <section class="Name">
-                Ф.И.О.
-            </section>
-            <section class="input">
-                <input id="input_name" type="text">
-            </section>
-        </section>
 
-        
-    </section>
+</section>
 
-    <section class="orders">
-        <section  class="order">
-            <section class="border">
-                <section class="name">Иванов Андрей Иванович</section>
-                <section class="phone">+375(29)130-35-90</section>
-                <section class="level">
-                    <section class="code">№100000</section>
-                    <section class="date">13.01.2021</section>
+<section class="orders">
+    {% for order in orders %}
+    <section class="order">
+        <section class="border">
+            <section class="name">{{ order.name}}</section>
+            <section class="phone">{{ order.phone }}</section>
+            <section class="level">
+                <section class="code">№{{ order.id }}</section>
+                <section class="date">{{ order.created_at }}</section>
+            </section>
+            <section class=button>
+                <section class="conteiner">
+                    <a href="/confirmedOrder/{{ order.id }}/" class=but>Открыть</a>
                 </section>
-                <section class=button>
-                    <section class="conteiner">
-                        <a href="confirmedOrder_admin.html" class="but" >Открыть</a>
-                    </section>
-                </section>
             </section>
         </section>
-
-
     </section>
+    {% endfor %}
+
+</section>
 
 
-    <ul id="results">
-  
-    </ul>
-<script src="../scripts/Orders_admin.js"></script>
+<ul id="results">
+
+</ul>
+<script src="/static/scripts/Orders_admin.js"></script>
 </body>
 </html>

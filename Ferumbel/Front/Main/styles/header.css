@@ -31,19 +31,31 @@ body {
 }
 
 
-.basket img:hover{
-    border-bottom:solid 2px #FFFFFF;
-    transition: 100ms ease-in-out;
 
+.menu{
+font-size: 1.0em!important;
+padding: 2.2em 0em 0em 0em;
+text-align: center;
+height: 100px;
 }
 
-.basket img {
+.menu:hover{
+    font-size: 1.0em!important;
+    padding: 2.2em 0em 0em 0em;
+    text-align: center;
+    height: 100px;
+    border-bottom: #EBEEFF solid 0.2em;
+    transition: 200ms ease-in-out;
+}
+
+.menu img{
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    position: absolute !important;
+    width: 40px;
+    height: 40px;
     
-    position:absolute;
-    margin-top: 1.5em;
-    height:40px;
-    width:40px;
-    margin-left: 40px;
 }
 
 
@@ -71,45 +83,43 @@ a {
     color: white;
     transition: ease 10ms;
     cursor: pointer;
+   
 }
 
 #header {
     position: fixed;
     width: 100%;
-    padding-bottom:1em;
+   
     left: 0px;
     top: 0px;
     overflow: visible;
     z-index: 3;
     background: #170631;
     border-bottom: #EBEEFF solid 0.2em;
-    font-size:1.0em;
+    font-size:1.1em;
     
 }
 
-.menu {
-    padding-top: 2.4em;
-    font-style: normal;
-    font-weight: normal;
-    align-items: center;
-    text-align: center;
-    color: #EDEBEB;
-}
+
 
 
 
 .logo2 {
     display:flex;
-    font-size: 2.0em;
-    padding-top: 0.5em;
+    font-size: 1.5em;
+    padding-top: 0.7em;
     font-style: normal;
     font-weight: normal;
     color: #EDEBEB;
+    padding-bottom:1em !important;
+    height: 100px;
 }
 
 .logo2:hover {
-    border-bottom:solid 2px #FFFFFF;
-    transition: 100ms ease-in-out;
+    border-bottom:solid 0.1em #FFFFFF;
+    transition: 200ms ease-in-out;
+    padding-bottom:0.9em !important;
+    height: 100px;
 }
 
 .logo {
@@ -123,18 +133,19 @@ a {
 
 
 .logo img {
-    margin-right: 1em;
+    margin-right: 0.7em;
     align-items: center;
     margin-left:10px ;
    
    
-    height:60px;
-    width:60px;
+    height:50px;
+    width:50px;
 }
 
 .name{
 margin-top:0.5em;
 cursor:pointer;
+
 }
 
 
@@ -156,10 +167,7 @@ text-align: center;
  cursor:pointer;
 }
 
-.menu:hover{
-border-bottom:solid 2px #FFFFFF;
-transition: 100ms ease-in-out;
-}
+
 
 
 
@@ -180,11 +188,12 @@ transition: 100ms ease-in-out;
     font-size: 1em;
     color: #FFFFFF !important;
     width: 100%;
+    height: 50px !important;
 }
 
 .menu_link:hover{
-    border-bottom:solid 2px #FFFFFF;
-    transition: 100ms ease-in-out;
+    border-bottom:solid 3px #FFFFFF;
+    transition: 200ms ease-in-out;
 
 }
 
@@ -211,6 +220,7 @@ transition: 100ms ease-in-out;
 
 .min_menu{
     display: none;
+    margin-left: -5em;
 }
 
 
@@ -228,6 +238,9 @@ padding: 0px;
     color: #FFFFFF !important;
     width: 100%;
 
+}
+.footer{
+    z-index: 500;
 }
 
 @media (max-width:1100px){
@@ -300,7 +313,7 @@ text-align: center;
 
 .logo2 {
     
-    width: 50%;
+    width: 70%;
     font-size: 1.5em;
     padding-top: 0.5em;
     font-style: normal;
@@ -312,7 +325,7 @@ text-align: center;
 
 .logo3 {
     display: block;
-    width: 50%;
+    width: 30%;
     font-size: 2.0em;
     padding-top: 0.5em;
     font-style: normal;
@@ -378,4 +391,18 @@ font-size: 0.5em;
 
 }
 
+
+
+
+.find_good{
+    color: #170631 !important;
+    overflow: hidden; 
+    padding: 0.5em 0.3em;
+    height: 2em;
+}
+
+.find_good:hover{
+    cursor: pointer;
+    background-color: #d1d9f3;
+}
 
