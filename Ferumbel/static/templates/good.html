@@ -73,6 +73,7 @@
         }
 
 
+
                 </script>
 
 
@@ -117,18 +118,12 @@
                     <section class="timetable_value">
                         <section class="str">
                             <section class="stab"></section>
+                            {% for har in hars %}
                             <section class="column">
-                                <section class=" cell">10-18</section>
-                                <section class="cell">Работает</section>
+                                <section class=" cell">{{ har.pole }}</section>
+                                <section class="cell">{{ har.value }}</section>
                             </section>
-                            <section class="column">
-                                <section class=" cell">10-18</section>
-                                <section class="cell">Работает</section>
-                            </section>
-                            <section class="column">
-                                <section class=" cell">10-18</section>
-                                <section class="cell">Работает</section>
-                            </section>
+                            {% endfor %}
                             <section class="stab"></section>
                         </section>
                     </section>

@@ -208,7 +208,7 @@ class Order(models.Model):
 
 
 class Characteristic(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продукт")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продукт")
     pole = models.TextField(blank=True, null=True, verbose_name="Поле")
     value = models.TextField(blank=True, null=True, verbose_name="Значение")
 

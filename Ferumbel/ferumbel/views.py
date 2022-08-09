@@ -4,7 +4,7 @@ import logging
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order, \
-    Customer, Image
+    Customer, Image, Characteristic
 from django.views.generic import TemplateView
 from ferumbel.forms import RegistrationForm, BasketForm, LoginForm, filter_form
 from django.contrib.auth import authenticate, login, logout
@@ -266,6 +266,9 @@ class AboutUs(TemplateView):
 
 def product_details_view(request, *args, **kwargs):
     product = Product.objects.get(id=kwargs["product_id"])
+    har = Characteristic.objects.all().filter(product=product)
+    for characteristic in har:
+        print(characteristic.pole, characteristic.value)
     product.popular += 1
     product.save()
     text = Text.objects.get(id=2)
@@ -300,6 +303,7 @@ def product_details_view(request, *args, **kwargs):
                         "products": product,
                         "product": products,
                         "Text": text,
+                        "hars": har,
                     },
                 )
         else:
@@ -325,6 +329,7 @@ def product_details_view(request, *args, **kwargs):
                  "products": product,
                  "product": products,
                  "Text": text,
+                 "hars": har,
                  },
             )
             form = filter_form
@@ -338,6 +343,7 @@ def product_details_view(request, *args, **kwargs):
             "products": product,
             "product": products,
             "Text": text,
+            "hars": har,
         },
     )
 
