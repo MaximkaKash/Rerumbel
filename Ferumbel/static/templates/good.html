@@ -76,6 +76,7 @@
 
 
 
+
                 </script>
 
 
@@ -115,7 +116,9 @@
             </section>
 
             <div class="many">
+                {% if hars %}
                 <p><font face="sans-serif" size="5">Основные характеристики</font></p>
+                {% endif %}
                 <table class="iksweb">
                     <tbody>
                     {% for har in hars %}
