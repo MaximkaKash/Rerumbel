@@ -74,6 +74,8 @@
 
 
 
+
+
                 </script>
 
 
@@ -105,7 +107,6 @@
     <form method="POST">
         {% csrf_token %}
         <div class="con">
-
             <section class="second_level">
                 <section class="discription">
                     <div>{{ products.description|linebreaks }}
@@ -114,20 +115,31 @@
             </section>
 
             <div class="many">
-                <section class="table">
-                    <section class="timetable_value">
-                        <section class="str">
-                            <section class="stab"></section>
-                            {% for har in hars %}
-                            <section class="column">
-                                <section class=" cell">{{ har.pole }}</section>
-                                <section class="cell">{{ har.value }}</section>
-                            </section>
-                            {% endfor %}
-                            <section class="stab"></section>
-                        </section>
-                    </section>
-                </section>
+                <p><font face="sans-serif" size="5">Основные характеристики</font></p>
+                <table class="iksweb">
+                    <tbody>
+                    {% for har in hars %}
+                    <tr>
+                        <td>{{ har.pole }}</td>
+                        <td>{{ har.value }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <!--                <section class="table">-->
+                <!--                    <section class="timetable_value">-->
+                <!--                        <section class="str">-->
+                <!--                            <section class="stab"></section>-->
+                <!--                            {% for har in hars %}-->
+                <!--                            <section class="column">-->
+                <!--                                <section class=" cell">{{ har.pole }}</section>-->
+                <!--                                <section class="cell">{{ har.value }}</section>-->
+                <!--                            </section>-->
+                <!--                            {% endfor %}-->
+                <!--                            <section class="stab"></section>-->
+                <!--                        </section>-->
+                <!--                    </section>-->
+                <!--                </section>-->
             </div>
         </div>
 
