@@ -11,9 +11,12 @@
     {% bootstrap_javascript %}
     {% bootstrap_css %}
     <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
-    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+    {#
+    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
+    #}
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/good.css">
+    <link rel="stylesheet" href="/static/styles/aboutUs.css">
 
 </head>
 <body>
@@ -21,11 +24,11 @@
 <script src="/static/scripts/header.js"></script>
 
 <section class="content">
-            {% if a %}
-            <div class="alert alert-success">
-                Заказ добавлен в корзину
-            </div>
-            {% endif %}
+    {% if a %}
+    <div class="alert alert-success">
+        Заказ добавлен в корзину
+    </div>
+    {% endif %}
 
     <section class="mainName">
         <section class="name">
@@ -41,8 +44,8 @@
                 <section class="arr">
 
                 </section>
-                
-                <section class="photo" id="section"  >
+
+                <section class="photo" id="section">
                     <section id="blocks">
                         <section class="block"></section>
                         <section class="block"></section>
@@ -52,11 +55,11 @@
                 </section>
                 <section style="display: none;">
                     {% for photo in photos %}
-                        <img class="image" src="{{ photo.photo.url }}" alt="">
+                    <img class="image" src="{{ photo.photo.url }}" alt="">
                     {% endfor %}
                 </section>
 
-    <script>
+                <script>
 
         let section = document.getElementById("section")
         section.style.backgroundImage=`url("{{ products.Image.url }}")`
@@ -68,8 +71,10 @@
             }
 
         }
-    </script>
-                
+
+
+                </script>
+
 
                 <section class="arr">
 
@@ -96,13 +101,40 @@
             </section>
         </a>
     </section>
-            <form method="POST">
-                    {% csrf_token %}
-    <section class="second_level">
-        <section class="discription">
-            {{ products.description|linebreaks }}
-        </section>
-    </section>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="con">
+
+            <section class="second_level">
+                <section class="discription">
+                    <div>{{ products.description|linebreaks }}
+                    </div>
+                </section>
+            </section>
+
+            <div class="many">
+                <section class="table">
+                    <section class="timetable_value">
+                        <section class="str">
+                            <section class="stab"></section>
+                            <section class="column">
+                                <section class=" cell">10-18</section>
+                                <section class="cell">Работает</section>
+                            </section>
+                            <section class="column">
+                                <section class=" cell">10-18</section>
+                                <section class="cell">Работает</section>
+                            </section>
+                            <section class="column">
+                                <section class=" cell">10-18</section>
+                                <section class="cell">Работает</section>
+                            </section>
+                            <section class="stab"></section>
+                        </section>
+                    </section>
+                </section>
+            </div>
+        </div>
 
         <section class=" third_level">
 
@@ -123,9 +155,8 @@
 
         </section>
 
-</form>
+    </form>
 </section>
-            
 
 
 </body>
