@@ -24,33 +24,21 @@
     font-size:1.5em;
 }
 .url{
-    cursor: pointer;
-    color:#170631 !important;
-    font-weight: bolder;
-    left: 2em;
-    padding-top: 0.3em;
-    border-radius: 0.8em;
-    border:solid 1px #170631;
-    transition: 100ms ease-in-out;
-    background-color: #FFFFFF;
-    width: 180px;
-    text-align: center;
-    font-size:1em;
+    border-radius: 100px;
+            margin-left: 30px;
+            width: 120px;
+            padding: 0.3em 0em;
+            text-align: center;
+            color:#FFFFFF;
+            background-color: #34205c;
+            font-size: 1.2em;
+            border:none !important;
 }
 
 .url:hover{
-    cursor: pointer;
-    left: 2em;
-    padding-top: 0.3em;
-    border-radius: 0.8em;
-    border:solid 1px #170631;
-    transition: 100ms ease-in-out;
-    background-color: #170631;
-    color:#FFFFFF!important;
-    width: 180px;
-    text-align: center;
-    font-size:1em;
-    font-weight:bold;
+    box-shadow: 0 6px 6px 0 rgba(0,0,0,0.2);
+            background-color: #5a399d;
+            transition: 100ms ease-in-out;
 }
 
 
@@ -74,42 +62,9 @@
         text-align: center;
     }
 
-    .url{
-        top:1em;
-
-        cursor: pointer;
-        color:#170631 !important;
-        font-weight: bolder;
-        left: 2em;
-        padding-top: 0.3em;
-        border-radius: 0.8em;
-        border:solid 1px #170631;
-        transition: 100ms ease-in-out;
-        background-color: #FFFFFF;
-        width: 180px;
-        text-align: center;
-        font-size:1em;
-       left:50%;
-       transform: translate3d(-50%,0,0);
-
-    }
-
-    .url:hover{
-        top:1em;
-        cursor: pointer;
-        left: 2em;
-        padding-top: 0.3em;
-        border-radius: 0.8em;
-        border:solid 1px #170631;
-        transition: 100ms ease-in-out;
-        background-color: #170631;
-        color:#FFFFFF!important;
-        width: 180px;
-        text-align: center;
-        font-size:1em;
-        font-weight:bold;
-        left:50%;
-       transform: translate3d(-50%,0,0);
-    }
+   .url {
+        margin: 0 auto;
+        margin-top: 1em;
+   }
     
 }

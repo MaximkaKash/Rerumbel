@@ -12,11 +12,11 @@ function club_start() {
     burger.onclick=()=>{
         if(min_header.style.display=="none"){
             min_header.style.display="block";
-    
+
         }
         else{
             min_header.style.display="none";
-    
+
         }
     }
 

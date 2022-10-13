@@ -8,10 +8,78 @@
     transform: translate3d(-50%,0,0);
 }
 
+
+.btn {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: transparent;
+  border: 1px solid #34205c;
+  border-radius: 0.6em;
+  color: #34205c;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-self: center;
+      -ms-flex-item-align: center;
+          align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 10px auto;
+  padding: 1.2em 20%;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+.btn:hover, .btn:focus {
+  color: #34205c;
+  outline: 0;
+}
+
+.fifth {
+  border-color: #34205c;
+  border-radius: 0;
+  color: #34205c;
+  position: relative;
+  overflow: hidden; btn fifth
+  z-index: 1;
+  -webkit-transition: color 150ms ease-in-out;
+  transition: color 150ms ease-in-out;
+}
+.fifth:after {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 0;
+  height: 100%;
+  background: #34205c;
+  z-index: -1;
+  -webkit-transition: width 150ms ease-in-out;
+  transition: width 150ms ease-in-out;
+}
+.fifth:hover {
+  color: #fff;
+}
+.fifth:hover:after {
+  width: 110%;
+}
+
+
+
 .button{
     margin: 2em 4em;
    color:#FFFFFF;
-   background-color: #170631;
+   background-color: #34205c;
    border-radius: 20px;
 text-align: center;
    padding: 2em 0em;
@@ -19,11 +87,12 @@ text-align: center;
 }
 
 .button:hover{
+    cursor: pointer;
     margin: 2em 4em;
    color:#FFFFFF;
    background-color: #170631;
    border-radius: 20px;
-text-align: center;
+    text-align: center;
    padding: 2em 0em;
    font-size: 1.5em;
    text-decoration: underline;
@@ -106,14 +175,14 @@ text-align: center;
     transform:translate3d(-50%,0,0);
     display: none;
 
-    margin: 11em 0em;
+    margin: 8em 0em;
 }
 
 .box{
-   margin-top: 1em;
+    margin-top: 1em;
     padding-top: 4em ;
     padding-bottom: 1em;
-    border:solid 2px #170631;
+    border:solid 1px #34205c;
     transition: 100ms ease-in-out;
     border-radius: 1em;
 }
@@ -130,7 +199,7 @@ text-align: center;
     padding-top: 0.7em;
     padding-bottom: 0.7em;
     color:#170631;
-    width: 60%;
+    width: 80%;
 }
 
 .passoword{
@@ -141,44 +210,26 @@ text-align: center;
 
 
 .enter{
-
-position: relative;
-
-width: 80%;
-
-
-color:#FFFFFF !important;
-background: #170631 !important;
-
-width: 60%;
-
-padding: 0.5em 0em !important;
-text-align: center;
-border-radius: 0.5em;
-left:50%;
-transform: translate3d(-50%,0,0);
-margin: 0.5em 0em;
-}
-
-.enter:hover{
-
     position: relative;
-    
     width: 80%;
-    
-    
     color:#FFFFFF !important;
-    background: #170631 !important;
-    
-    width: 60%;
-    
-    padding: 0.5em 0em !important;
+    background: #34205c !important;
+    padding: 1em 0em !important;
     text-align: center;
     border-radius: 0.5em;
     left:50%;
     transform: translate3d(-50%,0,0);
     margin: 0.5em 0em;
-    text-decoration: underline;
+}
+
+.enter:hover{
+    position: relative;
+    color:#FFFFFF !important;
+    padding: 1em 0em !important;
+    text-align: center;
+    border-radius: 0.5em;
+    left:50%;
+    transform: translate3d(-50%,0,0);
     }
     
 

@@ -4,7 +4,7 @@ import logging
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order, \
-    Customer, Image, Characteristic
+    Customer, Image, Characteristic, Curs
 from django.views.generic import TemplateView
 from ferumbel.forms import RegistrationForm, BasketForm, LoginForm, filter_form
 from django.contrib.auth import authenticate, login, logout
@@ -18,7 +18,7 @@ def page_not_found_view(request, exception):
     text = Text.objects.get(id=4)
     return render(request, 'mistake.html', {"Text": text,
                                             "product": products
-    }, status=404)
+                                            }, status=404)
 
 
 def sitemap(request):
@@ -27,11 +27,12 @@ def sitemap(request):
 
 def get_file(request):
     filename = "Login_and_password.txt"
-    content = "Добрый день, компания Ферумбел заботится, чтобы Вы не потеряли логин и пороль для последующего входа." + "\n" + "Логин: " + str(request.user) + "\n" + "Пароль: " + str(request.user.password)
+    content = "Добрый день, компания Ферумбел заботится, чтобы Вы не потеряли логин и пороль для последующего входа." + "\n" + "Логин: " + str(
+        request.user) + "\n" + "Пароль: " + str(request.user.password)
     response = HttpResponse(str(content), content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
     return response
-    
+
 
 def register_view(request):
     products = Product.objects.all()
@@ -89,6 +90,7 @@ def register_view(request):
                                                        "product": products,
                                                        "Text": text, })
 
+
 class CategorysView(TemplateView):
     template_name = "categorys.html"
 
@@ -120,8 +122,8 @@ class CategorysView1(TemplateView):
                 "z": z,
                 "product": products,
                 }
-                
-                
+
+
 class ProductsView(TemplateView):
     template_name = "goods.html"
 
@@ -131,7 +133,8 @@ class ProductsView(TemplateView):
         product = products
         products = products.filter(division=True)
         filter_forms = filter_form(self.request.GET)
-        
+        curs = Curs.objects.get(id=1).value
+
         if filter_forms.is_valid():
             if filter_forms.cleaned_data["category"]:
                 if filter_forms.cleaned_data["category"] == "Все" or filter_forms.cleaned_data["category"] == "":
@@ -177,6 +180,7 @@ class ProductsView(TemplateView):
                 "way": b,
                 "min_price": c,
                 "max_price": d,
+                "curs": curs,
                 }
 
 
@@ -204,6 +208,7 @@ class Index(TemplateView):
             "Text": text.get(id=4),
         }
 
+
 def category_view(request, *args, **kwargs):
     categorys = Category.objects.all()
     text = Text.objects.get(id=4)
@@ -212,13 +217,13 @@ def category_view(request, *args, **kwargs):
     # print(product[0].division)
     # tovar = product[0].division
     if category.division:
-        url = 'http://ferumbel.by/catalog/?category=' + category.Text + '&way=%D0%9F%D0%BE+%D0%BF%D0%BE%D0%BF%D1%83%D0%BB%D1%8F%D1%80%D0%BD%D0%BE%D1%81%D1%82%D0%B8&min_price=&max_price='
+        url = '/catalog/?category=' + category.Text + '&way=По+популярности&min_price=&max_price='
 
     else:
-        url = 'http://ferumbel.by/catalog1/?category=' + category.Text + '&way=%D0%9F%D0%BE+%D0%BF%D0%BE%D0%BF%D1%83%D0%BB%D1%8F%D1%80%D0%BD%D0%BE%D1%81%D1%82%D0%B8&min_price=&max_price='
+        url = '/catalog1/?category=' + category.Text + '&way=По+популярности&min_price=&max_price='
     return redirect(url)
-                  
-                  
+
+
 def transport_index_to_topycs(request, *args, **kwargs):
     product = Product.objects.get(id=kwargs["product_id"])
     category = product.category
@@ -267,8 +272,13 @@ class AboutUs(TemplateView):
 def product_details_view(request, *args, **kwargs):
     product = Product.objects.get(id=kwargs["product_id"])
     har = Characteristic.objects.all().filter(product=product)
+    curs = Curs.objects.get(id=1).value
+    print('-----')
+    # print(product, product.charact)
     for characteristic in har:
         print(characteristic.pole, characteristic.value)
+        print(product.category.id)
+    print('------')
     product.popular += 1
     product.save()
     text = Text.objects.get(id=2)
@@ -304,6 +314,7 @@ def product_details_view(request, *args, **kwargs):
                         "product": products,
                         "Text": text,
                         "hars": har,
+                        "curs": curs,
                     },
                 )
         else:
@@ -330,6 +341,7 @@ def product_details_view(request, *args, **kwargs):
                  "product": products,
                  "Text": text,
                  "hars": har,
+                 "curs": curs,
                  },
             )
             form = filter_form
@@ -344,6 +356,7 @@ def product_details_view(request, *args, **kwargs):
             "product": products,
             "Text": text,
             "hars": har,
+            "curs": curs,
         },
     )
 

@@ -1,12 +1,19 @@
 .basket_name{
     color: #170631 !important;
-    margin:2em 0em 1em 4em !important;
+    margin:0em 0em 1em 4em !important;
     
+    font-size: 1.2em;
+    width: 200px;
+}
+
+.basket_name_text {
+    margin:6em 0em 1em 2em !important;
     font-size: 1.5em;
 }
 
+
 .data{
-    margin:2em 0em 1em 6em;
+    margin-left: 30%;
 }
 
 .topic{
@@ -18,14 +25,25 @@
     font-size: 1.0em;
     width: 10%;
 }
+
+.product .quality {
+    border-left-style: ridge;
+}
+
 .topic .value{
+    margin-left: 1.5em;
     padding-left: 0.5em;
-outline: none !important;
-border:none !important;
+    outline: none !important;
+    border:none !important;
     border-radius: 0.5em;
-    background-color:  #170631;
-    color:#FFFFFF;
+    background-color:  #e8f0fe;
+    color: #000000;
     width: 250px;
+}
+
+.radiobut {
+    position: absolute;
+    margin-right: 20px;
 }
 
 .topic .option{
@@ -44,12 +62,12 @@ margin-top: 1em;
 
 
 .result{
-    margin-top: 3em;
-margin-left: 5em;
-    width: 45%;
-    border:solid 2px #170631;
+    margin: 100px auto;
+    width: 70%;
+    border:solid 2px #34205c;
     transition: 100ms ease-in-out;
     border-radius: 1em;
+    text-align: center;
     color: #170631 !important;
     font-size: 1.5em;
 }
@@ -68,29 +86,27 @@ margin-left: 5em;
 
 }
 
+.result .buttons {
+    text-align: center;
+}
+
 .result .button{
     margin: 1em;
-    padding: 0.2em 0.5em;
+    padding: 1.2em 0.5em;
 
     color:#FFFFFF;
-    background-color: #170631;
-    border-radius: 0.5em;
+    background-color: #34205c;
+    border-radius: 1.5em;
     font-size: 0.8em !important;
     width:25%;
     border:none;
 }
 .result .button:hover{
-    margin: 1em;
-    padding: 0.2em 0.5em;
-    color:#FFFFFF;
-    background-color: #170631;
-    border-radius: 0.5em;
-    font-size: 0.8em !important;
-    width:25%;
-    border:none;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2);
+    background-color: #5a399d;
+    transition: 100ms ease-in-out;
 
     text-decoration: underline;
-
 }
 
 #sam {
@@ -106,54 +122,68 @@ cursor:pointer;
 
 
     .products{
-        margin-left: 5em;
         color:#170631;
     }
 
     .product{
-        width: 70%;
-        border:solid 2px #170631;
+        width: 95%;
+        border-radius: 10px;
+        border-style: outset;
+        background: #e8f0fe;
         transition: 100ms ease-in-out;
         display: flex;
+        margin: 0 auto;
         margin-bottom: 1em;
+        height: 135px;
     }
 
+
     .param{
-        width: 70%;
+        width: 95%;
+        margin-left: 2%;
         display: flex;
     }
 
     .param .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         font-size: 1.5em;
+        padding: 0;
+    }
+
+    .param .quality:first-child {
+        font-size: 10em;
     }
 
     .conteiner{
         position: relative;
-        width: 30%;
+        width: 45%;
         text-align: left;
-        padding: 2em;
+        padding: 0.7em;
         font-size: 1.5em;
     }
 
     .conteiner .name{
         margin-bottom: 1em;
+        text-align: center;
     }
 
     .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         padding: 2em;
         font-size: 2em;
     }
-
+    .delete_button {
+        width: 20%;
+    }
     .delete{
-        width: 10%;
+        position: absolute;
+        right: 3%;
         border:none !important;
-        background-color: #FFFFFF !important;
+        background-color: #e8f0fe !important;
         font-size: 2em;
         height: 30px;
     }
@@ -170,8 +200,7 @@ cursor:pointer;
     outline: none !important;
     border:none !important;
         border-radius: 0.5em;
-        background-color:  #170631;
-        color:#FFFFFF;
+
         width: 250px;
     }
   }
@@ -188,21 +217,13 @@ cursor:pointer;
     outline: none !important;
     border:none !important;
         border-radius: 0.5em;
-        background-color:  #170631;
-        color:#FFFFFF;
         width: 250px;
     }
 
-    .result{
-        margin-top: 3em;
-    margin-left: 5em;
-        width: 55%;
-        border:solid 2px #170631;
-        transition: 100ms ease-in-out;
-        border-radius: 1em;
-        color: #170631 !important;
-        font-size: 1.2em;
+    .data {
+        margin-left: 20%;
     }
+
 
     .result .quantity{
         margin: 0.5em;
@@ -219,47 +240,38 @@ cursor:pointer;
     }
 
     .result .button{
-        margin: 1em;
-        padding: 0.2em 0.5em;
 
-        color:#FFFFFF;
-        background-color: #170631;
-        border-radius: 0.5em;
-        font-size: 0.8em !important;
-        width:40%;
-        border:none;
+        width:33%;
     }
 
     .products{
-        margin-left: 5em;
         color:#170631;
     }
 
     .product{
-        width: 70%;
-        border:solid 2px #170631;
+        width: 95%;
         transition: 100ms ease-in-out;
         display: flex;
         margin-bottom: 1em;
     }
 
     .param{
-        width: 70%;
+        width: 95%;
         display: flex;
     }
 
     .param .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         font-size: 1.5em;
     }
 
     .conteiner{
         position: relative;
-        width: 30%;
+        width: 45%;
         text-align: left;
-        padding: 2em;
+        padding: 0.7em;
         font-size: 1.2em;
     }
 
@@ -269,16 +281,17 @@ cursor:pointer;
 
     .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         padding: 2em;
         font-size: 1.5em;
     }
 
+
     .delete{
-        width: 10%;
+
         border:none !important;
-        background-color: #FFFFFF !important;
+        background-color: #e8f0fe !important;
         font-size: 2em;
         height: 20px;
     }
@@ -289,7 +302,7 @@ cursor:pointer;
 
     .basket_name{
         color: #170631 !important;
-        margin:2em 0em 1em 2em !important;
+        margin:0em 0em 1em 2em !important;
 
         font-size: 1.2em;
     }
@@ -304,21 +317,9 @@ cursor:pointer;
     outline: none !important;
     border:none !important;
         border-radius: 0.5em;
-        background-color:  #170631;
-        color:#FFFFFF;
         width: 200px;
     }
 
-    .result{
-        margin-top: 3em;
-    margin-left: 5em;
-        width: 55%;
-        border:solid 2px #170631;
-        transition: 100ms ease-in-out;
-        border-radius: 1em;
-        color: #170631 !important;
-        font-size: 1.2em;
-    }
 
     .result .quantity{
         margin: 0.5em;
@@ -335,25 +336,17 @@ cursor:pointer;
     }
 
     .result .button{
-        margin: 1em;
-        padding: 0.2em 0.5em;
 
-        color:#FFFFFF;
-        background-color: #170631;
-        border-radius: 0.5em;
-        font-size: 0.8em !important;
         width:40%;
-        border:none;
+
     }
 
     .products{
-        margin-left: 5em;
         color:#170631;
     }
 
     .product{
         width: 90%;
-        border:solid 2px #170631;
         transition: 100ms ease-in-out;
         display: flex;
         margin-bottom: 1em;
@@ -366,16 +359,16 @@ cursor:pointer;
 
     .param .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         font-size: 1.2em;
     }
 
     .conteiner{
         position: relative;
-        width: 30%;
+        width: 45%;
         text-align: left;
-        padding: 2em;
+        padding: 0.7em;
         font-size: 1.0em;
     }
 
@@ -385,25 +378,29 @@ cursor:pointer;
 
     .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         padding: 2em;
         font-size: 1.2em;
     }
 
     .delete{
-        width: 10%;
+        right: 6%;
         border:none !important;
-        background-color: #FFFFFF !important;
+        background-color: #e8f0fe !important;
         font-size: 2em;
         height: 20px;
     }
   }
 
-  @media(max-width:600px){
+@media(max-width:600px){
+
+    .delete {
+        right: 6%;
+    }
 
     .data{
-        margin:2em 0em 1em 3em;
+        margin:2em 0em 1em 1em;
     }
 
     .topic .name{
@@ -416,20 +413,11 @@ cursor:pointer;
     outline: none !important;
     border:none !important;
         border-radius: 0.5em;
-        background-color:  #170631;
-        color:#FFFFFF;
-        width: 175px;
+        width: 200px;
     }
 
-    .result{
-        margin-top: 3em;
-    margin-left: 3em;
-        width: 80%;
-        border:solid 2px #170631;
-        transition: 100ms ease-in-out;
-        border-radius: 1em;
-        color: #170631 !important;
-        font-size: 1.0em;
+    .result {
+        width: 90%;
     }
 
     .result .quantity{
@@ -443,29 +431,25 @@ cursor:pointer;
         margin: 0.5em;
         padding: 0.5em;
 
+    .basket.name {
+        margin: 1em 0em 1em 1em !important;
+        width: 150px;
+    }
 
     }
 
     .result .button{
-        margin: 1em;
-        padding: 0.2em 0.5em;
 
-        color:#FFFFFF;
-        background-color: #170631;
-        border-radius: 0.5em;
-        font-size: 0.8em !important;
         width:40%;
-        border:none;
+
     }
 
     .products{
-        margin-left: 3em;
         color:#170631;
     }
 
     .product{
         width: 95%;
-        border:solid 2px #170631;
         transition: 100ms ease-in-out;
         display: flex;
         margin-bottom: 1em;
@@ -478,16 +462,16 @@ cursor:pointer;
 
     .param .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         font-size: 1.0em;
     }
 
     .conteiner{
         position: relative;
-        width: 30%;
+        width: 45%;
         text-align: left;
-        padding: 1.5em;
+        padding: 0.6em;
         font-size: 1.0em;
     }
 
@@ -497,18 +481,35 @@ cursor:pointer;
 
     .quality{
         position: relative;
-        width: 30%;
+        width: 25%;
         text-align: center;
         padding: 1.5em;
         font-size: 1.1em;
     }
 
     .delete{
-        width: 10%;
+        right: 4%;
         border:none !important;
-        background-color: #FFFFFF !important;
-        font-size: 1.5em;
+        background-color: #e8f0fe !important;
         height: 10px;
     }
   }
+@media(max-width: 480px){
 
+     .result .button {
+        width: 80%;
+     }
+
+    .conteiner {
+        padding: 0.5em;
+    }
+    .data {
+        margin: 2em 0em 1em 1em;
+    }
+    .topic .value {
+        width: 150px;
+    }
+    .basket_name {
+        width: 160px;
+    }
+ }

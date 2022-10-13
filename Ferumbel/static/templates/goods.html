@@ -15,7 +15,9 @@
     {% bootstrap_javascript %}
     {% bootstrap_css %}
     <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
-    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+    {#
+    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">
+    #}
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/goods.css">
 
@@ -23,20 +25,6 @@
 <body>
 
 <script src="/static/scripts/header.js"></script>
-
-<img src="/media/1625592856_12_kartinkin_com_p_chertezhnii_fon_krasivie_foni_13.jpg" style="
-                overflow: hidden;
-                z-index: -5;
-                position:fixed;
-                width:100%;
-                height: auto; 
-                opacity: 0.50; 
-                left:50%;
-                top:60%;
-                transform: translate3d(-50%,-50%,0);
-                ">
-
-
 
 
 <section class="content">
@@ -51,11 +39,11 @@
 
     <form method="GET">
         <section class="filters">
-
+            <section class="name">
+                Разделы:
+            </section>
             <section class="mainFilter mb-2">
-                <section class="name">
-                    Разделы :
-                </section>
+
                 <select class="filter_area" name="category" aria-label="Default select example">
                     {% if category %}
                     <option selected name="category" value="{{ category }}">{{ category }}</option>
@@ -70,32 +58,50 @@
                     {% else %}
                     <option selected>Все</option>
                     {% for category in categorys %}
-                        <option name="category" value="{{ category.Text }}">{{ category.Text }}</option>
+                    <option name="category" value="{{ category.Text }}">{{ category.Text }}</option>
                     {% endfor %}
                     {% endif %}
                 </select>
-                {#                <section class="value">#}
-                {#                    <section class="filters">#}
-                {#                        <section class="active_filter">#}
-                {#                            Все#}
-                {#                        </section>#}
-                {#                        <section class="other_filters">#}
-                {#                            {% for catetory in categorys %}#}
-                {#                                <section class="filter" name="category">#}
-                {##}
-                {#                                    {{ catetory.Text }}#}
-                {##}
-                {#                                </section>#}
-                {#                            {% endfor %}#}
-                {#                        </section>#}
-                {#                    </section>#}
-                {#                    <section class="photo">#}
-                {#                        <img src="/static/photos/arrow.png" alt="">#}
-                {#                    </section>#}
-                {#                </section>#}
+                {#
+                <section class="value">#}
+                    {#
+                    <section class="filters">#}
+                        {#
+                        <section class="active_filter">#}
+                            {# Все#}
+                            {#
+                        </section>
+                        #}
+                        {#
+                        <section class="other_filters">#}
+                            {# {% for catetory in categorys %}#}
+                            {#
+                            <section class="filter" name="category">#}
+                                {##}
+                                {# {{ catetory.Text }}#}
+                                {##}
+                                {#
+                            </section>
+                            #}
+                            {# {% endfor %}#}
+                            {#
+                        </section>
+                        #}
+                        {#
+                    </section>
+                    #}
+                    {#
+                    <section class="photo">#}
+                        {# <img src="/static/photos/arrow.png" alt="">#}
+                        {#
+                    </section>
+                    #}
+                    {#
+                </section>
+                #}
             </section>
 
-            <section id="populate"  class="mainFilter ml-2 mb-2">
+            <section id="populate" class="mainFilter">
                 <select class=" filter_area" name="way" aria-label="Default select example">
                     {% if way == "По популярности" %}
                     <option selected value="По популярности">По популярности</option>
@@ -116,66 +122,107 @@
                     {% endif %}
                 </select>
                 </select>
-                {#                <section class="value">#}
-                {#                    <section class="filters">#}
-                {#                        <section id="active_filter" name="way" class="active_filter">#}
-                {#                            По популярности#}
-                {#                        </section>#}
-                {##}
-                {#                        <section id="other_filters" class="other_filters">#}
-                {#                            <section id="filter_1" class="filter">#}
-                {#                                По возростанию цены#}
-                {#                            </section>#}
-                {#                            <section id="filter_2" class="filter">#}
-                {#                                По убыванию цены#}
-                {#                            </section>#}
-                {#                        </section>#}
-                {#                    </section>#}
-                {#                    <section id="arr2" class="photo">#}
-                {#                        <img id="photo2" src="/static/photos/arrow.png" alt="">#}
-                {#                    </section>#}
-                {#                </section>#}
+                {#
+                <section class="value">#}
+                    {#
+                    <section class="filters">#}
+                        {#
+                        <section id="active_filter" name="way" class="active_filter">#}
+                            {# По популярности#}
+                            {#
+                        </section>
+                        #}
+                        {##}
+                        {#
+                        <section id="other_filters" class="other_filters">#}
+                            {#
+                            <section id="filter_1" class="filter">#}
+                                {# По возростанию цены#}
+                                {#
+                            </section>
+                            #}
+                            {#
+                            <section id="filter_2" class="filter">#}
+                                {# По убыванию цены#}
+                                {#
+                            </section>
+                            #}
+                            {#
+                        </section>
+                        #}
+                        {#
+                    </section>
+                    #}
+                    {#
+                    <section id="arr2" class="photo">#}
+                        {# <img id="photo2" src="/static/photos/arrow.png" alt="">#}
+                        {#
+                    </section>
+                    #}
+                    {#
+                </section>
+                #}
             </section>
+
+
             <section class="mainFilter2">
                 <section class="name">
-                    Цена : от
+                    Цена:
                 </section>
-                {#                <section class="value">#}
-                <section>
-                    <div class="">
-                        {% if min_price %}
-                            <input name="min_price" value= "{{ min_price }}" class="form-control input" id="exampleFormControlInput1">
+                {#
+                <section class="value">#}
+                    <section>
+                        <div class="costs_forms">
+                            {% if min_price %}
+                            <input name="min_price" value="{{ min_price }}" class="form-control input" placeholder="от"
+                                   id="exampleFormControlInput1">
+                            <div class="rubles">р.</div>
+
                             {% else %}
-                            <input name="min_price" value="" class="form-control input" id="exampleFormControlInput1">
+                            <input name="min_price" value="" class="form-control input" placeholder="от"
+                                   id="exampleFormControlInput1">
+                            <div class="rubles">р.</div>
+
                             {% endif %}
-                    </div>
+                        </div>
+                    </section>
+                    {#
+                    <section class="filters">#}
+                        {##}
+                        {# <input name="price_min" type="number" class="input">#}
+                        {##}
+                        {#
+                    </section>
+                    #}
+                    {#
                 </section>
-                {#                    <section class="filters">#}
-                {##}
-                {#                        <input name="price_min" type="number" class="input">#}
-                {##}
-                {#                    </section>#}
-                {#                </section>#}
-                <section class="name">
-                    р. до
-                </section>
+                #}
+
                 <section>
-                    <div class="">
+                    <div class="costs_forms">
                         {% if max_price %}
-                            <input name="max_price" value= "{{ max_price }}" class="form-control input" id="exampleFormControlInput1">
-                            {% else %}
-                            <input name="max_price" value="" class="form-control input" id="exampleFormControlInput1">
-                            {% endif %}
+                        <input name="max_price" value="{{ max_price }}" class="form-control input" placeholder="до"
+                               id="exampleFormControlInput1">
+                        <div class="rubles">р.</div>
+                        {% else %}
+                        <input name="max_price" value="" class="form-control input" placeholder="до"
+                               id="exampleFormControlInput1">
+                        <div class="rubles">р.</div>
+                        {% endif %}
                     </div>
                 </section>
-                {#                <section class="value">#}
-                {#                    <section class="filters">#}
-                {#                        <input name="price_max" type="number" class="input">#}
-                {#                    </section>#}
-                {#                </section>#}
-                <section class="name">
-                    р.
+                {#
+                <section class="value">#}
+                    {#
+                    <section class="filters">#}
+                        {# <input name="price_max" type="number" class="input">#}
+                        {#
+                    </section>
+                    #}
+                    {#
                 </section>
+                #}
+
 
             </section>
 
@@ -190,31 +237,31 @@
 
     <script src="/static/scripts/goods.js"></script>
     {% if products %}
-        <section class="products">
-            {% for product in products %}
-                <a href="/product/{{ product.id }}/" class=" product">
-                    <section class="min_product">
-                        <section class="photo">
-                            <img src="{{ product.Image.url }}" alt="">
-                        </section>
-                        <section class="coast">
-                            {{ product.coast }}
-                        </section>
-                        <section class="name">
-                            {{ product.name }}
-                        </section>
-                    </section>
-                </a>
-            {% endfor %}
+    <section class="products">
+        {% for product in products %}
+        <a href="/product/{{ product.id }}/" class=" product">
+            <section class="min_product">
+                <section class="photo">
+                    <img src="{{ product.Image.url }}" alt="">
+                </section>
+                <section class="coast">
+                    {{product.coast}}
+                </section>
+                <section class="name">
+                    {{ product.name }}
+                </section>
+            </section>
+        </a>
+        {% endfor %}
 
-        </section>
+    </section>
     {% else %}
-        <section class="none" style="text-align: center; color: #170631; font-size: 3em; margin: 2em 0em;">
-            По данному запросу товары не заданы
-        </section>
-        <section class="none" style="text-align: center; color: #170631; font-size: 2em; margin: 2em 0em 5em 0em;">
-            Измените параметры поиска
-        </section>
+    <section class="none" style="text-align: center; color: #170631; font-size: 3em; margin: 2em 0em;">
+        По данному запросу товары не заданы
+    </section>
+    <section class="none" style="text-align: center; color: #170631; font-size: 2em; margin: 2em 0em 5em 0em;">
+        Измените параметры поиска
+    </section>
     {% endif %}
 
 </section>

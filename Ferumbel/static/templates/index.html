@@ -14,8 +14,9 @@
     {% bootstrap_javascript %}
     {% bootstrap_css %}
      <link rel="icon" href="https://ferumbel.by/favicon.ico" type="image/x-icon">
+
     <link rel="shortcut icon" type="image/ico" href="/media/photos/favicon.ico"/>
-    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}
+<!--    {#    <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css">#}-->
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/index.css">
 </head>
@@ -79,8 +80,9 @@
                         </section>
                         
                     </section>
-                
+
                 </section>
+
             {% endfor %}
 
         </section>
@@ -95,8 +97,8 @@
 
             {% for benefit in benefits %}
                 <section class="benefit">
-                    <section class="photo">
-                        <img src="{{ benefit.photo.url }}" alt="">
+                    <section class="photo_benefits">
+                        <img class="benefits_img" src="{{ benefit.photo.url }}" alt="">
                     </section>
                     <section class="name">
                         {{ benefit.value }}
@@ -111,10 +113,10 @@
             
         </section>
 
-        <section class="row products">
+        <section class="products">
             {% for category in categorys %}
 
-                <section class="col-lg-4  col-sm-4 col-md-4 col-4 product">
+                <section class="product">
                     
                     <section class="min_product">
                         <a href="/category/{{ category.id}}/">

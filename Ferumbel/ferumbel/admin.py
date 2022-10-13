@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile, \
-    Sections, Order, Customer, Characteristic
+    Sections, Order, Customer, Characteristic, Curs
 
 
 # class CategoryInline(admin.TabularInline):
@@ -9,14 +9,15 @@ from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable
 
 @admin.register(Characteristic)
 class CharacteristicAdmin(admin.ModelAdmin):
-    list_display = ("product", "pole", "value")
-    search_fields = ("product",)
+    list_display = ("pole", "value")
+    # search_fields = ("product",)
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "id", "coast", "popular", "category", "division")
     search_fields = ("name", "coast")
+    ordering = ('name',)
     # readonly_fields = ("name", ) атрибуты нельзя переименовать
     # list_filter = ("coast", "name")
 
@@ -96,3 +97,9 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ("user", "index", "delivery", "foruser")
+
+
+@admin.register(Curs)
+class CursAdmin(admin.ModelAdmin):
+    list_display = ("value",)
+

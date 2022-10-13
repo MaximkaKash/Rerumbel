@@ -86,7 +86,21 @@ class Category(models.Model):
         verbose_name_plural = _("Categories")
 
 
+class Characteristic(models.Model):
+    # product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продукт")
+    pole = models.TextField(blank=True, null=True, verbose_name="Поле")
+    value = models.TextField(blank=True, null=True, verbose_name="Значение")
+
+    def __str__(self):
+        return f"{self.pole, self.value}"
+
+    class Meta:
+        verbose_name = _("Characteristic")
+        verbose_name_plural = _("Characteristics")
+
+
 class Product(models.Model):
+    coefficient = models.FloatField(default=1, verbose_name="Коэффициент")
     coast = models.FloatField(default=0, verbose_name="Цена")
     name = models.TextField(max_length=1000, verbose_name="Название")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
@@ -94,6 +108,8 @@ class Product(models.Model):
     Image = models.ImageField(verbose_name="Фотография")
     division = models.BooleanField(blank=True, null=True, verbose_name="Разделение", default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Категория")
+    charact = models.ManyToManyField(Characteristic, null=True, blank=True,
+                                     verbose_name='Характеристика')
 
     def __str__(self):
         return f"{self.name}"
@@ -207,14 +223,12 @@ class Order(models.Model):
         verbose_name_plural = _("Orders")
 
 
-class Characteristic(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продукт")
-    pole = models.TextField(blank=True, null=True, verbose_name="Поле")
-    value = models.TextField(blank=True, null=True, verbose_name="Значение")
+class Curs(models.Model):
+    value = models.FloatField(default=0, verbose_name="Коэффициент")
 
     def __str__(self):
-        return f"{self.product}"
+        return f"{self.value}"
 
     class Meta:
-        verbose_name = _("Characteristic")
-        verbose_name_plural = _("Characteristics")
+        verbose_name = _("Curs")
+        verbose_name_plural = _("Curses")

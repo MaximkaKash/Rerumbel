@@ -30,15 +30,11 @@
         </section>
 
 
-        <section class="basket_name">
-            Оформление заказа
-        </section>
-
                 <section class="data">
 
 
             <section class="topic ">
-                <section class=" name">Ф.И.О.</section>
+                <section class=" basket_name">Ф.И.О.</section>
                 {% if name == None %}
                 <input class=" value" name="username" value=""></input>
                 {% else %}
@@ -46,7 +42,7 @@
                 {% endif %}
             </section>
             <section class="topic ">
-                <section class=" name">Телефон</section>
+                <section class=" basket_name">Телефон</section>
                 {% if phone == None %}
                 <input class=" value" name="phone" value=""></input>
                 {% else %}
@@ -55,7 +51,7 @@
 
             </section>
             <section class="topic ">
-                <section class=" name">Способ доставки</section>
+                <section class=" basket_name">Способ доставки</section>
                 <section class=" option">
                 {% if punt == True %}
                 <section class="task">
@@ -79,16 +75,16 @@
                 </section>
             </section>
             <section id="adres" class="topic" style="display: flex !important;">
-                <section class=" name">Адрес</section>
+                <section class=" basket_name">Адрес</section>
                 {% if phone == None %}
-                <input class=" value" name="address" value="Фоминых 46/2-1"></input>
+                <input class=" value" name="address" value=""></input>
                 {% else %}
                 <input class=" value" name="address" value="{{ address }}"></input>
                 {% endif%}
 
             </section>
             <section class="topic ">
-                <section class=" name ">Комментарий к заказу</section>
+                <section class=" basket_name ">Комментарий к заказу</section>
                 <textarea class=" value comm" name="comment"></textarea>
             </section>
 
@@ -96,22 +92,9 @@
 
         <script src="/static/scripts/basket.js"></script>
 
-        <section class="result">
-            <section class="quantity">{{ result }} товар(а)</section>
-            <section class="money">Итог: {{ sum }} р.</section>
-            {% if a == True %}
-            <div class="alert alert-success">
-                Заказ успешно оформлен
-            </div>
-            {% endif %}
-            <button class="button">Оформить заказ</button>
-            <button class="button">
-                <a href="/file/">Скачать файл с поролем
-            </a>
-            </button>
-        </section>
+
         {% if purhcase %}
-            <section class="basket_name">
+            <section class="basket_name_text">
                 Товары:
             </section>
 
@@ -134,7 +117,8 @@
                         <section class="quality">{{ purchas.product.coast }}р.</section>
                         <form method="POST">
                             {% csrf_token %}
-                            <button class="delete" value="{{ purchas.id }}" name="delete">X</button>
+                                <button class="delete" value="{{ purchas.id }}" name="delete">X</button>
+
                         </form>
                     </section>
                 {% endfor %}
@@ -143,6 +127,23 @@
             <section class="none" style="font-size: 3em; margin: 2em 0em;">
         </section>
     {% endif %}
+
+
+        <section class="result">
+            <section class="quantity">{{ result }} товар(а)</section>
+            <section class="money">Итог: {{ sum }} р.</section>
+            {% if a == True %}
+            <div class="alert alert-success">
+                Заказ успешно оформлен
+            </div>
+            {% endif %}
+            <button class="button">Оформить заказ</button>
+            <button class="button">
+                <a href="/file/">Скачать файл
+            </a>
+            </button>
+        </section>
+
 
     </section>
 </form>
