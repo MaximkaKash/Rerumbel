@@ -26,8 +26,7 @@ body {
 
 /*----------------------*/
 .content{
-
-    margin-top: 10em;
+    margin-top: 8em;
 }
 
 
@@ -87,7 +86,7 @@ a {
 
 .menu {
     padding-top: 2.4em;
-    padding-bottom: 2.5em;
+    padding-bottom: 1.5em;
     font-style: normal;
     font-weight: normal;
     align-items: center;
@@ -158,6 +157,10 @@ a {
 }
 #find {
    width: 140px;
+}
+
+.find_good {
+    color: #000;
 }
 
 .search_good {

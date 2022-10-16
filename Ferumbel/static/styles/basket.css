@@ -507,9 +507,10 @@ cursor:pointer;
         margin: 2em 0em 1em 1em;
     }
     .topic .value {
-        width: 150px;
+        width: 50%;
+        margin-right: 0.5em;
     }
     .basket_name {
-        width: 160px;
+        width: 100px;
     }
  }

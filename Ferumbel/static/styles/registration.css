@@ -49,6 +49,7 @@
   position: relative;
   overflow: hidden; btn fifth
   z-index: 1;
+  width: fit-content;
   -webkit-transition: color 150ms ease-in-out;
   transition: color 150ms ease-in-out;
 }
@@ -265,7 +266,6 @@ text-align: center;
         padding-top: 0.5em;
         padding-bottom: 0.5em;
         color:#170631;
-        width: 60%;
     }
     
     .passoword{
@@ -349,7 +349,6 @@ text-align: center;
         padding-top: 0.4em;
         padding-bottom: 0.4em;
         color:#170631;
-        width: 60%;
     }
     
     .passoword{

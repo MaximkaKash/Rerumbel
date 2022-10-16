@@ -50,7 +50,7 @@
 
             <section class="mainFilter">
                 <section class="name">
-                    Разделы :
+                    Разделы:
                 </section>
                 <select class="filter_area" name="category" aria-label="Default select example">
                     {% if category %}
@@ -137,15 +137,17 @@
             </section>
             <section class="mainFilter2">
                 <section class="name">
-                    Цена : от
+                    Цена:
                 </section>
                 {#                <section class="value">#}
                 <section>
-                    <div class="">
+                    <div class="costs_forms">
                         {% if min_price %}
-                            <input name="min_price" value= "{{ min_price }}" class="form-control" id="exampleFormControlInput1">
+                            <input name="min_price" value= "{{ min_price }}" class="form-control input" placeholder="от" id="exampleFormControlInput1"> <div class="rubles">р.</div>
+
                             {% else %}
-                            <input name="min_price" value="" class="form-control" id="exampleFormControlInput1">
+                            <input name="min_price" value="" class="form-control input" placeholder="от" id="exampleFormControlInput1"> <div class="rubles">р.</div>
+
                             {% endif %}
                     </div>
                 </section>
@@ -155,15 +157,13 @@
                 {##}
                 {#                    </section>#}
                 {#                </section>#}
-                <section class="name">
-                    р. до
-                </section>
+
                 <section>
-                    <div class="">
+                    <div class="costs_forms">
                         {% if max_price %}
-                            <input name="max_price" value= "{{ max_price }}" class="form-control" id="exampleFormControlInput1">
+                            <input name="max_price" value= "{{ max_price }}" class="form-control input" placeholder="до" id="exampleFormControlInput1"> <div class="rubles">р.</div>
                             {% else %}
-                            <input name="max_price" value="" class="form-control" id="exampleFormControlInput1">
+                            <input name="max_price" value="" class="form-control input" placeholder="до" id="exampleFormControlInput1"> <div class="rubles">р.</div>
                             {% endif %}
                     </div>
                 </section>
@@ -172,9 +172,7 @@
                 {#                        <input name="price_max" type="number" class="input">#}
                 {#                    </section>#}
                 {#                </section>#}
-                <section class="name">
-                    р.
-                </section>
+
 
             </section>
 

@@ -3,7 +3,7 @@
 
 
 .discription{
-    font-size: 1.2em;
+    font-size: 1.5em;
     margin-top: 1em;
     color: #170631 !important;
     width:80%;
@@ -51,7 +51,7 @@
 
 .products{
     padding: 10px;
-    margin: 5em 0em !important;
+    margin: 1em 0em !important;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -69,6 +69,7 @@
     cursor: pointer;
     transition: 0.5s !important;
     color: #170631 !important;
+    background-color: white;
     width: 300px;
     border:solid 2px #ddd;
     border-radius: 20px;
@@ -150,7 +151,7 @@
     }
     .benefit{
     margin: 50px auto 30px;
-    width: 25%;
+    width: 20%;
     }
     .benefit .photo{
 
@@ -290,7 +291,7 @@
 @media(max-width:600px){
     .discription{
         font-size: 1.5em;
-        margin-top: 3em !important;
+        margin-top: 1em !important;
         color: #170631 !important;
    
     width:80%;
@@ -369,7 +370,7 @@
         color: #170631 !important;
         font-size: 1.2em;
         text-align: center;
-        margin:1em 0em 1em 0em;
+        margin:3em 0em 1em 0em;
     }
       .benefits_name_2{
         color: #FFFFFF !important;
@@ -405,7 +406,7 @@ padding-bottom:0em;
 
         .products{
     
-            margin: 2em 0em !important;
+            margin: 0em !important;
             display: flex;
         }
 

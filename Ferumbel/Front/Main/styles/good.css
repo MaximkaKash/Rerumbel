@@ -4,18 +4,40 @@
     display: flex;
 }
 .second_level{
-    width:50%;
+    width:95%;
     color:#170631;
     margin-top: 2em;
+    display: flex;
+    justify-content: space-between;
     text-align: justify;
     padding-left:4em;
     font-size: 1.2em;
 }
+
+.charact_table {
+    width: 45%;
+	margin: 0em 0 4em;
+}
+
+td, th {
+    padding-top: 10px;
+    padding-right: 20px;
+}
+
+table.characteristics td, table.characteristics th {
+    	font-size: 0.8em;
+    }
+
+.discription {
+    width: 50%
+}
+
 .third_level{
     color:#170631;
     margin: 2em 4em !important;
     display: flex;
 }
+
 
 
 .first_level .value{
@@ -109,6 +131,22 @@ height: 400px;
     margin-top: 1em;
     margin-left: 4em;
 
+}
+
+table.characteristics {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    height: auto;
+}
+
+.char_text {
+    font-size: 1.5em;
+}
+
+table.characteristics td, table.characteristics th {
+    font-size: 1em;
+    border-bottom: outset;
 }
 
 .value .information .code{
@@ -210,12 +248,27 @@ height: 400px;
         }
 
         .second_level{
-            width:70%;
             color:#170631;
             margin-top: 2em;
+            display: inline-block;
             padding-left:3.5em;
             font-size: 1.0em;
         }
+
+         .charact_table {
+            width: 80%;
+            margin-top: 4em;
+            margin: 0 auto;
+            margin-bottom: 2em;
+        }
+        .discription {
+            width: 100%;
+        }
+
+        .char_text {
+            margin-top: 4em;
+        }
+
         .text{
             padding-top: 2px;
             width:15%;
@@ -243,12 +296,18 @@ height: 400px;
         }
 
         .second_level{
-            width:70%;
+            width: 100%;
             color:#170631;
             margin-top: 2em;
-            padding-left:3.5em;
+            padding-left: 3.5em;
+            padding-right: 3.5em;
             font-size: 1.0em;
         }
+
+        .charact_table {
+            width: 100%;
+        }
+
         .text{
             padding-top: 3px;
             width:20%;
@@ -313,10 +372,11 @@ height: 400px;
         }
 
         .second_level{
-            width:80%;
+
             color:#170631;
             margin-top: 2em;
-            padding-left:3.5em;
+            padding-left:2em;
+            padding-right:2em;
             font-size: 1.0em;
         }
         .text{
@@ -360,9 +420,6 @@ height: 400px;
 }
 
 .instagram {
-    padding-top: 60px;
-    width: 30%;
-    text-align: left !important;
-}
+    width: 30%;}
 
 

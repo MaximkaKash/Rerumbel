@@ -27,7 +27,7 @@
                 Заказ добавлен в корзину
             </div>
             {% endif %}
-        <a href="/catalog/?category={{products.category.Text}}&way=По+популярности&min_price=&max_price=">
+        <a href="/catalog/">
             <section class="button">
                 <button class="text">
                     <img class="back_logo" src="/media/photos/back_logo.png"/>
@@ -98,6 +98,20 @@
         <section class="discription">
             {{ products.description|linebreaks }}
         </section>
+        <section class="charact_table">
+            <p class="char_text">Основные характеристики</p>
+                <table class="characteristics">
+                    <tbody>
+                        {% for meaning in hars %}
+                            <tr>
+                                <td>{{ meaning.pole }}</td>
+                                <td>{{ meaning.value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </section>
+
     </section>
 
         <section class=" third_level">

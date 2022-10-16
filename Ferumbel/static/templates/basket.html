@@ -130,18 +130,20 @@
 
 
         <section class="result">
-            <section class="quantity">{{ result }} товар(а)</section>
+            <section class="quantity">В корзине {{ result }} товар(а):</section>
             <section class="money">Итог: {{ sum }} р.</section>
             {% if a == True %}
             <div class="alert alert-success">
                 Заказ успешно оформлен
             </div>
             {% endif %}
-            <button class="button">Оформить заказ</button>
-            <button class="button">
-                <a href="/file/">Скачать файл
-            </a>
-            </button>
+            <div class="buttons">
+                <button class="button">Оформить заказ</button>
+                <button class="button">
+                    <a href="/file/">Скачать файл
+                </a>
+                </button>
+            </div>
         </section>
 
 
