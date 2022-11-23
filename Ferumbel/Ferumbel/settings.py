@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ferumbel',
     'bootstrap3',
     'sendemail.apps.SendemailConfig',
+    'django.contrib.sitemaps',
     # 'ferumbel.apps.FerumbelConfig'
     # 'ferumbel_extras',
 
