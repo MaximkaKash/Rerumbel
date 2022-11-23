@@ -21,8 +21,12 @@ def page_not_found_view(request, exception):
                                             }, status=404)
 
 
-def sitemap(request):
+def get_sitemap(request):
     return render(request, "sitemap.xml")
+
+
+def get_robots(request):
+    return render(request, "robots.txt")
 
 
 def get_file(request):

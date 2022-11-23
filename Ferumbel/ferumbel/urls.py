@@ -1,9 +1,20 @@
 from django.urls import path
 from ferumbel.views import ProductsView, product_details_view, register_view, Contact, AboutUs, page_not_found_view, \
     logout_user, activeOrder_view, confirmedOrder_view, deletedOrder_view, \
-    basket, autorization, activeOrders, confirmedOrders, deletedOrders, ProductsView1,\
-    category_view, Index, get_file, CategorysView, CategorysView1
+    basket, autorization, activeOrders, confirmedOrders, deletedOrders, ProductsView1, \
+    category_view, Index, get_file, CategorysView, CategorysView1, get_robots, get_sitemap
+from django.views.generic.base import TemplateView
+from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
+from django.contrib.sitemaps import GenericSitemap # new
+from django.contrib.sitemaps.views import sitemap
+from ferumbel.models import Product # new
+
+info_dict = {
+    'queryset': Product.objects.all(),
+}
+
+
 
 urlpatterns = [
     path('', Index.as_view(), name='index'),
@@ -35,6 +46,17 @@ urlpatterns = [
     ),
     path("logout/", logout_user, name='logout'),
     path("file/", get_file, name='get_file'),
+    # path("robots.txt", get_robots, name="get_robots"),
+    # path("sitemap.xml", get_sitemap, name="get_sitemap"),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
+    # path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+    #      name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap,  # new
+         {'sitemaps': {'blog': GenericSitemap(info_dict, priority=0.6)}},
+         name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 handler404 = page_not_found_view

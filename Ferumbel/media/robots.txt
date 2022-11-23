@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin
+Disallow: /autorization
+Disallow: /activeOrders
+Disallow: /confirmedOrders
+Disallow: /deletedOrders
+Host: https://ferumbel.by/
+Sitemap: https://ferumbel.by/sitemap.xml
