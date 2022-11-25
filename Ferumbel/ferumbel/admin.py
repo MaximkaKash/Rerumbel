@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from ferumbel.models import Product, Photos, Text, Benefits, Contacts, Timetable, Image, Category, Purchase, Profile, \
-    Sections, Order, Customer, Characteristic, Curs
+    Sections, Order, Customer, Characteristic, Curs, Snippet
 
 
 # class CategoryInline(admin.TabularInline):
@@ -103,3 +103,7 @@ class CustomerAdmin(admin.ModelAdmin):
 class CursAdmin(admin.ModelAdmin):
     list_display = ("value",)
 
+
+@admin.register(Snippet)
+class SnippetAdmin(admin.ModelAdmin):
+    list_display = ('title',)

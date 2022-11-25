@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import logging
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from ferumbel.models import Contacts, Photos, Benefits, Text, Product, Timetable, Purchase, Category, Profile, Order, \
-    Customer, Image, Characteristic, Curs
+    Customer, Image, Characteristic, Curs, Snippet
 from django.views.generic import TemplateView
 from ferumbel.forms import RegistrationForm, BasketForm, LoginForm, filter_form
 from django.contrib.auth import authenticate, login, logout
@@ -23,6 +23,11 @@ def page_not_found_view(request, exception):
 
 def get_sitemap(request):
     return render(request, "sitemap.xml")
+
+
+def snippet_detaill(request, slug):
+    snippet = get_object_or_404(Snippet, slug=slug)
+    return HttpResponse(f'ALL!')
 
 
 def get_robots(request):

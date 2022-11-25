@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class Text(models.Model):
@@ -232,3 +233,15 @@ class Curs(models.Model):
     class Meta:
         verbose_name = _("Curs")
         verbose_name_plural = _("Curses")
+
+
+class Snippet(models.Model):
+    title = models.TextField(max_length=20)
+    slug = models.SlugField(blank=True, null=True)
+
+    # def save(self, *args, **kwargs):
+    #     self.slug = "http://127.0.0.1:8000/" + str(self.title)
+    #     super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return f'/{self.slug}/'
