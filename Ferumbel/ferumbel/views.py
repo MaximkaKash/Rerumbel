@@ -25,9 +25,9 @@ def get_sitemap(request):
     return render(request, "sitemap.xml")
 
 
-def snippet_detaill(request, slug):
-    snippet = get_object_or_404(Snippet, slug=slug)
-    return HttpResponse(f'ALL!')
+# def snippet_detaill(request, slug):
+#     snippet = get_object_or_404(Snippet, slug=slug)
+#     return HttpResponse(f'ALL!')
 
 
 def get_robots(request):
@@ -117,7 +117,7 @@ class CategorysView(TemplateView):
 
 
 class CategorysView1(TemplateView):
-    template_name = "categorys.html"
+    template_name = "categorys1.html"
 
     def get_context_data(self, **kwargs):
         text = Text.objects.get(id=4)

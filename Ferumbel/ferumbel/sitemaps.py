@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
-from .views import Snippet
+from .models import Snippet
 
 
 class StaticViewSitemap(Sitemap):

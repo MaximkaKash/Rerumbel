@@ -2,7 +2,8 @@ from django.urls import path
 from ferumbel.views import ProductsView, product_details_view, register_view, Contact, AboutUs, page_not_found_view, \
     logout_user, activeOrder_view, confirmedOrder_view, deletedOrder_view, \
     basket, autorization, activeOrders, confirmedOrders, deletedOrders, ProductsView1, \
-    category_view, Index, get_file, CategorysView, CategorysView1, get_robots, get_sitemap, snippet_detaill
+    category_view, Index, get_file, CategorysView, CategorysView1, get_robots, get_sitemap
+    # snippet_detaill
 from django.views.generic.base import TemplateView
 from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
@@ -16,7 +17,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('<slug:slug>/', snippet_detaill),
+    # path('<slug:slug>/', snippet_detaill),
     path('', Index.as_view(), name='index'),
     path('contacts/', Contact.as_view(), name='contacts'),
     path("register/", register_view, name="register_view"),
