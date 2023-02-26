@@ -147,6 +147,7 @@ venv/
 media/
 Front/
 static/
+Ferumbel/Ferumbel/settings.py
 .gitignore
 
 ferumbel/Test.py
